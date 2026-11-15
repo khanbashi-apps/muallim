@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#7C3AED">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="المعلّم الذكي">
+<title>المعلّم الذكي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Baloo+Bhaijaan+2:wght@500;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+/* لوحة "حلوى زاهية": خلفية كريمية، بنفسجي أساسي، برتقالي ثانوي، فيروزي للنجاح، ذهبي للنجوم.
+   التخطيط: تطبيق جوال بعمود واحد، شريط علوي ثابت، شريط سفلي بزر كاميرا عائم في المنتصف. */
+:root{
+  --bg:#FFF7EE; --card:#FFFFFF; --ink:#2A1B4A; --muted:#7A6C93; --line:#F0E6F6;
+  --pri:#7C3AED; --pri-d:#5B21B6; --pri-l:#EDE4FF;
+  --sec:#FF8A3D; --sec-d:#E0661A; --sec-l:#FFE9D9;
+  --ok:#14B8A6; --ok-d:#0F8F81; --ok-l:#D7F7F2;
+  --star:#FBBF24; --star-d:#E39B07;
+  --bad:#F2557A; --bad-l:#FFE3EA;
+  --f-display:"Baloo Bhaijaan 2","Tajawal",system-ui,sans-serif;
+  --f-body:"Tajawal","Segoe UI",Tahoma,system-ui,sans-serif;
+  --f-hand:"Aref Ruqaa","Tajawal",serif;
+  --f-ans:"Tajawal",system-ui,sans-serif;
+  --ink-ans:#1E40AF;
+  --r:22px;
+  --lift:0 5px 0 rgba(91,33,182,.14),0 14px 30px rgba(42,27,74,.07);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;
+  background-image:radial-gradient(circle at 12% 8%,#FFE3F1 0 90px,transparent 91px),radial-gradient(circle at 92% 30%,#E7F5FF 0 70px,transparent 71px),radial-gradient(#F3E6FF 1.4px,transparent 1.6px);
+  background-size:auto,auto,22px 22px;-webkit-tap-highlight-color:transparent}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--sec);outline-offset:2px}
+.app{max-width:560px;margin:0 auto;min-height:100%;padding-bottom:calc(110px + env(safe-area-inset-bottom))}
+
+/* الشريط العلوي */
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:8px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;
+  background:rgba(255,247,238,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:6px;flex:1;min-width:0}
+.brand b{font-family:var(--f-display);font-size:21px;font-weight:800;white-space:nowrap;color:var(--pri-d);overflow:hidden;text-overflow:ellipsis;min-width:0}
+.top:has(#backBtn:not([hidden])) .brand b{font-size:17px}
+.logo{width:34px;height:34px;flex:none}
+.ver{font-size:11px;font-weight:800;background:var(--pri);color:#fff;border-radius:99px;padding:1px 8px;letter-spacing:.5px}
+.iconbtn{border:0;background:var(--card);width:40px;height:40px;border-radius:14px;box-shadow:var(--lift);font-size:20px;font-weight:800;color:var(--pri)}
+.eng select{border:2px solid var(--pri-l);background:var(--card);border-radius:14px;padding:6px 8px;font-size:14px;font-weight:700;max-width:128px;color:var(--pri-d)}
+.starpill{display:flex;align-items:center;gap:4px;background:linear-gradient(180deg,#FFD860,var(--star));border-radius:99px;padding:5px 12px;font-weight:800;box-shadow:0 3px 0 var(--star-d);color:#5A3B00;white-space:nowrap}
+.starpill.pop{animation:pop .5s}
+@keyframes pop{40%{transform:scale(1.25)}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+main{padding:16px}
+.view{display:flex;flex-direction:column;gap:16px;animation:fadein .25s ease}
+@keyframes fadein{from{opacity:.4;transform:translateY(6px)}}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--lift);padding:18px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.25;margin:0;text-wrap:balance}
+h1{font-size:28px}
+h2.sec{font-size:21px;margin:6px 4px -4px;color:var(--pri-d)}
+h3{font-size:20px}
+p{margin:0}
+.muted{color:var(--muted)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+
+/* أزرار طفولية بارزة */
+.btn{border:0;border-radius:18px;padding:13px 18px;font-weight:800;font-size:17px;background:var(--pri);color:#fff;box-shadow:0 5px 0 var(--pri-d);transition:transform .08s,box-shadow .08s;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;line-height:1.3}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--pri-d)}
+.btn.big{font-size:21px;padding:18px;border-radius:22px;flex:1}
+.btn.alt{background:var(--sec);box-shadow:0 5px 0 var(--sec-d)}
+.btn.alt:active{box-shadow:0 1px 0 var(--sec-d)}
+.btn.ok{background:var(--ok);box-shadow:0 5px 0 var(--ok-d)}
+.btn.hint{background:var(--star);color:#4A3000;box-shadow:0 5px 0 var(--star-d)}
+.btn.ghost{background:var(--pri-l);color:var(--pri-d);box-shadow:0 5px 0 #D5C4FB}
+.btn.sm{font-size:15px;padding:9px 14px;border-radius:14px;box-shadow:0 4px 0 var(--pri-d)}
+.btn.sm.ghost{box-shadow:0 4px 0 #D5C4FB}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.chip{border:0;background:var(--pri-l);color:var(--pri-d);font-weight:800;border-radius:99px;padding:6px 12px;font-size:14px;white-space:nowrap}
+.chip.orange{background:var(--sec-l);color:var(--sec-d)}
+.chip.teal{background:var(--ok-l);color:var(--ok-d)}
+
+/* الرئيسية */
+.hero{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#8B5CF6,#7C3AED 55%,#6D28D9);color:#fff;overflow:hidden;position:relative}
+.hero::after{content:"";position:absolute;inset:auto -40px -60px auto;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.08)}
+.hero .mascot{width:112px;height:112px;flex:none}
+.hero-txt{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
+.hero .hello{opacity:.9;font-weight:700}
+.lvl{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:700;opacity:.95;flex-wrap:wrap}
+.bar{height:12px;background:rgba(255,255,255,.25);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#FFE27A,var(--star));border-radius:99px;transition:width .6s}
+.bob{animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px) rotate(-3deg)}}
+.talking .mouth{animation:talk .22s infinite alternate;transform-origin:100px 124px}
+@keyframes talk{to{transform:scaleY(1.9)}}
+.thinking{animation:think 1.2s ease-in-out infinite}
+@keyframes think{50%{transform:rotate(8deg) scale(1.05)}}
+.setup{border:2px dashed var(--sec);background:var(--sec-l);color:var(--sec-d);font-weight:800;text-align:right;box-shadow:none}
+.cta{display:flex;gap:12px}
+.cta .btn.alt{flex:0 0 auto}
+.demo{display:flex;gap:14px;align-items:center}
+.demo img{width:92px;height:122px;object-fit:cover;border-radius:12px;border:2px solid var(--line);flex:none;background:#fff}
+.demo > div{display:flex;flex-direction:column;gap:6px;min-width:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:var(--card);border-radius:18px;box-shadow:var(--lift);padding:12px 8px;text-align:center;display:flex;flex-direction:column}
+.stat b{font-family:var(--f-display);font-size:28px;color:var(--pri);line-height:1.2}
+.stat span{font-size:14px;color:var(--muted);font-weight:700}
+.stat[data-go]{cursor:pointer}
+.engines{display:flex;flex-direction:column;gap:8px}
+.engrow{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.engrow .dot{width:12px;height:12px;border-radius:50%;flex:none}
+.engrow small{color:var(--muted);font-weight:500;margin-inline-start:auto;text-align:left}
+
+/* القص */
+.crop-wrap{position:relative;border-radius:18px;overflow:hidden;background:#222;touch-action:none;user-select:none;-webkit-user-select:none;align-self:center;max-width:100%}
+.crop-wrap img{display:block;max-width:100%;max-height:62vh;pointer-events:none}
+#cropBox{position:absolute;border:3px solid #FFE27A;box-shadow:0 0 0 2000px rgba(20,10,40,.55),0 0 18px rgba(255,226,122,.9);border-radius:10px;touch-action:none}
+#cropBox i{position:absolute;width:28px;height:28px;background:#FFE27A;border-radius:50%;border:3px solid #fff}
+#cropBox .tl{top:-15px;left:-15px}#cropBox .tr{top:-15px;right:-15px}#cropBox .bl{bottom:-15px;left:-15px}#cropBox .br{bottom:-15px;right:-15px}
+.hint-line{font-size:15px;color:var(--muted);text-align:center}
+
+/* الأوضاع */
+.thumbrow{display:flex;gap:12px;align-items:center}
+.thumbrow img{width:70px;height:90px;object-fit:cover;border-radius:12px;border:2px solid var(--line)}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mode{border:0;text-align:right;background:var(--card);border-radius:20px;padding:14px;box-shadow:var(--lift);display:flex;flex-direction:column;gap:6px;position:relative;border-top:6px solid var(--c)}
+.mode .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:25px;background:color-mix(in srgb,var(--c) 15%,#fff)}
+.mode b{font-family:var(--f-display);font-size:18px;line-height:1.2}
+.mode span{font-size:13.5px;color:var(--muted);line-height:1.45}
+.mode.suggest::after{content:"مقترح";position:absolute;top:10px;left:10px;background:var(--sec);color:#fff;font-size:11px;font-weight:800;border-radius:99px;padding:1px 8px}
+.mode:active{transform:translateY(3px)}
+
+/* النتائج */
+.res-head{display:flex;gap:12px;align-items:center}
+.res-head img{width:56px;height:72px;object-fit:cover;border-radius:10px;border:2px solid var(--line);flex:none}
+.res-head div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.story{background:linear-gradient(180deg,#FFF3E8,#fff);border:2px solid var(--sec-l)}
+.story-h{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.story p{font-size:18px;line-height:1.9}
+.qcard{display:flex;flex-direction:column;gap:12px;border:3px solid var(--pri-l)}
+.dots{display:flex;gap:6px;justify-content:center}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.dots i.ok{background:var(--ok)}
+.dots i.cur{outline:3px solid var(--pri);outline-offset:2px}
+.qnum{font-weight:800;color:var(--pri);font-size:15px}
+.qtext{font-family:var(--f-display);font-size:25px;font-weight:700;line-height:1.5}
+.qline{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.ansrow{display:flex;gap:8px}
+.ansrow input{flex:1;min-width:0;border:3px solid var(--line);border-radius:16px;padding:12px 14px;font-size:22px;font-weight:700;background:#FBF8FF}
+.ansrow input:focus{border-color:var(--pri);outline:none}
+.eye{border:0;width:52px;border-radius:14px;background:var(--pri-l);color:var(--pri);font-size:18px;flex:none}
+.voicehint{font-size:13.5px;color:var(--muted);margin-top:-4px}
+.helpers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.helpers .btn:last-child{grid-column:1/-1}
+.fb{border-radius:16px;padding:0 14px;font-weight:700;font-size:17px}
+.fb:not(:empty){padding:12px 14px}
+.fb.good{background:var(--ok-l);color:var(--ok-d)}
+.fb.try{background:var(--sec-l);color:var(--sec-d)}
+.fb.hint{background:#FFF6D6;color:#7A5300}
+.steps{margin:0;padding:12px 18px 12px 14px;background:#F6F1FF;border-radius:16px;display:flex;flex-direction:column;gap:6px;counter-reset:s;list-style:none}
+.steps li{counter-increment:s;display:flex;gap:10px;align-items:baseline;font-size:17px}
+.steps li::before{content:counter(s,arabic-indic);background:var(--pri);color:#fff;min-width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:14px;flex:none}
+.nav2{display:flex;justify-content:space-between;gap:10px}
+.nav2 button{border:0;background:none;color:var(--pri);font-weight:800;padding:6px}
+.nav2 button[disabled]{opacity:.3}
+.bridge{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.br{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;border-radius:16px;padding:10px 6px;font-weight:800;font-size:14.5px;text-align:center;line-height:1.35}
+.br small{font-weight:500;font-size:12px;opacity:.85}
+.br.gpt{background:#E8FBF3;color:#0B7A55;border:2px solid #BDEFD9}
+.br.gem{background:#EAF1FF;color:#2350C8;border:2px solid #C9D9FF}
+.mom-card{border-top:8px solid var(--c);display:flex;flex-direction:column;gap:10px}
+.mom-card h3{color:var(--c)}
+.mom-card ol{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:6px}
+.home-ex{background:color-mix(in srgb,var(--c) 10%,#fff);border-radius:14px;padding:12px}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:16px}
+th{background:var(--pri);color:#fff;font-weight:800;padding:10px;text-align:right}
+th:first-child{border-top-right-radius:14px}th:last-child{border-top-left-radius:14px}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+td.num{font-weight:800;color:var(--pri);width:44px;text-align:center}
+td.ans{font-family:var(--f-ans);font-size:19px;color:var(--ink-ans);font-weight:800}
+tr:nth-child(even) td{background:#FCFAFF}
+.score{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,#14B8A6,#0EA5A0);color:#fff}
+.score .big{font-family:var(--f-display);font-size:46px;font-weight:800;line-height:1}
+.stars5{font-size:26px;letter-spacing:2px}
+.stars5 .off{opacity:.35;filter:grayscale(1)}
+.item{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px dashed var(--line)}
+.item:last-child{border:0}
+.item .mk{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:19px;flex:none}
+.item .mk.y{background:var(--ok-l)}.item .mk.n{background:var(--bad-l)}
+.item .body{display:flex;flex-direction:column;gap:3px;min-width:0}
+.item .stu{font-family:var(--f-ans);font-size:18px;color:var(--ink-ans);font-weight:800}
+.item .why{background:var(--bad-l);color:#A11846;border-radius:12px;padding:8px 10px;font-size:15.5px}
+.wordgrid{display:flex;flex-wrap:wrap;gap:10px}
+.word{border:0;background:var(--card);box-shadow:var(--lift);border-radius:16px;padding:10px 14px;font-family:var(--f-display);font-size:20px;font-weight:700;color:var(--pri-d)}
+.word.on{background:var(--pri);color:#fff}
+.wordcard{background:#FFFBEA;border:2px solid #FDE68A}
+
+/* محرر الحل على الورقة */
+.paper{position:relative;container-type:inline-size;border-radius:14px;overflow:hidden;box-shadow:var(--lift);background:#fff;touch-action:pan-y}
+.paper img{display:block;width:100%;filter:contrast(1.18) brightness(1.05);user-select:none;-webkit-user-select:none;pointer-events:none}
+.ans-ov{position:absolute;display:flex;align-items:center;justify-content:center;text-align:center;white-space:nowrap;line-height:1.3;touch-action:none;cursor:grab;border-radius:8px;user-select:none;-webkit-user-select:none}
+.ans-ov.sel{outline:2px dashed var(--sec);background:rgba(255,138,61,.08)}
+.pill{background:rgba(255,255,255,.92);border-radius:.3em;padding:.03em .3em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.chars{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.char{border:3px solid var(--line);border-radius:20px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;background:#fff;cursor:pointer}
+.char.on{border-color:var(--pri);background:var(--pri-l)}
+.char .em{font-size:38px;line-height:1.1}
+.char b{font-family:var(--f-display);font-size:18px}
+.char small{color:var(--muted);font-size:12.5px;line-height:1.3}
+.voicebar{display:flex;flex-direction:column;gap:10px;padding:14px}
+.charrow{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.charrow button{border:2px solid var(--line);background:#fff;border-radius:14px;padding:6px 2px;font-weight:800;font-size:12.5px;display:flex;flex-direction:column;align-items:center;gap:0}
+.charrow button span{font-size:24px;line-height:1.2}
+.charrow button.on{border-color:var(--pri);background:var(--pri-l);color:var(--pri-d)}
+.edbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sw{width:32px;height:32px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--line)}
+.sw.on{box-shadow:0 0 0 3px var(--pri)}
+.note{font-size:14.5px;color:var(--muted);background:#FBF8FF;border-radius:14px;padding:10px 12px;border-inline-start:4px solid var(--pri-l)}
+.note.warn{border-color:var(--sec);background:#FFF6EE}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.actions .btn{flex:1 1 140px}
+
+/* الأخطاء والحقيبة */
+.empty{text-align:center;padding:30px 18px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.empty .mascot{width:110px;height:110px}
+.mist{display:flex;flex-direction:column;gap:10px;border-inline-start:6px solid var(--sec)}
+.mist.done{border-color:var(--ok);opacity:.8}
+.mist .src{font-size:13px;color:var(--muted)}
+.bagitem{display:flex;gap:12px;align-items:center;cursor:pointer}
+.bagitem img{width:58px;height:76px;object-fit:cover;border-radius:10px;border:2px solid var(--line);flex:none}
+.bagitem .t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.bagitem .t b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.del{border:0;background:var(--bad-l);color:var(--bad);border-radius:12px;width:40px;height:40px;font-size:17px;flex:none}
+
+/* الإعدادات */
+.set{display:flex;flex-direction:column;gap:12px}
+.set h3{display:flex;align-items:center;gap:8px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-weight:800;font-size:15px}
+.field input,.field select,.field textarea{border:2px solid var(--line);border-radius:14px;padding:10px 12px;background:#FCFAFF;font-size:16px;width:100%}
+.field textarea{min-height:120px;font-size:14px;line-height:1.6}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--pri);outline:none}
+.seg{display:flex;background:var(--pri-l);border-radius:14px;padding:4px;gap:4px}
+.seg button{flex:1;border:0;background:none;border-radius:11px;padding:8px;font-weight:800;color:var(--pri-d)}
+.seg button.on{background:#fff;box-shadow:0 2px 0 #D5C4FB}
+details{border:2px solid var(--line);border-radius:14px;padding:10px 12px}
+summary{font-weight:800;cursor:pointer}
+a.lnk{color:var(--pri);font-weight:800}
+.foot{text-align:center;color:var(--muted);font-size:13px}
+
+/* الشريط السفلي */
+.tabs{position:fixed;inset:auto 0 0 0;z-index:30;display:flex;justify-content:space-around;align-items:flex-end;max-width:560px;margin:0 auto;
+  padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:#fff;border-radius:26px 26px 0 0;box-shadow:0 -8px 30px rgba(42,27,74,.1)}
+.tabs button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:0;font-size:12.5px;font-weight:800;color:var(--muted);padding:4px 8px;position:relative;min-width:62px}
+.tabs button i{font-style:normal;font-size:22px;filter:grayscale(.6);opacity:.75}
+.tabs button.on{color:var(--pri)}
+.tabs button.on i{filter:none;opacity:1}
+.tabs em{position:absolute;top:0;right:12px;background:var(--bad);color:#fff;font-style:normal;font-size:11px;border-radius:99px;min-width:18px;height:18px;display:grid;place-items:center;padding:0 4px}
+.tabs .fab{width:68px;height:68px;min-width:68px;border-radius:50%;margin-top:-34px;background:linear-gradient(180deg,#FF9F5A,var(--sec));color:#fff;font-size:30px;box-shadow:0 6px 0 var(--sec-d),0 10px 24px rgba(255,138,61,.45);border:5px solid #fff;display:grid;place-items:center}
+.tabs .fab:active{transform:translateY(4px)}
+
+/* طبقات */
+#overlay{position:fixed;inset:0;z-index:60;background:rgba(30,15,60,.45);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--bg);width:100%;max-width:560px;border-radius:28px 28px 0 0;padding:20px 18px calc(22px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px;max-height:88vh;overflow:auto;animation:up .25s ease}
+@keyframes up{from{transform:translateY(40px);opacity:.6}}
+.sheet .grab{width:44px;height:5px;border-radius:9px;background:#D9CDE8;align-self:center}
+.pick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pick button{border:0;background:var(--card);box-shadow:var(--lift);border-radius:18px;padding:14px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:800;font-size:14px}
+.pick button span{font-size:30px}
+#loading{position:fixed;inset:0;z-index:70;background:linear-gradient(180deg,#7C3AED,#5B21B6);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px;text-align:center}
+#loading .mascot{width:150px;height:150px}
+#loading h2{font-size:24px}
+#loading p{opacity:.9;min-height:3.2em}
+.ldots{display:flex;gap:8px}.ldots i{width:12px;height:12px;border-radius:50%;background:var(--star);animation:ld 1s infinite}
+.ldots i:nth-child(2){animation-delay:.15s}.ldots i:nth-child(3){animation-delay:.3s}
+@keyframes ld{50%{transform:translateY(-10px)}}
+#loading .btn{background:rgba(255,255,255,.18);box-shadow:none}
+#toast{position:fixed;left:50%;bottom:calc(120px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:11px 18px;border-radius:16px;font-weight:700;z-index:90;opacity:0;pointer-events:none;transition:.25s;max-width:88vw;text-align:center;font-size:15.5px}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:95;width:100%;height:100%}
+#speakbar{position:fixed;z-index:40;left:50%;transform:translateX(-50%);bottom:calc(104px + env(safe-area-inset-bottom));background:var(--ink);color:#fff;border-radius:99px;padding:6px 8px 6px 14px;display:flex;align-items:center;gap:6px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+#speakbar button{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:99px;min-width:38px;height:38px;font-size:16px;font-weight:800;padding:0 10px}
+.waves{display:flex;gap:3px;align-items:center;height:22px;margin-inline-end:4px}
+.waves i{width:4px;background:var(--star);border-radius:3px;animation:wv .9s infinite ease-in-out}
+.waves i:nth-child(2){animation-delay:.15s}.waves i:nth-child(3){animation-delay:.3s}.waves i:nth-child(4){animation-delay:.45s}
+@keyframes wv{0%,100%{height:5px}50%{height:22px}}
+.paused .waves i{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:380px){.brand b{font-size:18px}.eng select{max-width:100px}.helpers{grid-template-columns:1fr}.qtext{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <button class="iconbtn" id="backBtn" hidden aria-label="رجوع">→</button>
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 200 200" aria-hidden="true"><path id="logoStar" fill="#FBBF24" stroke="#F59E0B" stroke-width="16" stroke-linejoin="round"/><circle cx="84" cy="108" r="9" fill="#2A1B4A"/><circle cx="116" cy="108" r="9" fill="#2A1B4A"/><path d="M86 128 Q100 142 114 128" stroke="#2A1B4A" stroke-width="7" fill="none" stroke-linecap="round"/></svg>
+      <b>المعلّم الذكي</b><span class="ver" id="verPill">v1.3</span>
+    </div>
+    <label class="eng"><span class="sr">محرك الذكاء الاصطناعي</span><select id="engSel"></select></label>
+    <div class="starpill" id="starPill" title="نجومك">⭐ <b id="starNum">٠</b></div>
+  </header>
+
+  <main id="main">
+    <section class="view" id="v-home"></section>
+    <section class="view" id="v-crop" hidden>
+      <div class="card" style="display:flex;flex-direction:column;gap:12px">
+        <h3>حدّد السؤال بإصبعك ✂️</h3>
+        <p class="muted" style="font-size:15px">اسحب الإطار المضيء أو زواياه لاختيار سؤال واحد أو فقرة أو شكل، أو اختر الصفحة كاملة.</p>
+        <div class="crop-wrap" id="cropWrap"><img id="cropImg" alt="الصورة الملتقطة"><div id="cropBox"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div></div>
+        <div class="row">
+          <button class="btn sm ghost" id="cropRot">↻ تدوير</button>
+          <button class="btn sm ghost" id="cropFull">الصفحة كاملة</button>
+          <button class="btn sm ok" id="cropOk" style="flex:1">استخدم التحديد ✔</button>
+        </div>
+      </div>
+    </section>
+    <section class="view" id="v-modes" hidden></section>
+    <section class="view" id="v-result" hidden></section>
+    <section class="view" id="v-mistakes" hidden></section>
+    <section class="view" id="v-bag" hidden></section>
+    <section class="view" id="v-settings" hidden></section>
+  </main>
+
+  <nav class="tabs" aria-label="التنقل">
+    <button data-tab="home" class="on"><i>🏠</i><span>الرئيسية</span></button>
+    <button data-tab="mistakes"><i>📒</i><span>الأخطاء</span><em id="mBadge" hidden></em></button>
+    <button class="fab" id="fab" aria-label="صوّر الواجب">📷</button>
+    <button data-tab="bag"><i>🎒</i><span>الحقيبة</span></button>
+    <button data-tab="settings"><i>⚙️</i><span>الإعدادات</span></button>
+  </nav>
+</div>
+
+<input type="file" id="fCam" accept="image/*" capture="environment" hidden>
+<input type="file" id="fGal" accept="image/*" hidden>
+
+<div id="speakbar" hidden>
+  <div class="waves"><i></i><i></i><i></i><i></i></div>
+  <button id="spPause" aria-label="إيقاف مؤقت">⏸</button>
+  <button id="spReplay" aria-label="إعادة القراءة">↺</button>
+  <span id="spState" style="font-size:13px;font-weight:700" hidden>يجهّز الصوت…</span>
+  <button id="spRate" aria-label="سرعة الصوت">١x</button>
+  <button id="spStop" aria-label="إيقاف">✕</button>
+</div>
+<div id="overlay" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+<div id="loading" hidden>
+  <div class="mascot thinking" id="ldMascot"></div>
+  <h2 id="ldTitle">المعلّم يقرأ الورقة…</h2>
+  <div class="ldots"><i></i><i></i><i></i></div>
+  <p id="ldTip"></p>
+  <button class="btn sm" id="ldStop">إيقاف</button>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<canvas id="confetti"></canvas>
+
+<script>
+"use strict";
+/* ============ أساسيات ============ */
+const VERSION = 'v1.3';
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const AR = '٠١٢٣٤٥٦٧٨٩';
+const toAr = n => String(n).replace(/[0-9]/g, d => AR[d]);
+const toLatin = s => String(s).replace(/[٠-٩]/g, d => AR.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const inArtifact = !!(window.claude && typeof window.claude.use === 'function');
+
+let toastT;
+function toast(msg, ms = 2600) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), ms); }
+
+/* ============ الحالة المحفوظة ============ */
+const DEF = {
+  profile: { name: '', grade: 3, gender: 'f', curriculum: 'سلطنة عُمان' },
+  stars: 0, engine: 'auto',
+  keys: { gemini: '', openrouter: '' },
+  models: { gemini: 'gemini-flash-latest', openrouter: 'openrouter/free' },
+  links: { gem: '', gpt: '' },
+  skills: {}, imgMax: 1280, mistakes: [],
+  voice: { char: 'woman', engine: 'auto', speed: 1, ttsModel: 'gemini-3.8-flash-lite-tts', el: { key: '', ids: { man: '', woman: '', boy: '', girl: '' } } }
+};
+let S;
+try { S = JSON.parse(localStorage.getItem('mz_state') || '{}'); } catch (e) { S = {}; }
+S = Object.assign(JSON.parse(JSON.stringify(DEF)), S);
+for (const k of ['profile', 'keys', 'models', 'links']) S[k] = Object.assign({}, DEF[k], S[k] || {});
+S.voice = Object.assign({}, DEF.voice, S.voice || {}); S.voice.el = Object.assign({}, DEF.voice.el, S.voice.el || {}); S.voice.el.ids = Object.assign({}, DEF.voice.el.ids, S.voice.el.ids || {});
+if (S.v !== 'v1.3') { delete S.skills.onpage; delete S.skills.correct; if (S.engine === 'pollinations') S.engine = 'auto'; S.v = 'v1.3'; }
+function save() { try { localStorage.setItem('mz_state', JSON.stringify(S)); } catch (e) {} }
+const isF = () => S.profile.gender === 'f';
+const g = (m, f) => isF() ? f : m;
+
+/* ============ قدرات المعاينة داخل Claude ============ */
+const CL = { sample: null, downloads: null, dictation: null, tts: null, ready: false };
+if (inArtifact) {
+  Promise.all(['sample', 'downloads'].map(n => window.claude.use(n).catch(() => null)))
+    .then(([a, b]) => { CL.sample = a; CL.downloads = b; CL.ready = true; refreshEngineUI(); });
+} else CL.ready = true;
+
+/* ============ الرفيق الكرتوني «لمعة» ============ */
+function starPath(cx, cy, R, r, n = 5) {
+  let p = '';
+  for (let i = 0; i < n * 2; i++) { const rad = i % 2 ? r : R, a = (-90 + i * 180 / n) * Math.PI / 180; p += (i ? 'L' : 'M') + (cx + rad * Math.cos(a)).toFixed(1) + ' ' + (cy + rad * Math.sin(a)).toFixed(1); }
+  return p + 'Z';
+}
+$('#logoStar').setAttribute('d', starPath(100, 110, 88, 44));
+const LEVELS = [
+  { min: 0, name: 'نجيمة الصغيرة' }, { min: 15, name: 'لمعة' },
+  { min: 40, name: 'لمعة المتعلّمة' }, { min: 90, name: 'لمعة البطلة' }
+];
+const levelOf = st => LEVELS.reduce((a, l, i) => st >= l.min ? i : a, 0);
+function mascotSVG(lv) {
+  const big = lv >= 1;
+  const R = big ? 84 : 70, r = big ? 44 : 37;
+  let s = `<svg viewBox="0 0 200 200" width="100%" height="100%" aria-label="لمعة">`;
+  if (lv >= 3) s += `<path d="M58 92 Q30 170 52 186 L148 186 Q170 170 142 92 Z" fill="#F2557A" stroke="#C93761" stroke-width="5" stroke-linejoin="round"/>`;
+  if (lv >= 1) s += `<g fill="#FFE27A"><path d="${starPath(26, 40, 11, 5, 4)}"/><path d="${starPath(176, 60, 9, 4, 4)}"/><path d="${starPath(170, 168, 7, 3, 4)}"/></g>`;
+  s += `<path d="${starPath(100, 112, R, r)}" fill="#FBBF24" stroke="#F59E0B" stroke-width="16" stroke-linejoin="round"/>`;
+  s += `<ellipse cx="80" cy="128" rx="9" ry="6" fill="#FF9DB5" opacity=".8"/><ellipse cx="120" cy="128" rx="9" ry="6" fill="#FF9DB5" opacity=".8"/>`;
+  const ey = big ? 9 : 7;
+  s += `<ellipse cx="86" cy="108" rx="${ey * .8}" ry="${ey}" fill="#2A1B4A"/><ellipse cx="114" cy="108" rx="${ey * .8}" ry="${ey}" fill="#2A1B4A"/><circle cx="88" cy="104" r="2.6" fill="#fff"/><circle cx="116" cy="104" r="2.6" fill="#fff"/>`;
+  s += `<path class="mouth" d="M90 122 Q100 ${lv >= 1 ? 134 : 129} 110 122" stroke="#2A1B4A" stroke-width="5" fill="${lv >= 1 ? '#B4235A' : 'none'}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  if (lv === 2) s += `<g transform="rotate(-12 100 30)"><path d="M62 34 L100 18 L138 34 L100 50 Z" fill="#2A1B4A"/><rect x="84" y="38" width="32" height="14" rx="4" fill="#2A1B4A"/><path d="M134 34 L136 58" stroke="#FBBF24" stroke-width="4"/><circle cx="136" cy="60" r="5" fill="#FF8A3D"/></g>`;
+  if (lv >= 3) s += `<path d="M70 40 L76 14 L90 30 L100 8 L110 30 L124 14 L130 40 Z" fill="#FFE27A" stroke="#E39B07" stroke-width="5" stroke-linejoin="round"/><circle cx="100" cy="30" r="5" fill="#F2557A"/>`;
+  return s + '</svg>';
+}
+
+/* ============ أصوات واحتفال ============ */
+let AC;
+function tone(freqs, dur = .12, type = 'triangle') {
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+    const t0 = AC.currentTime;
+    freqs.forEach((f, i) => {
+      const o = AC.createOscillator(), gn = AC.createGain();
+      o.type = type; o.frequency.value = f;
+      gn.gain.setValueAtTime(0.0001, t0 + i * dur);
+      gn.gain.exponentialRampToValueAtTime(0.18, t0 + i * dur + .02);
+      gn.gain.exponentialRampToValueAtTime(0.0001, t0 + i * dur + dur * 1.7);
+      o.connect(gn).connect(AC.destination); o.start(t0 + i * dur); o.stop(t0 + i * dur + dur * 1.9);
+    });
+  } catch (e) {}
+}
+const sfx = { win: () => tone([523, 659, 784, 1047]), soft: () => tone([392, 330], .18, 'sine'), star: () => tone([880, 1175], .08, 'sine') };
+function confetti() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = $('#confetti'), x = c.getContext('2d'); c.width = innerWidth; c.height = innerHeight;
+  const cols = ['#7C3AED', '#FF8A3D', '#14B8A6', '#FBBF24', '#F2557A', '#60A5FA'];
+  const ps = Array.from({ length: 110 }, () => ({ x: innerWidth / 2 + (Math.random() - .5) * 120, y: innerHeight * .45, vx: (Math.random() - .5) * 13, vy: -Math.random() * 15 - 5, r: Math.random() * 6 + 4, c: cols[Math.random() * 6 | 0], a: Math.random() * 6, s: Math.random() > .5 }));
+  let f = 0;
+  (function tick() {
+    x.clearRect(0, 0, c.width, c.height);
+    ps.forEach(p => { p.vy += .45; p.x += p.vx; p.y += p.vy; p.a += .2; x.save(); x.translate(p.x, p.y); x.rotate(p.a); x.fillStyle = p.c; if (p.s) x.fillRect(-p.r, -p.r / 2, p.r * 2, p.r); else { x.beginPath(); x.arc(0, 0, p.r / 1.4, 0, 7); x.fill(); } x.restore(); });
+    if (++f < 110) requestAnimationFrame(tick); else x.clearRect(0, 0, c.width, c.height);
+  })();
+}
+function addStars(n) {
+  const before = levelOf(S.stars);
+  S.stars = Math.max(0, S.stars + n); save(); updateStars(true);
+  if (n > 0) sfx.star();
+  const after = levelOf(S.stars);
+  if (after > before) setTimeout(() => {
+    confetti(); sfx.win();
+    openSheet(`<div class="empty"><div class="mascot bob" style="width:150px;height:150px">${mascotSVG(after)}</div><h2>كبرت لمعة! 🎉</h2><p>وصلت إلى مستوى <b>${LEVELS[after].name}</b>. ${g('استمر يا بطل', 'استمري يا بطلة')}!</p><button class="btn" data-close>رائع!</button></div>`);
+  }, 700);
+}
+function updateStars(pop) { $('#starNum').textContent = toAr(S.stars); if (pop) { const p = $('#starPill'); p.classList.remove('pop'); void p.offsetWidth; p.classList.add('pop'); } }
+
+/* ============ الأصوات: الشخصيات الأربع ============ */
+const CHARS = {
+  man: { ic: '👨‍🏫', name: 'المعلّم', sub: 'رجل • هادئ ووقور', gem: 'Charon', pitch: .8, rate: .95,
+    style: 'معلّم رجل هادئ ووقور، صوته واضح، يتكلم ببطء ووضوح مع الأطفال' },
+  woman: { ic: '👩‍🏫', name: 'المعلّمة', sub: 'امرأة • دافئة وحنونة', gem: 'Aoede', pitch: 1.15, rate: .95,
+    style: 'معلّمة دافئة وحنونة، صوتها واضح جداً ومطمئن للأطفال والأمهات' },
+  boy: { ic: '👦', name: 'صديقي', sub: 'ولد • متحمس ومرح', gem: 'Puck', pitch: 1.45, rate: 1.03,
+    style: 'ولد صغير عمره تسع سنوات، متحمس ومرح، يشرح لزميله في الصف بحماس' },
+  girl: { ic: '👧', name: 'صديقتي', sub: 'بنت • لطيفة ومرحة', gem: 'Leda', pitch: 1.7, rate: 1.02,
+    style: 'بنت صغيرة عمرها ثماني سنوات، لطيفة ومرحة، تشجّع صديقتها بفرح' }
+};
+const helloFor = ch => ({
+  man: g('أَهْلاً بِكَ يا بَطَل! أَنا مُعَلِّمُكَ، جاهِزٌ لِمُساعَدَتِكَ في شَرْحِ الدَّرْسِ وَحَلِّ الواجِبِ اليَوْم.', 'أَهْلاً بِكِ يا بَطَلَة! أَنا مُعَلِّمُكِ، جاهِزٌ لِمُساعَدَتِكِ في شَرْحِ الدَّرْسِ وَحَلِّ الواجِبِ اليَوْم.'),
+  woman: g('أَهْلاً بِكَ يا بَطَل! أَنا مُعَلِّمَتُكَ، جاهِزَةٌ لِمُساعَدَتِكَ في شَرْحِ الدَّرْسِ وَحَلِّ الواجِبِ اليَوْم.', 'أَهْلاً بِكِ يا بَطَلَة! أَنا مُعَلِّمَتُكِ، جاهِزَةٌ لِمُساعَدَتِكِ في شَرْحِ الدَّرْسِ وَحَلِّ الواجِبِ اليَوْم.'),
+  boy: g('هَلا يا صَديقي! أَنا جاهِز، يَلّا نَحُلُّ الواجِبَ مَعاً!', 'هَلا يا صَديقَتي! أَنا جاهِز، يَلّا نَحُلُّ الواجِبَ مَعاً!'),
+  girl: g('هَلا يا صَديقي! أَنا جاهِزَة، يَلّا نَحُلُّ الواجِبَ مَعاً!', 'هَلا يا صَديقَتي! أَنا جاهِزَة، يَلّا نَحُلُّ الواجِبَ مَعاً!')
+})[ch];
+/* تنظيف النص قبل النطق: حذف رموز التنسيق وتحويل الرموز الرياضية إلى كلمات */
+function speakable(t) {
+  const D = '[0-9٠-٩]';
+  t = String(t || '').replace(/[*#_`>~|]/g, ' ').replace(/^\s*[-•]\s+/gm, '');
+  t = t.replace(new RegExp(`(${D})\\s*[+＋]\\s*(?=${D})`, 'g'), '$1 زائد ')
+    .replace(new RegExp(`(${D})\\s*[-−–]\\s*(?=${D})`, 'g'), '$1 ناقص ')
+    .replace(new RegExp(`(${D})\\s*[×xX]\\s*(?=${D})`, 'g'), '$1 ضرب ')
+    .replace(new RegExp(`(${D})\\s*[÷/]\\s*(?=${D})`, 'g'), '$1 تقسيم ');
+  t = t.replace(/=/g, ' يساوي ').replace(/[+＋]/g, ' زائد ').replace(/−/g, ' ناقص ').replace(/×/g, ' ضرب ').replace(/÷/g, ' تقسيم ')
+    .replace(/[✓✔√]/g, ' صح ').replace(/[✗✘]/g, ' خطأ ').replace(/[←→]/g, '، ')
+    .replace(/\p{Extended_Pictographic}|️/gu, ' ').replace(/\s-\s/g, '، ').replace(/\s+/g, ' ').trim();
+  return t;
+}
+function b64ToBytes(b) { const s = atob(b), u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u; }
+function pcmToWav(pcm, rate) {
+  const h = new DataView(new ArrayBuffer(44)), w = (o, t) => [...t].forEach((c, i) => h.setUint8(o + i, c.charCodeAt(0)));
+  w(0, 'RIFF'); h.setUint32(4, 36 + pcm.length, true); w(8, 'WAVE'); w(12, 'fmt '); h.setUint32(16, 16, true); h.setUint16(20, 1, true); h.setUint16(22, 1, true);
+  h.setUint32(24, rate, true); h.setUint32(28, rate * 2, true); h.setUint16(32, 2, true); h.setUint16(34, 16, true); w(36, 'data'); h.setUint32(40, pcm.length, true);
+  return new Blob([h.buffer, pcm], { type: 'audio/wav' });
+}
+async function geminiTTS(text, ch) {
+  const model = S.voice.ttsModel || 'gemini-3.8-flash-lite-tts', c = CHARS[ch];
+  const newSchema = /gemini-(3\.[8-9]|[4-9])/.test(model);
+  const body = newSchema
+    ? { contents: [{ role: 'user', parts: [{ text, speechMetadata: { style: c.style } }] }], generationConfig: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { voice: c.gem } } } }
+    : { contents: [{ role: 'user', parts: [{ text: `اقرأ النص التالي بصوت ${c.style}:\n${text}` }] }], generationConfig: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: c.gem } } } } };
+  let res;
+  try { res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': S.keys.gemini }, body: JSON.stringify(body) }); }
+  catch (e) { netErr(e); }
+  if (!res.ok) throw await httpErr(res);
+  const d = await res.json(), part = (d.candidates?.[0]?.content?.parts || []).find(p => p.inlineData || p.inline_data);
+  if (!part) throw new Error('لم يصل صوت من Gemini');
+  const inl = part.inlineData || part.inline_data, mime = inl.mimeType || inl.mime_type || '', bytes = b64ToBytes(inl.data);
+  if (/wav/i.test(mime) || (bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46)) return new Blob([bytes], { type: 'audio/wav' });
+  return pcmToWav(bytes, +((/rate=(\d+)/.exec(mime) || [])[1]) || 24000);
+}
+async function elevenTTS(text, ch) {
+  const v = S.voice.el; let res;
+  try { res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(v.ids[ch])}?output_format=mp3_44100_128`, { method: 'POST', headers: { 'xi-api-key': v.key, 'Content-Type': 'application/json', 'Accept': 'audio/mpeg' }, body: JSON.stringify({ text, model_id: 'eleven_flash_v2_5' }) }); }
+  catch (e) { netErr(e); }
+  if (!res.ok) throw await httpErr(res);
+  return await res.blob();
+}
+function ttsEngine() {
+  if (inArtifact) return 'device';
+  const v = S.voice;
+  if (v.engine === 'device') return 'device';
+  if ((v.engine === 'auto' || v.engine === 'gemini') && S.keys.gemini) return 'gemini';
+  if ((v.engine === 'auto' || v.engine === 'eleven') && v.el.key && v.el.ids[v.char]) return 'eleven';
+  return 'device';
+}
+function pickVoice(lang) {
+  let vs = []; try { vs = speechSynthesis.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith(lang)); } catch (e) {}
+  if (!vs.length) return null;
+  const fem = /female|laila|layla|mariam|maryam|salma|zariyah|amira|hoda|noura|aysha|fatima|zeina/i, mal = /male|majed|maged|tarik|hamed|naayf|abdullah|shakir|hamdan/i;
+  const wantF = ['woman', 'girl'].includes(S.voice.char);
+  return vs.find(v => (wantF ? fem : mal).test(v.name) && !(wantF ? /\bmale/i.test(v.name) && !/female/i.test(v.name) : /female/i.test(v.name))) || vs[0];
+}
+const AUD = new Audio(); let audUrl = '', audUnlocked = false;
+document.addEventListener('pointerdown', () => { if (audUnlocked) return; audUnlocked = true; try { AUD.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA='; AUD.play().catch(() => {}); } catch (e) {} }, true);
+const TTS = {
+  last: '', lang: 'ar', cache: new Map(), mode: null, token: 0,
+  async speak(text, lang = 'ar') {
+    const raw = String(text || '').trim(); if (!raw) return;
+    this.stop(true); const my = ++this.token; this.last = raw; this.lang = lang;
+    const t = lang === 'ar' ? speakable(raw) : raw, eng = lang === 'ar' ? ttsEngine() : 'device';
+    if (eng === 'device') return this.device(t, lang);
+    this.ui(true, true);
+    try {
+      const key = eng + '|' + S.voice.char + '|' + (eng === 'gemini' ? S.voice.ttsModel : '') + '|' + t;
+      let blob = this.cache.get(key);
+      if (!blob) { blob = eng === 'gemini' ? await geminiTTS(t.slice(0, 4000), S.voice.char) : await elevenTTS(t.slice(0, 2500), S.voice.char); this.cache.set(key, blob); }
+      if (my !== this.token) return;
+      if (audUrl) URL.revokeObjectURL(audUrl);
+      audUrl = URL.createObjectURL(blob); AUD.src = audUrl; AUD.playbackRate = S.voice.speed; try { AUD.preservesPitch = true; } catch (e) {}
+      this.mode = 'audio'; await AUD.play(); this.ui(true);
+    } catch (e) {
+      if (my !== this.token) return;
+      toast('تعذّر الصوت البشري: ' + (e.message || 'خطأ') + '. استخدمت صوت الجهاز.', 4000); this.device(t, lang);
+    }
+  },
+  device(t, lang) {
+    if (!('speechSynthesis' in window)) { this.ui(false); return toast('النطق غير متاح في هذا المتصفح'); }
+    const c = CHARS[S.voice.char]; speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(t), v = pickVoice(lang);
+    if (v) { u.voice = v; u.lang = v.lang; } else u.lang = lang === 'ar' ? 'ar-SA' : 'en-US';
+    u.pitch = lang === 'ar' ? c.pitch : 1; u.rate = Math.min(2, (c.rate || 1) * S.voice.speed * .95);
+    u.onend = u.onerror = () => { if (this.mode === 'device') { this.mode = null; this.ui(false); } };
+    this.mode = 'device'; speechSynthesis.speak(u); this.ui(true);
+  },
+  pause() {
+    if (this.mode === 'audio') { if (AUD.paused) { AUD.play().catch(() => {}); this.paused(false); } else { AUD.pause(); this.paused(true); } }
+    else if (this.mode === 'device') { if (speechSynthesis.paused) { speechSynthesis.resume(); this.paused(false); } else { speechSynthesis.pause(); this.paused(true); } }
+  },
+  paused(p) { $('#speakbar').classList.toggle('paused', p); $('#spPause').textContent = p ? '▶' : '⏸'; },
+  stop(keep) { this.token++; try { speechSynthesis.cancel(); } catch (e) {} try { AUD.pause(); } catch (e) {} this.mode = null; if (!keep) this.ui(false); },
+  ui(on, loading) { $('#speakbar').hidden = !on; $('#spState').hidden = !loading; this.paused(false); $$('.mascot').forEach(m => m.classList.toggle('talking', on && !loading)); }
+};
+AUD.onended = () => { if (TTS.mode === 'audio') { TTS.mode = null; TTS.ui(false); } };
+try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => {}; } catch (e) {}
+const SPEEDS = [[.85, 'بطيء'], [1, 'طبيعي'], [1.15, 'سريع']];
+const speedLabel = () => (SPEEDS.find(x => x[0] === S.voice.speed) || SPEEDS[1])[1];
+function setSpeed(v) { S.voice.speed = v; save(); try { AUD.playbackRate = v; } catch (e) {} $('#spRate').textContent = speedLabel(); $$('[data-speed]').forEach(b => b.classList.toggle('on', +b.dataset.speed === v)); }
+$('#spPause').onclick = () => TTS.pause();
+$('#spStop').onclick = () => TTS.stop();
+$('#spReplay').onclick = () => TTS.speak(TTS.last, TTS.lang);
+$('#spRate').onclick = () => { const i = SPEEDS.findIndex(x => x[0] === S.voice.speed); setSpeed(SPEEDS[(i + 1) % 3][0]); toast('سرعة القراءة: ' + speedLabel()); };
+$('#spRate').textContent = speedLabel();
+const charRowHTML = () => `<div class="charrow">${Object.entries(CHARS).map(([k, c]) => `<button data-char="${k}" class="${S.voice.char === k ? 'on' : ''}"><span>${c.ic}</span>${c.name}</button>`).join('')}</div>`;
+const speedSegHTML = () => `<div class="seg">${SPEEDS.map(([v, l]) => `<button data-speed="${v}" class="${S.voice.speed === v ? 'on' : ''}">${l}</button>`).join('')}</div>`;
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-try]');
+  const c = t || e.target.closest('[data-char]');
+  if (c) { S.voice.char = c.dataset.try || c.dataset.char; save(); $$('[data-char]').forEach(x => x.classList.toggle('on', x.dataset.char === S.voice.char)); if (t) { e.stopPropagation(); TTS.speak(helloFor(S.voice.char)); } else if (curView === 'result') toast(CHARS[S.voice.char].ic + ' ' + CHARS[S.voice.char].name + ' سيشرح لك'); }
+  const sp = e.target.closest('[data-speed]'); if (sp) setSpeed(+sp.dataset.speed);
+});
+
+/* ============ الورقة التجريبية ============ */
+const WS = { W: 1000, H: 1320, boxes: [] };
+const WS_Q = [
+  { t: '١)   ٣٤٥ + ٢٢٣ =', y: 300, a: '٥٦٨', s: '٥٦٨' },
+  { t: '٢)   ٥٧٨ − ١٤٦ =', y: 420, a: '٤٣٢', s: '٤٣٢' },
+  { t: '٣) اكتب بالأرقام: ثلاثمئة وخمسة وعشرون', y: 620, a: '٣٢٥', s: '٣٥٢' },
+  { t: '٤) قرّب العدد ٣٤٧ إلى أقرب عشرة:', y: 740, a: '٣٥٠', s: '٣٥٠' },
+  { t: 'كم قلماً مع مريم؟  الجواب:', y: 920, a: '١٢', s: '٧', pre: '٥) مع مريم ٣ علب، في كل علبة ٤ أقلام.' },
+  { t: '٦) ضع (✓) أو (✗):   ٧ × ٨ = ٥٦', y: 1080, a: '✓', s: '✓', small: true }
+];
+async function fontsReady() {
+  try {
+    await Promise.race([Promise.all([
+      document.fonts.load('400 30px Tajawal', 'أبجد ٠١٢٣'), document.fonts.load('700 30px Tajawal', 'أبجد ٠١٢٣'),
+      document.fonts.load('700 40px "Aref Ruqaa"', 'أبجد ٠١٢٣'), document.fonts.load('400 40px "Aref Ruqaa"', 'أبجد ٠١٢٣'),
+      document.fonts.load('700 30px "Noto Naskh Arabic"', 'أبجد ٠١٢٣'), document.fonts.load('800 30px "Baloo Bhaijaan 2"', 'أبجد')]), sleep(2500)]);
+  } catch (e) {}
+}
+async function drawWorksheet(student) {
+  await fontsReady();
+  const c = document.createElement('canvas'); c.width = WS.W; c.height = WS.H;
+  const x = c.getContext('2d'); x.direction = 'rtl';
+  x.fillStyle = '#FFFEF9'; x.fillRect(0, 0, WS.W, WS.H);
+  x.strokeStyle = '#E8F0FB'; x.lineWidth = 2;
+  for (let y = 170; y < WS.H - 40; y += 40) { x.beginPath(); x.moveTo(40, y); x.lineTo(WS.W - 40, y); x.stroke(); }
+  x.strokeStyle = '#F7B6C6'; x.beginPath(); x.moveTo(WS.W - 60, 150); x.lineTo(WS.W - 60, WS.H - 30); x.stroke();
+  x.fillStyle = '#EDE4FF'; x.fillRect(30, 30, WS.W - 60, 110);
+  x.fillStyle = '#4C1D95'; x.textAlign = 'right'; x.font = '700 40px Tajawal';
+  x.fillText('ورقة عمل: الجمع والطرح والتقريب', WS.W - 70, 82);
+  x.font = '500 26px Tajawal'; x.fillStyle = '#5B4A7A';
+  x.fillText('الرياضيات • الصف الثالث • الفصل الدراسي الأول', WS.W - 70, 122);
+  x.textAlign = 'left'; x.fillText('الاسم: ................', 60, 122);
+  if (student) { x.font = '700 34px "Aref Ruqaa"'; x.fillStyle = '#1D4ED8'; x.textAlign = 'left'; x.fillText(S.profile.name || 'سارة', 150, 112); }
+  const head = (t, y) => { x.textAlign = 'right'; x.font = '700 31px Tajawal'; x.fillStyle = '#C2410C'; x.fillText(t, 920, y); };
+  head('أولاً: أوجد الناتج', 220); head('ثانياً: أجب عما يلي', 540);
+  WS.boxes = [];
+  WS_Q.forEach((q, i) => {
+    x.textAlign = 'right'; x.fillStyle = '#1F1B2E'; x.font = '500 33px Tajawal';
+    if (q.pre) x.fillText(q.pre, 920, q.y - 60);
+    x.fillText(q.t, 920, q.y);
+    const w = x.measureText(q.t).width;
+    const bw = q.small ? 92 : 190, bh = 78;
+    const bx = Math.max(60, 920 - w - 34 - bw), by = q.y - 54;
+    x.strokeStyle = '#3B3355'; x.lineWidth = 3; x.setLineDash(q.small ? [] : [10, 7]);
+    x.strokeRect(bx, by, bw, bh); x.setLineDash([]);
+    WS.boxes.push({ x: bx, y: by, w: bw, h: bh });
+    if (student) {
+      x.fillStyle = '#1D4ED8'; x.font = `700 ${q.small ? 48 : 50}px "Aref Ruqaa"`; x.textAlign = 'center'; x.textBaseline = 'middle';
+      x.save(); x.translate(bx + bw / 2 + (i % 2 ? 6 : -4), by + bh / 2 + 2); x.rotate((i % 2 ? -1 : 1) * 0.035); x.fillText(q.s, 0, 0); x.restore();
+      x.textBaseline = 'alphabetic';
+    }
+  });
+  x.textAlign = 'center'; x.font = '700 26px Tajawal'; x.fillStyle = '#9A8BB5';
+  x.fillText('راجع إجاباتك قبل التسليم ⭐', WS.W / 2, WS.H - 60);
+  return c;
+}
+function roundRect(x, X, Y, W, H, r) { x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + W, Y, X + W, Y + H, r); x.arcTo(X + W, Y + H, X, Y + H, r); x.arcTo(X, Y + H, X, Y, r); x.arcTo(X, Y, X + W, Y, r); x.closePath(); }
+const nb = b => [Math.round(b.y / WS.H * 1000), Math.round(b.x / WS.W * 1000), Math.round((b.y + b.h) / WS.H * 1000), Math.round((b.x + b.w) / WS.W * 1000)];
+
+const DEMO = {
+  teacher: () => ({
+    title: 'الجمع والطرح والتقريب', subject: 'رياضيات',
+    story: 'في سوق مطرح، كان عند العم سالم دكان صغير يبيع التمر والحلوى العُمانية. في الصباح باع ٣٤٥ تمرة، وبعد العصر باع ٢٢٣ تمرة. ليعرف كم باع في اليوم كله، رتّب الأعداد في خانات: الآحاد مع الآحاد، والعشرات مع العشرات، والمئات مع المئات، ثم جمعها خانةً خانة. وعندما يأخذ من صندوق فيه ٥٧٨ تمرة، يطرح بالطريقة نفسها. وإذا أراد أن يقول رقماً سريعاً قريباً من الحقيقة، يقرّب العدد إلى أقرب عشرة. هيا نساعد العم سالم في أسئلته!',
+    questions: [
+      { n: 1, q: '٣٤٥ + ٢٢٣ = ؟', answer: '٥٦٨', hint: 'ابدأ بالآحاد: ٥ + ٣، ثم العشرات: ٤ + ٢، ثم المئات.', steps: ['الآحاد: ٥ + ٣ = ٨', 'العشرات: ٤ + ٢ = ٦', 'المئات: ٣ + ٢ = ٥', 'الناتج: ٥٦٨'] },
+      { n: 2, q: '٥٧٨ − ١٤٦ = ؟', answer: '٤٣٢', hint: 'اطرح كل خانة من مثيلتها، وابدأ من الآحاد: ٨ − ٦.', steps: ['الآحاد: ٨ − ٦ = ٢', 'العشرات: ٧ − ٤ = ٣', 'المئات: ٥ − ١ = ٤', 'الناتج: ٤٣٢'] },
+      { n: 3, q: 'اكتب بالأرقام: ثلاثمئة وخمسة وعشرون', answer: '٣٢٥', hint: 'ثلاثمئة تعني ٣ في خانة المئات. والعشرون كم عشرة فيها؟', steps: ['ثلاثمئة ← ٣ مئات', 'عشرون ← ٢ عشرات', 'خمسة ← ٥ آحاد', 'العدد: ٣٢٥'] },
+      { n: 4, q: 'قرّب العدد ٣٤٧ إلى أقرب عشرة', answer: '٣٥٠', hint: 'انظر إلى رقم الآحاد: هل هو ٥ أو أكثر؟', steps: ['رقم الآحاد هو ٧', '٧ أكبر من ٥، فنقرّب إلى الأعلى', 'العشرة التالية بعد ٣٤٠ هي ٣٥٠', 'الجواب: ٣٥٠'] },
+      { n: 5, q: 'مع مريم ٣ علب، في كل علبة ٤ أقلام. كم قلماً معها؟', answer: '١٢', hint: 'الضرب جمع متكرر: ٤ + ٤ + ٤', steps: ['عدد العلب ٣، وفي كل علبة ٤ أقلام', '٣ × ٤ = ٤ + ٤ + ٤', 'الجواب: ١٢ قلماً'] },
+      { n: 6, q: 'ضع ✓ أو ✗ :   ٧ × ٨ = ٥٦', answer: '✓', hint: 'احسب ٧ × ٨ ، أو اجمع ٨ سبع مرات.', steps: ['٧ × ٨ = ٥٦', 'إذن العبارة صحيحة ✓'] }
+    ]
+  }),
+  mom: () => ({
+    title: 'الجمع والطرح والتقريب',
+    summary: 'الدرس عن جمع وطرح أعداد من ثلاث منازل (مئات، عشرات، آحاد)، وكتابة العدد المكتوب بالحروف بالأرقام، وتقريب العدد لأقرب عشرة، ومدخل بسيط للضرب كجمع متكرر.',
+    goal: 'أن يرتّب الطفل الأعداد في خانات صحيحة ويحسب خانةً خانة بثقة.',
+    howto: ['ارسمي ثلاثة أعمدة على ورقة: مئات، عشرات، آحاد.', 'اكتبي العددين تحت بعضهما، كل رقم في خانته.', 'ابدئي دائماً من الآحاد (اليمين في دفاتر العربي يكون أول خانة من جهة اليمين).', 'في التقريب: غطّي كل الأرقام عدا الآحاد، واسألي: ٥ أو أكثر؟ نصعد. أقل؟ نبقى.', 'كافئيه بنجمة عند كل خانة صحيحة.'],
+    home_example: 'خذي حبات تمر: ضعي ٣ أكياس في كل كيس ٤ حبات، واطلبي منه العد. هكذا يفهم أن ٣ × ٤ هي ٤ + ٤ + ٤ = ١٢.',
+    answers: DEMO_ANS()
+  }),
+  solve: () => ({ title: 'الجمع والطرح والتقريب', answers: DEMO_ANS().map((a, i) => ({ ...a, note: ['جمع خانةً خانة', 'طرح بدون استلاف', '٣ مئات و٢ عشرات و٥ آحاد', 'الآحاد ٧ ≥ ٥ فنقرّب للأعلى', '٣ × ٤', 'لأن ٧ × ٨ = ٥٦'][i] })) }),
+  correct: () => {
+    const items = WS_Q.map((q, i) => {
+      const ok = q.a === q.s;
+      return { n: i + 1, q: ((q.pre ? q.pre + ' ' : '') + q.t).replace(/^\S+\)\s*/, ''), student: q.s, ok, right: q.a, why: ok ? '' : (i === 2 ? 'كتبتَ الأرقام في خانات معكوسة: العشرون تعني ٢ في خانة العشرات، والخمسة ٥ في الآحاد. الصحيح ٣٢٥.' : 'جمعتَ العلب والأقلام (٣ + ٤) بدل أن تضربها. في كل علبة ٤ أقلام، و٣ علب: ٤ + ٤ + ٤ = ١٢.'), box_2d: nb(WS.boxes[i]) };
+    });
+    return { title: 'تصحيح ورقة الجمع والطرح', font_h: 26, score: items.filter(i => i.ok).length, total: items.length, items, praise: 'عمل رائع! أربع إجابات صحيحة من ست. ركّز على ترتيب الخانات وستصبح بطلاً في الأعداد.' };
+  },
+  onpage: () => ({ font_h: 26, items: WS_Q.map((q, i) => ({ n: i + 1, answer: q.a, box_2d: nb(WS.boxes[i]) })) }),
+  words: () => ({ words: [
+    { w: 'أوجد', lang: 'ar', meaning: 'احسب واعرف النتيجة.', example: 'أوجد ناتج ٢ + ٣.' },
+    { w: 'الناتج', lang: 'ar', meaning: 'الجواب الذي نحصل عليه بعد الحساب.', example: 'ناتج ٥ + ٥ هو ١٠.' },
+    { w: 'قرّب', lang: 'ar', meaning: 'اكتب عدداً قريباً وسهلاً بدل العدد الدقيق.', example: '٣٤٧ تقريباً ٣٥٠.' },
+    { w: 'أقرب عشرة', lang: 'ar', meaning: 'أقرب عدد ينتهي بصفر.', example: 'أقرب عشرة لـ ٢٣ هي ٢٠.' },
+    { w: 'علبة', lang: 'ar', meaning: 'صندوق صغير نضع فيه الأشياء.', example: 'علبة أقلام ملونة.' },
+    { w: 'Add', lang: 'en', meaning: 'اجمع.', example: 'Add 2 and 3.' }
+  ] })
+};
+function DEMO_ANS() { return DEMO.teacher().questions.map(q => ({ n: q.n, q: q.q, a: q.answer })); }
+const DEMO_PRACTICE = [
+  { q: '٢٣٤ + ١٥٢ = ؟', answer: '٣٨٦', hint: 'الآحاد: ٤ + ٢', steps: ['الآحاد: ٤ + ٢ = ٦', 'العشرات: ٣ + ٥ = ٨', 'المئات: ٢ + ١ = ٣', 'الناتج: ٣٨٦'] },
+  { q: '٦٨٩ − ٢٥٤ = ؟', answer: '٤٣٥', hint: 'ابدأ بالآحاد: ٩ − ٤', steps: ['الآحاد: ٩ − ٤ = ٥', 'العشرات: ٨ − ٥ = ٣', 'المئات: ٦ − ٢ = ٤', 'الناتج: ٤٣٥'] },
+  { q: 'اكتب بالأرقام: أربعمئة وستة عشر', answer: '٤١٦', hint: 'ستة عشر = عشرة واحدة و٦ آحاد', steps: ['أربعمئة ← ٤ مئات', 'عشرة ← ١ عشرات', 'ستة ← ٦ آحاد', 'العدد: ٤١٦'] },
+  { q: 'قرّب العدد ٥٢٣ إلى أقرب عشرة', answer: '٥٢٠', hint: 'رقم الآحاد ٣: أقل من ٥؟', steps: ['رقم الآحاد ٣', '٣ أقل من ٥ فنبقى في العشرة نفسها', 'الجواب: ٥٢٠'] },
+  { q: 'مع سالم ٤ أكياس، في كل كيس ٥ تمرات. كم تمرة معه؟', answer: '٢٠', hint: '٥ + ٥ + ٥ + ٥', steps: ['٤ أكياس × ٥ تمرات', '٥ + ٥ + ٥ + ٥ = ٢٠', 'الجواب: ٢٠ تمرة'] },
+  { q: 'ضع ✓ أو ✗ :   ٦ × ٧ = ٤٨', answer: '✗', hint: 'احسب ٦ × ٧ بنفسك أولاً', steps: ['٦ × ٧ = ٤٢', '٤٢ ليست ٤٨، إذن ✗'] }
+];
+
+/* ============ مقارنة الإجابات ============ */
+function norm(s) {
+  s = toLatin(String(s || '')).trim().toLowerCase().replace(/[ً-ْـ]/g, '').replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي');
+  const bare = s.replace(/[\s.()،,]/g, '');
+  if (/^(✓|✔|✔️|√|صح|صحيح|صحيحه|نعم|true|correct)$/.test(bare)) return '__T';
+  if (/^(✗|✘|x|خطا|خطاء|غلط|لا|false|wrong)$/.test(bare)) return '__F';
+  return bare.replace(/[؛:\-−=]/g, '');
+}
+function sameAnswer(a, b) {
+  const A = norm(a), B = norm(b);
+  if (!A) return false;
+  if (A === B) return true;
+  const na = A.match(/\d+(\.\d+)?/g), nB = B.match(/\d+(\.\d+)?/g);
+  if (na && nB && na.length === 1 && nB.length === 1) return na[0] === nB[0];
+  if (B.length > 3 && (A.includes(B) || B.includes(A)) && Math.min(A.length, B.length) / Math.max(A.length, B.length) > .7) return true;
+  return false;
+}
+
+/* ============ مهارات المعلم (التعليمات الثابتة لكل وضع) ============ */
+const SKILL_BASE = `أنت «المعلّم الذكي»: معلم عربي صبور ولطيف يساعد الأطفال والطلاب والأمهات في الواجبات.
+- خاطب الطالب بجمل قصيرة واضحة تناسب عمره، وبصيغة {{GENDER}}.
+- الطالب: {{NAME}} في الصف {{GRADE}}، والمنهج: {{CURR}}.
+- اكتب الأرقام بالأرقام العربية المشرقية (٠١٢٣٤٥٦٧٨٩) كما في الكتاب المدرسي، إلا إذا كان السؤال باللغة الإنجليزية.
+- استخدم أمثلة من البيئة العُمانية (التمر، الحلوى، السوق، الفلج، المدرسة) عندما يناسب ذلك.
+- اكتب كل نص سيُقرأ بصوت عالٍ (القصة، التلميح، الخطوات، الشرح، التشجيع، سبب الخطأ) بالتشكيل الكامل (الفتحة والضمة والكسرة والسكون والشدة)، مع جمل قصيرة وفواصل، لأن التطبيق ينطقه بصوت المعلّم. أما نص السؤال فانقله كما في الورقة.
+- في اللغة العربية: عند تحويل الجملة الفعلية إلى اسمية قدّم الفاعل ليصبح مبتدأً متبوعاً بالفعل (تنظّف الأمُّ البيتَ ← الأمُّ تنظّفُ البيتَ)، ولا تحوّل الفعل إلى اسم فاعل أو صفة.
+- لا تخترع أسئلة غير موجودة في الصورة. إذا كان جزء غير واضح فاكتب "غير واضح".
+- أعد JSON صالحاً فقط، بدون أي نص أو علامات قبله أو بعده.`;
+const SKILLS = {
+  teacher: `حلّل صورة الواجب.
+١) اكتب "story": شرحاً قصصياً مشوقاً من ٤ إلى ٦ جمل لفكرة الدرس الأساسية يناسب عمر الطالب.
+٢) استخرج كل الأسئلة الموجودة بالترتيب نفسه.
+الشكل المطلوب:
+{"title":"عنوان الدرس","subject":"المادة","story":"...","questions":[{"n":1,"q":"نص السؤال كما في الورقة","answer":"الإجابة الصحيحة المختصرة","hint":"تلميح يقرّب من الحل دون كشفه","steps":["خطوة ١","خطوة ٢"]}]}`,
+  mom: `أنت تساعد أماً تريد مراجعة الدرس مع طفلها.
+الشكل المطلوب:
+{"title":"عنوان الدرس","summary":"فكرة الدرس في ٣٠ ثانية","goal":"هدف الدرس","howto":["خطوات بسيطة لشرح الدرس للطفل"],"home_example":"مثال عملي بأشياء موجودة في البيت","answers":[{"n":1,"q":"السؤال","a":"الإجابة الكاملة"}]}`,
+  solve: `حلّ جميع الأسئلة الموجودة في الصورة (اختيار من متعدد، أكمل، صح أو خطأ، توصيل، مسائل) بنفس ترقيم الورقة وترتيبها.
+الشكل المطلوب:
+{"title":"عنوان الورقة","answers":[{"n":1,"q":"السؤال باختصار","a":"الإجابة","note":"توضيح قصير جداً"}]}`,
+  correct: `الصورة لورقة حلّها الطالب بخط يده. اقرأ كل سؤال وإجابة الطالب المكتوبة بخط اليد، وقارنها بالحل الصحيح.
+- كل فراغ أجاب عنه الطالب عنصر مستقل (كل خانة في جدول، كل شكل، كل سطر نقاط).
+- إذا ترك الطالب فراغاً بلا إجابة فاعتبرها خاطئة واكتب في student: "(فارغ)".
+- اشرح سبب كل خطأ وكيف يصححه بأسلوب إيجابي مشجع، في جملة أو جملتين.
+- مكان كل عنصر هو المساحة التي كتب فيها الطالب إجابته (أو الفراغ إن تركه فارغاً).`,
+  onpage: `أنت معلم خبير في حل أوراق العمل المدرسية. اقرأ الورقة وحلّ كل سؤال فيها.
+- الإجابة قصيرة ومباشرة كما يكتبها الطالب في الفراغ، ومشكّلة بالحركات.
+- كل فراغ له إجابته الخاصة، حتى لو كان في السؤال الواحد فراغان.
+- تجاهل أي كتابة سابقة بخط اليد على الورقة.`,
+  words: `استخرج أهم الكلمات الصعبة أو الجديدة في الصورة (عربية أو إنجليزية، حتى ١٢ كلمة).
+الشكل المطلوب:
+{"words":[{"w":"الكلمة","lang":"ar أو en","meaning":"معنى مبسّط بالعربية","example":"مثال قصير"}]}`
+};
+const skill = m => (S.skills[m] && S.skills[m].trim()) || SKILLS[m];
+const GRID_NOTE = `على الصورة شبكة قياس حمراء للمساعدة فقط، بمقياس من 0 إلى 1000 في الاتجاهين: الأرقام في أعلى الصورة وأسفلها هي x (0 عند الحافة اليسرى و1000 عند اليمنى)، والأرقام على الجانبين هي y (0 في الأعلى و1000 في الأسفل). الخطوط الواضحة كل 100 والباهتة كل 50. اقرأ الإحداثيات من الشبكة، واكتبها بأرقام لاتينية.`;
+const FMT = {
+  onpage: `على الصورة مستطيلات حمراء مرقّمة (#1، #2، #3…) اكتشفها التطبيق بالقياس الهندسي للبكسل، ومسطرة زرقاء خفيفة على الحواف من 0 إلى 1000.
+١) كل مستطيل أحمر مرقّم هو مكان إجابة: أرجع رقمه نفسه في box_id مع answer_text. لا تغيّر مكانه ولا تكتب إحداثياته.
+٢) إذا كان مستطيل أحمر ليس مكان إجابة فعلاً (مثل إطار زخرفي أو جزء من رسمة) فلا تُرجعه.
+٣) لكل سؤال يحتاج إجابة وليس عليه رقم أحمر (مثل: قارن وعلّل، أو فراغ لم يُكتشف): اجعل box_id = "CUSTOM"، واقرأ المسطرة الزرقاء وحدّد custom_box_2d = [ymin, xmin, ymax, xmax] في مساحة بيضاء فارغة تماماً تحت السؤال مباشرة، بعيداً عن الكلام المطبوع والرسومات. وفي الأسطر المنقطة يكون أسفل المستطيل ملاصقاً للنقاط من فوقها.
+٤) font_h = ارتفاع سطر النص المطبوع بمقياس المسطرة (0-1000).
+الشكل المطلوب: {"font_h":22,"answers":[{"box_id":"#1","answer_text":"اسْمٍ"},{"box_id":"CUSTOM","answer_text":"الْجُمْلَةُ الثَّانِيَةُ صَحِيحَةٌ؛ لِأَنَّهَا تَبْدَأُ بِاسْمٍ.","custom_box_2d":[390,200,430,800]}]}`,
+  correct: GRID_NOTE + `
+box_2d = [ymin, xmin, ymax, xmax] للمساحة التي كتب فيها الطالب إجابته. font_h = ارتفاع سطر النص المطبوع بالمقياس نفسه.
+الشكل المطلوب: {"title":"عنوان الورقة","score":4,"total":6,"font_h":22,"items":[{"n":1,"q":"السؤال","student":"ما كتبه الطالب","ok":true,"right":"الإجابة الصحيحة","why":"","box_2d":[100,200,150,400]}],"praise":"جملة تشجيع"}`
+};
+async function aiImage() {
+  if (current._ai) return current._ai;
+  const img = await loadImg(current.url), k = Math.min(1, S.imgMax / Math.max(img.naturalWidth, img.naturalHeight));
+  const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+  const x = c.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(img, 0, 0, c.width, c.height);
+  return current._ai = await new Promise(r => c.toBlob(r, 'image/jpeg', .85));
+}
+/* نسخة الفحص فقط: صورة مصغّرة عليها شبكة 0-1000؛ المستخدم لا يراها */
+async function gridBlob() {
+  const img = await loadImg(current.url), nw = img.naturalWidth, nh = img.naturalHeight;
+  const W = Math.round(Math.max(1000, nw * Math.min(1, S.imgMax / Math.max(nw, nh)))), H = Math.round(nh * W / nw);
+  const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
+  x.imageSmoothingQuality = 'high'; x.drawImage(img, 0, 0, W, H);
+  for (let i = 0; i <= 1000; i += 50) {
+    const strong = i % 100 === 0; x.strokeStyle = `rgba(255,0,0,${strong ? .42 : .2})`; x.lineWidth = strong ? 1.5 : 1;
+    x.beginPath(); x.moveTo(i / 1000 * W, 0); x.lineTo(i / 1000 * W, H); x.moveTo(0, i / 1000 * H); x.lineTo(W, i / 1000 * H); x.stroke();
+  }
+  const fs = Math.round(W / 64); x.font = `700 ${fs}px Tajawal, sans-serif`; x.textBaseline = 'top'; x.direction = 'ltr'; x.textAlign = 'left';
+  const lab = (t, px, py, col, sz = fs) => { x.font = `700 ${sz}px Tajawal, sans-serif`; const w = x.measureText(t).width + 6; px = Math.min(W - w - 1, Math.max(1, px)); py = Math.min(H - sz - 5, Math.max(1, py)); x.fillStyle = 'rgba(255,255,255,.88)'; x.fillRect(px, py, w, sz + 4); x.fillStyle = col; x.fillText(t, px + 3, py + 2); };
+  for (let i = 0; i <= 1000; i += 100) {
+    lab(String(i), i / 1000 * W + 2, 2, '#C00000'); lab(String(i), i / 1000 * W + 2, H - fs - 6, '#C00000');
+    lab(String(i), 2, i / 1000 * H + 2, '#1D4ED8'); lab(String(i), W - fs * 3, i / 1000 * H + 2, '#1D4ED8');
+  }
+  return new Promise(r => c.toBlob(r, 'image/jpeg', .88));
+}
+
+function buildSys() {
+  const p = S.profile;
+  return SKILL_BASE.replace('{{GENDER}}', isF() ? 'المؤنث' : 'المذكر').replace('{{NAME}}', p.name || (isF() ? 'الطالبة' : 'الطالب'))
+    .replace('{{GRADE}}', toAr(p.grade)).replace('{{CURR}}', p.curriculum || 'سلطنة عُمان');
+}
+const GEM_TEXT = () => `${buildSys().replace(/\n- أعد JSON[^\n]*/, '')}
+- عندما يرسل لك الطالب سؤالاً: لا تعطه الإجابة مباشرة. ابدأ بسؤال صغير يقوده للفكرة، ثم أعطه تلميحاً، ثم اشرح الحل خطوة بخطوة فقط إذا طلب.
+- إذا أرسلت الأم صورة واجب: أعطها فكرة الدرس في ٣٠ ثانية، وكيف تشرحه بمثال من البيت، ثم نموذج الإجابة الكامل.
+- في المحادثة الصوتية: جمل قصيرة جداً، وصوت مشجع، واطرح سؤالاً واحداً في كل مرة.`;
+
+/* ============ كاشف الفراغات الهندسي بالبكسل ============
+   ١) يحوّل الصورة إلى أبيض وأسود بعتبة محلية (تتحمل الظل وإضاءة الصور الحقيقية).
+   ٢) يكتشف المربعات والأشكال وخلايا الجداول الفارغة: مناطق بيضاء مغلقة (Flood-Fill) وسطها خالٍ من الكتابة.
+      يسدّ الفجوات الصغيرة في الخطوط المتقطعة أولاً حتى تُكتشف المربعات المنقّطة أيضاً.
+   ٣) يكتشف الأسطر المنقّطة (......) من نقاط صغيرة متراصّة بانتظام على سطر واحد ولا يحيط بها كلام،
+      والأسطر المسطّرة (_____) من خط أفقي رفيع طويل فوقه فراغ.
+   ٤) يرتّب الفراغات من الأعلى للأسفل ومن اليمين لليسار، ويرقّمها #1، #2…
+   الإحداثيات تُعاد بمقياس 0–1000 لأبعاد الصورة. */
+function detectBlanks(img) {
+  const W = 1000, H = Math.max(200, Math.round(img.naturalHeight * W / img.naturalWidth)), N = W * H;
+  const c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d', { willReadFrequently: true });
+  x.fillStyle = '#fff'; x.fillRect(0, 0, W, H); x.drawImage(img, 0, 0, W, H);
+  const px = x.getImageData(0, 0, W, H).data;
+  // --- ١) عتبة محلية بصورة تكاملية
+  const L = new Float32Array(N);
+  for (let i = 0; i < N; i++) L[i] = .299 * px[i * 4] + .587 * px[i * 4 + 1] + .114 * px[i * 4 + 2];
+  const S = new Float64Array((W + 1) * (H + 1));
+  for (let y = 0; y < H; y++) { let row = 0; for (let xx = 0; xx < W; xx++) { row += L[y * W + xx]; S[(y + 1) * (W + 1) + xx + 1] = S[y * (W + 1) + xx + 1] + row; } }
+  const R = 16, dark = new Uint8Array(N);
+  for (let y = 0; y < H; y++) {
+    const y0 = Math.max(0, y - R), y1 = Math.min(H, y + R + 1);
+    for (let xx = 0; xx < W; xx++) {
+      const x0 = Math.max(0, xx - R), x1 = Math.min(W, xx + R + 1);
+      const mean = (S[y1 * (W + 1) + x1] - S[y0 * (W + 1) + x1] - S[y1 * (W + 1) + x0] + S[y0 * (W + 1) + x0]) / ((x1 - x0) * (y1 - y0));
+      const v = L[y * W + xx];
+      dark[y * W + xx] = (v < mean * .82 && v < 215) || v < 90 ? 1 : 0;
+    }
+  }
+  // --- ٢-أ) قناع الجدران: سدّ الفجوات القصيرة بين المقاطع الأفقية/العمودية الطويلة (خطوط متقطعة أو باهتة)
+  const wall = dark.slice(), RUN = 6, GAP = 11;
+  const runLenH = new Uint16Array(N), runLenV = new Uint16Array(N);
+  for (let y = 0; y < H; y++) { let s = 0; for (let xx = 0; xx <= W; xx++) { const d = xx < W && dark[y * W + xx]; if (!d) { for (let k = s; k < xx; k++) runLenH[y * W + k] = xx - s; s = xx + 1; } } }
+  for (let xx = 0; xx < W; xx++) { let s = 0; for (let y = 0; y <= H; y++) { const d = y < H && dark[y * W + xx]; if (!d) { for (let k = s; k < y; k++) runLenV[k * W + xx] = y - s; s = y + 1; } } }
+  for (let y = 0; y < H; y++) for (let xx = 1; xx < W - 1; xx++) {
+    const i = y * W + xx; if (!dark[i] || dark[i + 1] || runLenH[i] < RUN) continue;
+    for (let g = 2; g <= GAP + 1 && xx + g < W; g++) if (dark[i + g]) { if (runLenH[i + g] >= RUN) for (let k = 1; k < g; k++) wall[i + k] = 1; break; }
+  }
+  for (let xx = 0; xx < W; xx++) for (let y = 1; y < H - 1; y++) {
+    const i = y * W + xx; if (!dark[i] || dark[i + W] || runLenV[i] < RUN) continue;
+    for (let g = 2; g <= GAP + 1 && y + g < H; g++) if (dark[i + g * W]) { if (runLenV[i + g * W] >= RUN) for (let k = 1; k < g; k++) wall[i + k * W] = 1; break; }
+  }
+  const bridged = wall.slice();
+  // إغلاق مورفولوجي خفيف (٣ بكسل) لسد فجوات الزوايا الدائرية والخطوط المتكسرة في صور الكاميرا
+  // نطبّقه على الخطوط المستقيمة فقط (مقاطع ≥ 22 بكسل بعد السدّ) حتى لا تتضخم حروف الكلام فتقسم الخلايا
+  const CR = 5, LINE = 22, tmp = new Uint8Array(N), wall2 = new Uint8Array(N), lineM = new Uint8Array(N);
+  for (let y = 0; y < H; y++) { let s0 = 0; for (let xx = 0; xx <= W; xx++) { if (xx === W || !wall[y * W + xx]) { if (xx - s0 >= LINE) for (let k = s0; k < xx; k++) lineM[y * W + k] = 1; s0 = xx + 1; } } }
+  for (let xx = 0; xx < W; xx++) { let s0 = 0; for (let y = 0; y <= H; y++) { if (y === H || !wall[y * W + xx]) { if (y - s0 >= LINE) for (let k = s0; k < y; k++) lineM[k * W + xx] = 1; s0 = y + 1; } } }
+  for (let y = 0; y < H; y++) { let last = -1e9; for (let xx = 0; xx < W; xx++) { if (lineM[y * W + xx]) last = xx; tmp[y * W + xx] = xx - last <= CR ? 1 : 0; } last = 1e9; for (let xx = W - 1; xx >= 0; xx--) { if (lineM[y * W + xx]) last = xx; if (last - xx <= CR) tmp[y * W + xx] = 1; } }
+  for (let xx = 0; xx < W; xx++) { let last = -1e9; for (let y = 0; y < H; y++) { if (tmp[y * W + xx]) last = y; wall2[y * W + xx] = y - last <= CR ? 1 : 0; } last = 1e9; for (let y = H - 1; y >= 0; y--) { if (tmp[y * W + xx]) last = y; if (last - y <= CR) wall2[y * W + xx] = 1; } }
+  for (let i = 0; i < N; i++) if (wall2[i]) wall[i] = 1;
+  const boxes = [];
+  // --- ٢-ب) المناطق البيضاء المغلقة
+  const seen = new Uint8Array(N), q = new Int32Array(N);
+  for (let y0 = 1; y0 < H - 1; y0 += 2) for (let x0 = 1; x0 < W - 1; x0 += 2) {
+    const s0 = y0 * W + x0; if (seen[s0] || wall[s0]) continue;
+    let head = 0, tail = 0, minX = x0, maxX = x0, minY = y0, maxY = y0, count = 0, edge = false;
+    q[tail++] = s0; seen[s0] = 1;
+    while (head < tail) {
+      const cur = q[head++], cy = (cur / W) | 0, cx = cur - cy * W; count++;
+      if (cx < minX) minX = cx; if (cx > maxX) maxX = cx; if (cy < minY) minY = cy; if (cy > maxY) maxY = cy;
+      if (cx < 3 || cy < 3 || cx > W - 4 || cy > H - 4) edge = true;
+      if (cx > 0 && !seen[cur - 1] && !wall[cur - 1]) { seen[cur - 1] = 1; q[tail++] = cur - 1; }
+      if (cx < W - 1 && !seen[cur + 1] && !wall[cur + 1]) { seen[cur + 1] = 1; q[tail++] = cur + 1; }
+      if (cy > 0 && !seen[cur - W] && !wall[cur - W]) { seen[cur - W] = 1; q[tail++] = cur - W; }
+      if (cy < H - 1 && !seen[cur + W] && !wall[cur + W]) { seen[cur + W] = 1; q[tail++] = cur + W; }
+    }
+    minX = Math.max(0, minX - CR); minY = Math.max(0, minY - CR); maxX = Math.min(W - 1, maxX + CR); maxY = Math.min(H - 1, maxY + CR);
+    const bw = maxX - minX + 1, bh = maxY - minY + 1;
+    if (edge || bw < W * .05 || bw > W * .9 || bh < 16 || bh > H * .5 || bh > bw * 2.5) continue;
+    if (count / ((bw - 2 * CR) * (bh - 2 * CR)) < .7) continue;
+    const pX = Math.floor(bw * .14), pY = Math.floor(bh * .25); let dk = 0, ar = 0;
+    for (let yy = minY + pY; yy <= maxY - pY; yy++) for (let xx = minX + pX; xx <= maxX - pX; xx++) { ar++; dk += dark[yy * W + xx]; }
+    if (!ar || dk / ar > .025) continue;
+    // الجانبان الأيمن والأيسر يجب أن يكونا جداراً مستقيماً حقيقياً (العمود نفسه في كل صف)، لا حروف كلام متعرّجة
+    const sideOk = dir => {
+      const xs = [];
+      for (let yy = Math.round(minY + bh * .12); yy <= maxY - bh * .12; yy++) {
+        let f = -1;
+        if (dir < 0) { for (let xx = Math.min(W - 1, minX + CR + 3); xx >= Math.max(0, minX - 5); xx--) if (bridged[yy * W + xx]) { f = xx; break; } }
+        else { for (let xx = Math.max(0, maxX - CR - 3); xx <= Math.min(W - 1, maxX + 5); xx++) if (bridged[yy * W + xx]) { f = xx; break; } }
+        xs.push(f);
+      }
+      const got = xs.filter(v => v >= 0); if (got.length < xs.length * .85) return false;
+      const m = got.reduce((a, b) => a + b, 0) / got.length, sd = Math.sqrt(got.reduce((a, b) => a + (b - m) ** 2, 0) / got.length);
+      return sd <= 2.2 + bh * .02;
+    };
+    if (!sideOk(-1) || !sideOk(1)) continue;
+    boxes.push({ type: 'box', x1: minX, y1: minY, x2: maxX, y2: maxY });
+  }
+  // --- ٣) المكوّنات الداكنة (للنقاط والخطوط والنصوص)
+  const lab = new Int32Array(N).fill(-1), comps = [];
+  for (let s = 0; s < N; s++) {
+    if (!dark[s] || lab[s] >= 0) continue;
+    const id = comps.length; let head = 0, tail = 0, minX = W, maxX = 0, minY = H, maxY = 0, n = 0;
+    q[tail++] = s; lab[s] = id;
+    while (head < tail) {
+      const cur = q[head++], cy = (cur / W) | 0, cx = cur - cy * W; n++;
+      if (cx < minX) minX = cx; if (cx > maxX) maxX = cx; if (cy < minY) minY = cy; if (cy > maxY) maxY = cy;
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+        const nx = cx + dx, ny = cy + dy; if (nx < 0 || ny < 0 || nx >= W || ny >= H) continue;
+        const ni = ny * W + nx; if (dark[ni] && lab[ni] < 0) { lab[ni] = id; q[tail++] = ni; }
+      }
+    }
+    comps.push({ x1: minX, y1: minY, x2: maxX, y2: maxY, w: maxX - minX + 1, h: maxY - minY + 1, n, cy: (minY + maxY) / 2, cx: (minX + maxX) / 2 });
+  }
+  // ارتفاع الحرف النموذجي (وسيط ارتفاعات مكوّنات النص)
+  const hs = comps.filter(o => o.h >= 5 && o.h < H * .08 && o.w < W * .25 && o.n > 12).map(o => o.h).sort((a, b) => a - b);
+  const T = hs.length ? Math.max(8, hs[hs.length >> 1]) : 16;
+  const emptyBand = (x1, x2, y1, y2, ignore) => { // نسبة الحبر في شريط مع تجاهل مكوّنات بعينها
+    let dk = 0, ar = 0; x1 = Math.max(0, x1 | 0); x2 = Math.min(W - 1, x2 | 0); y1 = Math.max(0, y1 | 0); y2 = Math.min(H - 1, y2 | 0);
+    for (let yy = y1; yy <= y2; yy++) for (let xx = x1; xx <= x2; xx++) { ar++; const i = yy * W + xx; if (dark[i] && !ignore.has(lab[i])) dk++; }
+    return ar ? dk / ar : 1;
+  };
+  // ٣-أ) الأسطر المنقّطة
+  const dots = comps.map((o, i) => ({ ...o, i })).filter(o => Math.max(o.w, o.h) <= Math.max(5.5, T * .5) && o.w <= o.h * 2.2 && o.h <= o.w * 2.2 && o.n >= 2 && o.n / (o.w * o.h) >= .6);
+  dots.sort((a, b) => a.cy - b.cy || a.cx - b.cx);
+  const used = new Uint8Array(dots.length);
+  for (let i = 0; i < dots.length; i++) {
+    if (used[i]) continue;
+    const row = [dots[i]]; used[i] = 1;
+    for (let j = i + 1; j < dots.length && dots[j].cy - dots[i].cy <= Math.max(2, T * .18); j++) if (!used[j]) { row.push(dots[j]); used[j] = 1; }
+    row.sort((a, b) => a.cx - b.cx);
+    let run = [row[0]];
+    const flush = () => {
+      if (run.length >= 5) {
+        const gaps = run.slice(1).map((d, k) => d.cx - run[k].cx), m = gaps.reduce((a, b) => a + b, 0) / gaps.length;
+        const sd = Math.sqrt(gaps.reduce((a, b) => a + (b - m) ** 2, 0) / gaps.length);
+        const x1 = run[0].x1, x2 = run[run.length - 1].x2, top = Math.min(...run.map(d => d.y1)), bot = Math.max(...run.map(d => d.y2));
+        if (sd / m < .45 && x2 - x1 >= W * .035) {
+          const ign = new Set(run.map(d => d.i));
+          if (emptyBand(x1, x2, top - T * .55, bot + T * .45, ign) < .01) boxes.push({ type: 'dots', x1, x2, y1: Math.round(top - T * 1.55), y2: Math.round(top - 1) });
+        }
+      }
+    };
+    for (let k = 1; k < row.length; k++) {
+      if (row[k].cx - row[k - 1].cx <= Math.max(10, T * .9)) run.push(row[k]); else { flush(); run = [row[k]]; }
+    }
+    flush();
+  }
+  // ٣-ب) الأسطر المسطّرة ______
+  const longC = comps.map(o => o.w >= W * .04 || o.h >= T * 3);
+  const lineCont = (o, i) => { // هل يتصل طرفا الخط بخط آخر طويل (جزء من جدول أو إطار)؟
+    for (const [a, b] of [[o.x1 - 9, o.x1 - 1], [o.x2 + 1, o.x2 + 9]]) for (let yy = Math.max(0, o.y1 - 2); yy <= Math.min(H - 1, o.y2 + 2); yy++) for (let xx = Math.max(0, a); xx <= Math.min(W - 1, b); xx++) { const l = lab[yy * W + xx]; if (l >= 0 && l !== i && longC[l]) return true; }
+    return false;
+  };
+  comps.forEach((o, i) => {
+    if (!lineCont(o, i) && o.y2 < H - T * 1.2 && o.y1 > T * 1.6 && o.w >= W * .05 && o.n / o.w <= Math.max(4, T * .3) && o.h <= o.w * .045 + T * .3 && o.w / o.h > 12) {
+      if (emptyBand(o.x1, o.x2, o.y1 - T * 1.4, o.y1 - 2, new Set([i])) < .01) boxes.push({ type: 'line', x1: o.x1, x2: o.x2, y1: Math.round(o.y1 - T * 1.55), y2: o.y1 - 2 });
+    }
+  });
+  // دمج أجزاء السطر المنقّط الواحد إذا انقسم بسبب ميلان الصورة أو التشويش
+  const dl = boxes.filter(b => b.type === 'dots').sort((a, b) => a.x1 - b.x1);
+  for (let i = 0; i < dl.length; i++) for (let j = 0; j < dl.length; j++) {
+    const a = dl[i], b = dl[j]; if (i === j || a.dead || b.dead) continue;
+    if (Math.abs(a.y2 - b.y2) <= T * .6 && b.x1 >= a.x1 && b.x1 - a.x2 <= T * 2.5) { a.x2 = Math.max(a.x2, b.x2); a.y1 = Math.min(a.y1, b.y1); a.y2 = Math.max(a.y2, b.y2); b.dead = 1; }
+  }
+  for (let i = boxes.length - 1; i >= 0; i--) if (boxes[i].dead) boxes.splice(i, 1);
+  // --- ٤) إزالة التداخل ثم الترتيب العربي والترقيم
+  const ov = (a, b) => Math.max(0, Math.min(a.x2, b.x2) - Math.max(a.x1, b.x1)) * Math.max(0, Math.min(a.y2, b.y2) - Math.max(a.y1, b.y1));
+  const out = [];
+  boxes.forEach(b => { b.y1 = Math.max(0, b.y1); if (!out.some(o => ov(o, b) > .3 * Math.min((o.x2 - o.x1) * (o.y2 - o.y1), (b.x2 - b.x1) * (b.y2 - b.y1)))) out.push(b); });
+  out.sort((a, b) => Math.abs(a.y1 - b.y1) > T * .9 ? a.y1 - b.y1 : b.x2 - a.x2);
+  return {
+    T, W, H,
+    boxes: out.map((b, k) => ({ id: '#' + (k + 1), type: b.type, box_2d: [Math.round(b.y1 / H * 1000), Math.round(b.x1 / W * 1000), Math.round(b.y2 / H * 1000), Math.round(b.x2 / W * 1000)] }))
+  };
+}
+/* نسخة الفحص: مسطرة زرقاء خفيفة 0–1000 + مستطيلات حمراء مرقّمة للفراغات المكتشفة */
+function annotateForAI(img, det) {
+  const W = 1000, H = det.H, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, W, H); x.drawImage(img, 0, 0, W, H);
+  for (let g = 50; g < 1000; g += 50) {
+    x.strokeStyle = `rgba(0,120,255,${g % 100 ? .12 : .25})`; x.lineWidth = 1;
+    x.beginPath(); x.moveTo(g / 1000 * W, 0); x.lineTo(g / 1000 * W, H); x.moveTo(0, g / 1000 * H); x.lineTo(W, g / 1000 * H); x.stroke();
+  }
+  x.font = '700 13px sans-serif'; x.textBaseline = 'top'; x.textAlign = 'left';
+  const tag = (t, px, py) => { const w = x.measureText(t).width + 6; px = Math.min(W - w - 1, Math.max(1, px)); py = Math.min(H - 17, Math.max(1, py)); x.fillStyle = 'rgba(255,255,255,.85)'; x.fillRect(px, py, w, 16); x.fillStyle = '#0B5ED7'; x.fillText(t, px + 3, py + 1); };
+  for (let g = 100; g < 1000; g += 100) { tag(String(g), g / 1000 * W + 2, 1); tag(String(g), g / 1000 * W + 2, H - 17); tag(String(g), 1, g / 1000 * H + 1); tag(String(g), W - 34, g / 1000 * H + 1); }
+  det.boxes.forEach(b => {
+    const [y1, x1, y2, x2] = b.box_2d, bx = x1 / 1000 * W, by = y1 / 1000 * H, bw = (x2 - x1) / 1000 * W, bh = (y2 - y1) / 1000 * H;
+    x.strokeStyle = '#DC2626'; x.lineWidth = 2.5; x.strokeRect(bx, by, bw, bh);
+    const fs = Math.max(12, Math.min(18, bh * .7)); x.font = `800 ${fs}px sans-serif`; x.textAlign = 'center'; x.textBaseline = 'middle';
+    const tw = x.measureText(b.id).width + 8; x.fillStyle = 'rgba(254,226,226,.92)'; x.fillRect(bx + bw / 2 - tw / 2, by + bh / 2 - fs * .65, tw, fs * 1.3);
+    x.fillStyle = '#B91C1C'; x.fillText(b.id, bx + bw / 2, by + bh / 2 + 1); x.textAlign = 'left'; x.textBaseline = 'top';
+  });
+  return new Promise(r => c.toBlob(r, 'image/jpeg', .9));
+}
+
+/* ============ محركات الذكاء الاصطناعي (AI Router) ============ */
+const ENGINES = {
+  gemini: { name: 'Gemini', color: '#2563EB', has: () => !!S.keys.gemini, run: runGemini, boxes: true },
+  openrouter: { name: 'OpenRouter', color: '#6D28D9', has: () => !!S.keys.openrouter, run: j => runOpenAI('https://openrouter.ai/api/v1/chat/completions', S.keys.openrouter, S.models.openrouter, j) },
+  claude: { name: 'Claude', color: '#E0661A', has: () => !!CL.sample, run: runClaude, preview: true }
+};
+const ENGINE_LABEL = { auto: 'تلقائي', gemini: 'Gemini', openrouter: 'OpenRouter', claude: 'Claude (معاينة)', demo: 'تجريبي' };
+function blobToB64(blob) { return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result)); r.onerror = rej; r.readAsDataURL(blob); }); }
+function parseLoose(t) {
+  if (t == null) throw new Error('رد فارغ');
+  if (typeof t === 'object') return t;
+  t = String(t).trim().replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '');
+  try { return JSON.parse(t); } catch (e) {}
+  const a = t.indexOf('{'), b = t.lastIndexOf('}');
+  if (a >= 0 && b > a) return JSON.parse(t.slice(a, b + 1));
+  throw new Error('الرد ليس بصيغة JSON');
+}
+function netErr(e) {
+  if (e.name === 'AbortError') throw e;
+  const err = new Error(inArtifact ? 'الاتصال الخارجي محظور داخل نافذة المعاينة؛ سيعمل في نسخة التطبيق' : 'تعذّر الاتصال بالإنترنت أو بالخادم');
+  err.net = true; throw err;
+}
+async function httpErr(res) {
+  let msg = ''; try { const j = await res.json(); msg = j.error?.message || j.message || ''; } catch (e) {}
+  if (res.status === 429) return new Error('المحرك مشغول أو انتهى الحد المجاني لليوم');
+  if (res.status === 401 || res.status === 403) return new Error('المفتاح غير صحيح أو لا يملك صلاحية');
+  if (res.status === 404) return new Error('اسم النموذج غير موجود؛ غيّره من الإعدادات');
+  return new Error(`خطأ ${res.status}${msg ? ': ' + msg.slice(0, 120) : ''}`);
+}
+async function runGemini({ sys, prompt, blob, signal, json = true }) {
+  const parts = [{ text: prompt }];
+  if (blob) parts.push({ inlineData: { mimeType: 'image/jpeg', data: (await blobToB64(blob)).split(',')[1] } });
+  const body = { systemInstruction: { parts: [{ text: sys }] }, contents: [{ role: 'user', parts }], generationConfig: { temperature: 0.4, ...(json ? { responseMimeType: 'application/json' } : {}) } };
+  let res;
+  try { res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(S.models.gemini)}:generateContent`, { method: 'POST', signal, headers: { 'Content-Type': 'application/json', 'x-goog-api-key': S.keys.gemini }, body: JSON.stringify(body) }); }
+  catch (e) { netErr(e); }
+  if (!res.ok) throw await httpErr(res);
+  const d = await res.json();
+  const txt = (d.candidates?.[0]?.content?.parts || []).filter(p => p.text && !p.thought).map(p => p.text).join('');
+  if (!txt) throw new Error(d.promptFeedback?.blockReason ? 'رفض المحرك الصورة' : 'رد فارغ من Gemini');
+  return json ? parseLoose(txt) : txt;
+}
+async function runOpenAI(url, key, model, { sys, prompt, blob, signal, json = true }) {
+  const content = blob ? [{ type: 'text', text: prompt }, { type: 'image_url', image_url: { url: await blobToB64(blob) } }] : prompt;
+  let res;
+  try { res = await fetch(url, { method: 'POST', signal, headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key, 'X-Title': 'Al-Muallim Al-Thaki' }, body: JSON.stringify({ model, temperature: 0.4, messages: [{ role: 'system', content: sys }, { role: 'user', content }] }) }); }
+  catch (e) { netErr(e); }
+  if (!res.ok) throw await httpErr(res);
+  const d = await res.json();
+  let txt = d.choices?.[0]?.message?.content;
+  if (Array.isArray(txt)) txt = txt.map(p => p.text || '').join('');
+  if (!txt) throw new Error('رد فارغ');
+  return json ? parseLoose(txt) : txt;
+}
+async function runClaude({ sys, prompt, blob, signal, json = true, quick }) {
+  const opts = { signal };
+  if (quick) opts.modelTier = 'quick';
+  if (blob) {
+    const lim = await CL.sample.limits().catch(() => null);
+    if (!lim?.images) throw new Error('إرسال الصور غير متاح في هذه المعاينة');
+    opts.images = [blob];
+  }
+  const input = sys + '\n\n' + prompt + (json ? '\n\nأعد JSON فقط.' : '');
+  try { return json ? await CL.sample.json(input, opts) : (await CL.sample(input, opts)).text; }
+  catch (e) {
+    if (e.code === 'cancelled') { const a = new Error('cancelled'); a.name = 'AbortError'; throw a; }
+    const m = { not_granted: 'لم يُسمح للمعاينة باستخدام Claude', rate_limited: 'Claude مشغول، حاول بعد قليل', image_rejected: 'الصورة غير مقبولة', invalid_json: 'الرد لم يكن بالصيغة المطلوبة، جرّب مرة أخرى' };
+    throw new Error(m[e.code] || 'تعذّر الحصول على رد من Claude');
+  }
+}
+function engineOrder() { if (inArtifact) return ['claude']; return S.engine === 'auto' ? ['gemini', 'openrouter'] : [S.engine]; }
+function anyEngine() { return engineOrder().some(id => ENGINES[id] && ENGINES[id].has()); }
+async function askAI(job, onEngine) {
+  const errors = [];
+  for (const id of engineOrder()) {
+    const e = ENGINES[id];
+    if (!e) continue;
+    if (!e.has()) { if (S.engine !== 'auto') errors.push(`${e.name}: ${id === 'claude' ? 'غير متاح خارج المعاينة' : 'لم تُضف مفتاحاً بعد'}`); continue; }
+    try { onEngine && onEngine(id); const j = job.forEngine ? { ...job, ...(await job.forEngine(id)) } : job; const data = await e.run(j); return { data, engine: id }; }
+    catch (err) { if (err.name === 'AbortError') throw err; errors.push(`${e.name}: ${err.message}`); }
+  }
+  const er = new Error(errors.length ? errors.join('\n') : 'NO_ENGINE'); er.list = errors; throw er;
+}
+
+/* ============ طبقات: نافذة سفلية وتحميل ============ */
+function openSheet(html, onMount) {
+  const o = $('#overlay'), s = $('#sheet');
+  s.innerHTML = '<div class="grab"></div>' + html; o.hidden = false;
+  $$('[data-close]', s).forEach(b => b.onclick = closeSheet);
+  onMount && onMount(s);
+}
+function closeSheet() { $('#overlay').hidden = true; $('#sheet').innerHTML = ''; }
+$('#overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closeSheet(); });
+const TIPS = ['لمعة تقرأ كل سطر بعناية…', 'نرتّب الأسئلة بالترتيب نفسه…', 'هل تعلم؟ التقريب يساعدنا على الحساب الذهني بسرعة.', 'نجهّز تلميحات لا تكشف الحل…', 'كل خطأ فرصة لنتعلم شيئاً جديداً ⭐'];
+let ldTimer, curCtl;
+function showLoading(title) {
+  $('#ldMascot').innerHTML = mascotSVG(levelOf(S.stars)); $('#ldTitle').textContent = title || 'المعلّم يقرأ الورقة…';
+  let i = 0; $('#ldTip').textContent = TIPS[0]; clearInterval(ldTimer); ldTimer = setInterval(() => { $('#ldTip').textContent = TIPS[++i % TIPS.length]; }, 2600);
+  $('#loading').hidden = false;
+}
+function hideLoading() { $('#loading').hidden = true; clearInterval(ldTimer); }
+$('#ldStop').onclick = () => { curCtl && curCtl.abort(); hideLoading(); toast('تم الإيقاف'); };
+
+/* ============ التنقل ============ */
+let curView = 'home'; const parentOf = { crop: 'home', modes: 'home', result: 'modes' };
+function show(v) {
+  TTS.stop();
+  $$('.view').forEach(s => s.hidden = s.id !== 'v-' + v);
+  curView = v;
+  $$('.tabs [data-tab]').forEach(b => b.classList.toggle('on', b.dataset.tab === v || (v in parentOf && b.dataset.tab === 'home')));
+  $('#backBtn').hidden = !(v in parentOf);
+  scrollTo(0, 0);
+}
+$('#backBtn').onclick = () => { const p = current.fromBag && curView === 'result' ? 'bag' : parentOf[curView]; if (p === 'home') renderHome(); if (p === 'modes') renderModes(); if (p === 'bag') renderBag(); show(p || 'home'); };
+$$('.tabs [data-tab]').forEach(b => b.onclick = () => { const t = b.dataset.tab; ({ home: renderHome, mistakes: renderMistakes, bag: renderBag, settings: renderSettings })[t](); show(t); });
+document.addEventListener('click', e => { const go = e.target.closest('[data-go]'); if (go) { const t = go.dataset.go; ({ home: renderHome, mistakes: renderMistakes, bag: renderBag, settings: renderSettings })[t](); show(t); } });
+
+/* ============ المحرك في الشريط العلوي ============ */
+function refreshEngineUI() {
+  const sel = $('#engSel');
+  sel.closest('label').hidden = inArtifact;
+  if (!inArtifact) {
+    const ids = ['auto', 'gemini', 'openrouter'];
+    if (!ids.includes(S.engine)) S.engine = 'auto';
+    sel.innerHTML = ids.map(id => `<option value="${id}" ${S.engine === id ? 'selected' : ''}>${ENGINE_LABEL[id]}${id !== 'auto' && !ENGINES[id].has() ? ' ⚪' : ''}</option>`).join('');
+  }
+  if (curView === 'home') { const e = $('#engStatus'); if (e) e.innerHTML = engineStatusHTML(); }
+}
+$('#engSel').onchange = e => { S.engine = e.target.value; save(); toast('المحرك: ' + ENGINE_LABEL[S.engine]); refreshEngineUI(); };
+function engineStatusHTML() {
+  const row = (color, name, txt) => `<div class="engrow"><span class="dot" style="background:${color}"></span>${name}<small>${txt}</small></div>`;
+  let h = '';
+  if (inArtifact) {
+    h += row(CL.sample ? ENGINES.claude.color : '#D9CDE8', 'Claude', CL.ready ? (CL.sample ? 'يعمل الآن في هذه المعاينة ✓' : 'غير متاح هنا') : 'جارٍ التحقق…');
+    h += `<p class="note" style="margin-top:4px">مفاتيح Gemini وOpenRouter تعمل في نسخة التطبيق المستضافة فقط، لأن نافذة المعاينة هنا تمنع أي اتصال خارجي.</p>`;
+  } else for (const id of ['gemini', 'openrouter']) {
+    const e = ENGINES[id];
+    h += row(e.has() ? e.color : '#D9CDE8', e.name, e.has() ? 'جاهز ✓' : 'أضف المفتاح المجاني من الإعدادات');
+  }
+  h += row('#FBBF24', 'الورقة التجريبية', 'تعمل دائماً بدون إنترنت');
+  return h;
+}
+
+/* ============ الرئيسية ============ */
+let demoThumbURL = '';
+function renderHome() {
+  const lv = levelOf(S.stars), next = LEVELS[lv + 1];
+  const pct = next ? Math.round((S.stars - LEVELS[lv].min) / (next.min - LEVELS[lv].min) * 100) : 100;
+  const hr = new Date().getHours();
+  const active = S.mistakes.filter(m => !m.mastered).length;
+  $('#v-home').innerHTML = `
+  <div class="hero card">
+    <div class="mascot bob">${mascotSVG(lv)}</div>
+    <div class="hero-txt">
+      <p class="hello">${hr < 12 ? 'صباح الخير ☀️' : 'مساء الخير 🌙'}</p>
+      <h1>${S.profile.name ? 'أهلاً يا ' + esc(S.profile.name) + '!' : 'أهلاً بك!'}</h1>
+      <div class="lvl"><span>رفيقتك: ${LEVELS[lv].name}</span><span>${next ? toAr(next.min - S.stars) + ' نجمة للمستوى التالي' : 'أعلى مستوى 👑'}</span></div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+    </div>
+  </div>
+  ${S.profile.name ? '' : '<button class="card setup" data-go="settings">👤 أنشئ ملف الطالب: الاسم والصف والمنهج، ليتكيّف الشرح معه تلقائياً</button>'}
+  <div class="cta"><button class="btn big" id="hCam">📷 صوّر الواجب</button><button class="btn alt" id="hGal">🖼️ المعرض</button></div>
+  <h2 class="sec">جرّب الآن بورقة جاهزة</h2>
+  <div class="demo card">
+    <img id="demoThumb" alt="ورقة عمل تجريبية" ${demoThumbURL ? `src="${demoThumbURL}"` : ''}>
+    <div><b>ورقة عمل رياضيات • الصف الثالث</b><p class="muted" style="font-size:14.5px">٦ أسئلة: جمع، طرح، كتابة الأعداد، تقريب، ضرب</p>
+      <div class="row"><button class="btn sm" id="dBlank">ورقة فارغة</button><button class="btn sm ghost" id="dSolved">محلولة بخط الطالب</button></div></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>${toAr(S.stars)}</b><span>نجمة</span></div>
+    <div class="stat" data-go="mistakes"><b>${toAr(active)}</b><span>خطأ للمراجعة</span></div>
+    <div class="stat" data-go="bag"><b id="bagCount">٠</b><span>درس محفوظ</span></div>
+  </div>
+  <h2 class="sec">المحركات</h2>
+  <div class="engines card" id="engStatus">${engineStatusHTML()}</div>`;
+  $('#hCam').onclick = () => $('#fCam').click();
+  $('#hGal').onclick = () => $('#fGal').click();
+  $('#dBlank').onclick = () => startDemo(false);
+  $('#dSolved').onclick = () => startDemo(true);
+  if (!demoThumbURL) drawWorksheet(false).then(c => { const t = document.createElement('canvas'); t.width = 230; t.height = 304; t.getContext('2d').drawImage(c, 0, 0, 230, 304); demoThumbURL = t.toDataURL('image/jpeg', .8); const im = $('#demoThumb'); if (im) im.src = demoThumbURL; });
+  BAG.all().then(l => { const b = $('#bagCount'); if (b) b.textContent = toAr(l.length); });
+  updateBadge();
+}
+function updateBadge() { const n = S.mistakes.filter(m => !m.mastered).length; const b = $('#mBadge'); b.hidden = !n; b.textContent = toAr(n); }
+$('#fab').onclick = () => openSheet(`<h3>من أين نأخذ الواجب؟</h3><div class="pick">
+  <button id="pCam"><span>📷</span>الكاميرا</button><button id="pGal"><span>🖼️</span>المعرض أو الملفات</button><button id="pDemo"><span>🧪</span>ورقة تجريبية</button></div>
+  <p class="note">نصيحة: صوّر الورقة من الأعلى في مكان مضيء، وتجنّب ظهور الوجوه أو الأسماء.</p>`, s => {
+  $('#pCam', s).onclick = () => { closeSheet(); $('#fCam').click(); };
+  $('#pGal', s).onclick = () => { closeSheet(); $('#fGal').click(); };
+  $('#pDemo', s).onclick = () => { closeSheet(); startDemo(false); };
+});
+
+/* ============ الالتقاط والقص والضغط ============ */
+let current = {};
+for (const id of ['fCam', 'fGal']) $('#' + id).onchange = async e => {
+  const f = e.target.files && e.target.files[0]; e.target.value = '';
+  if (!f) return;
+  try { const img = await loadImg(URL.createObjectURL(f)); openCrop(img); }
+  catch (err) { toast('تعذّر فتح الصورة؛ جرّب صورة أخرى بصيغة JPG أو PNG'); }
+};
+function loadImg(src) { return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; }); }
+let cropImgEl, crop = { x: 6, y: 6, w: 88, h: 88 };
+function openCrop(img) {
+  cropImgEl = img; $('#cropImg').src = img.src; crop = { x: 5, y: 5, w: 90, h: 90 }; placeCrop(); show('crop');
+}
+function placeCrop() { const b = $('#cropBox'); b.style.left = crop.x + '%'; b.style.top = crop.y + '%'; b.style.width = crop.w + '%'; b.style.height = crop.h + '%'; }
+(function cropDrag() {
+  const wrap = $('#cropWrap'); let mode = null, sx, sy, sc;
+  wrap.addEventListener('pointerdown', e => {
+    const t = e.target; if (!t.closest('#cropBox')) return;
+    mode = t.tagName === 'I' ? t.className : 'move'; sx = e.clientX; sy = e.clientY; sc = { ...crop };
+    wrap.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  wrap.addEventListener('pointermove', e => {
+    if (!mode) return; const r = wrap.getBoundingClientRect();
+    const dx = (e.clientX - sx) / r.width * 100, dy = (e.clientY - sy) / r.height * 100, M = 8;
+    let { x, y, w, h } = sc;
+    if (mode === 'move') { x = Math.min(100 - w, Math.max(0, x + dx)); y = Math.min(100 - h, Math.max(0, y + dy)); }
+    else {
+      if (mode.includes('l')) { const nx = Math.min(x + w - M, Math.max(0, x + dx)); w = w + (x - nx); x = nx; }
+      if (mode.includes('r')) w = Math.min(100 - x, Math.max(M, w + dx));
+      if (mode.includes('t')) { const ny = Math.min(y + h - M, Math.max(0, y + dy)); h = h + (y - ny); y = ny; }
+      if (mode.includes('b')) h = Math.min(100 - y, Math.max(M, h + dy));
+    }
+    crop = { x, y, w, h }; placeCrop();
+  });
+  const end = () => mode = null; wrap.addEventListener('pointerup', end); wrap.addEventListener('pointercancel', end);
+})();
+$('#cropFull').onclick = () => { crop = { x: 0, y: 0, w: 100, h: 100 }; placeCrop(); };
+$('#cropRot').onclick = async () => {
+  const i = cropImgEl, c = document.createElement('canvas'); c.width = i.naturalHeight; c.height = i.naturalWidth;
+  const x = c.getContext('2d'); x.translate(c.width, 0); x.rotate(Math.PI / 2); x.drawImage(i, 0, 0);
+  const b = await new Promise(r => c.toBlob(r, 'image/jpeg', .92)); const img = await loadImg(URL.createObjectURL(b)); cropImgEl = img; $('#cropImg').src = img.src;
+};
+$('#cropOk').onclick = async () => {
+  const i = cropImgEl, W = i.naturalWidth, H = i.naturalHeight;
+  const sx = crop.x / 100 * W, sy = crop.y / 100 * H, sw = crop.w / 100 * W, sh = crop.h / 100 * H;
+  const k = Math.min(1, 4096 / Math.max(sw, sh), Math.sqrt(16e6 / (sw * sh)));
+  const c = document.createElement('canvas'); c.width = Math.round(sw * k); c.height = Math.round(sh * k);
+  const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.imageSmoothingQuality = 'high'; x.drawImage(i, sx, sy, sw, sh, 0, 0, c.width, c.height);
+  const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', .95));
+  setCurrent({ blob, w: c.width, h: c.height, demo: false });
+  renderModes(); show('modes');
+};
+function setCurrent(o) { if (current.url) { try { URL.revokeObjectURL(current.url); } catch (e) {} } current = { ...o, url: URL.createObjectURL(o.blob), id: 's' + Date.now() }; }
+async function startDemo(solved) {
+  const c = await drawWorksheet(solved);
+  const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', .88));
+  setCurrent({ blob, w: c.width, h: c.height, demo: solved ? 'solved' : 'blank' });
+  renderModes(solved ? 'correct' : 'teacher'); show('modes');
+}
+
+/* ============ اختيار الوضع ============ */
+const MODES = {
+  teacher: { ic: '🧑‍🏫', name: 'المعلم التفاعلي', d: 'قصة الدرس، ثم سؤال تلو الآخر مع تلميحات', c: '#7C3AED' },
+  mom: { ic: '💜', name: 'كبسولة الأم', d: 'الفكرة في ٣٠ ثانية، وكيف تشرحينها، والإجابات', c: '#FF8A3D' },
+  solve: { ic: '📋', name: 'الحل النموذجي', d: 'جدول بكل الإجابات بترقيم الورقة', c: '#14B8A6' },
+  correct: { ic: '✅', name: 'صحّح واجبي', d: 'يقارن حلّك بخط يدك ويعلّم على الأخطاء', c: '#F2557A' },
+  onpage: { ic: '✍️', name: 'الحل على الورقة', d: 'يكتب الإجابات داخل خاناتها ويحفظها صورة أو PDF', c: '#2563EB' },
+  words: { ic: '🔤', name: 'عدسة الكلمات', d: 'معاني الكلمات ونطقها بالضغط عليها', c: '#EAB308' }
+};
+function renderModes(suggest) {
+  $('#v-modes').innerHTML = `
+  <div class="card thumbrow"><img src="${current.url}" alt="الصورة المختارة"><div><h3>ماذا نفعل بهذه الورقة؟</h3>
+    <p class="muted" style="font-size:14.5px">${current.demo ? 'ورقة تجريبية: النتائج جاهزة وفورية بدون إنترنت.' : 'المحرك: ' + ENGINE_LABEL[S.engine]}</p></div></div>
+  <div class="modes">${Object.entries(MODES).map(([k, m]) => `<button class="mode ${k === suggest ? 'suggest' : ''}" style="--c:${m.c}" data-mode="${k}"><span class="ic">${m.ic}</span><b>${m.name}</b><span>${m.d}</span></button>`).join('')}</div>
+  ${current.demo === 'blank' ? '<p class="note">جرّب «صحّح واجبي» على الورقة المحلولة بخط الطالب من الصفحة الرئيسية.</p>' : ''}`;
+  $$('#v-modes [data-mode]').forEach(b => b.onclick = () => runMode(b.dataset.mode));
+}
+
+/* ============ تشغيل الوضع ============ */
+async function runMode(mode, forceReal) {
+  current.mode = mode; current.tstate = null; current.awarded = false; current.fromBag = false;
+  if (current.demo && !forceReal) {
+    showLoading('لمعة تقرأ الورقة التجريبية…'); await sleep(900); hideLoading();
+    current.result = DEMO[mode](); current.engine = 'demo';
+  } else {
+    if (!anyEngine()) return noEngineSheet();
+    curCtl = new AbortController();
+    showLoading('المعلّم يقرأ الورقة…');
+    try {
+      let det = null, blob;
+      if (mode === 'onpage') { $('#ldTitle').textContent = 'أقيس الفراغات في الورقة…'; const im = await loadImg(current.url); det = detectBlanks(im); blob = await annotateForAI(im, det); }
+      else blob = FMT[mode] ? await gridBlob() : await aiImage();
+      const job = { sys: buildSys(), prompt: skill(mode) + (FMT[mode] ? '\n\n' + FMT[mode] : ''), blob, signal: curCtl.signal };
+      const r = await askAI(job, id => { $('#ldTitle').textContent = ENGINES[id].name + ' يقرأ الورقة…'; });
+      current.result = r.data; current.engine = r.engine;
+      if (current.result && typeof current.result === 'object') { current.result._fmt = 'g'; if (det) current.result._det = det.boxes; }
+    } catch (e) {
+      hideLoading(); if (e.name === 'AbortError') return;
+      return openSheet(`<h3>لم ينجح التحليل 😕</h3><div class="note warn" style="white-space:pre-line">${esc(e.list ? e.list.join('\n') : e.message)}</div>
+        <p class="muted" style="font-size:15px">جرّب محركاً آخر من القائمة في الأعلى، أو تأكد من المفتاح في الإعدادات.</p><button class="btn" data-close>حسناً</button>`);
+    }
+    hideLoading();
+  }
+  current.bagId = current.id + '-' + mode;
+  BAG.put({ id: current.bagId, date: Date.now(), mode, title: current.result.title || MODES[mode].name, engine: current.engine, demo: current.demo, w: current.w, h: current.h, blob: current.blob, result: current.result }).catch(() => {});
+  renderResult(); show('result');
+}
+function noEngineSheet() {
+  openSheet(`<h3>نحتاج محركاً للذكاء الاصطناعي</h3>
+  <p>أضف مفتاح <b>Gemini</b> المجاني (بدون بطاقة بنكية) من الإعدادات، وسيعمل التطبيق مباشرة.</p>
+  <p class="note">طريقة الحصول عليه: افتح <a class="lnk" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> وسجّل دخولك بحساب جوجل، ثم اضغط Create API key وانسخه.</p>
+  <div class="row"><button class="btn" id="goSet">افتح الإعدادات</button><button class="btn ghost" data-close>لاحقاً</button></div>`, s => { $('#goSet', s).onclick = () => { closeSheet(); renderSettings(); show('settings'); }; });
+}
+
+/* ============ عرض النتيجة ============ */
+function renderResult() {
+  const m = MODES[current.mode], r = current.result || {};
+  const v = $('#v-result');
+  v.innerHTML = `<div class="card res-head"><img src="${current.url}" alt=""><div><h3>${esc(r.title || m.name)}</h3>
+    <div class="chips"><span class="chip" style="background:color-mix(in srgb,${m.c} 14%,#fff);color:${m.c}">${m.ic} ${m.name}</span><span class="chip ${current.engine === 'demo' ? 'orange' : 'teal'}">${current.engine === 'demo' ? '🧪 نتائج تجريبية' : '⚡ ' + ENGINES[current.engine].name}</span></div></div></div>
+    ${['teacher', 'mom', 'correct', 'words'].includes(current.mode) ? `<div class="card voicebar"><b>من يشرح لك؟</b>${charRowHTML()}${speedSegHTML()}${inArtifact ? '<small class="muted">في هذه المعاينة يُستخدم صوت جهازك. الأصوات البشرية تعمل في نسخة التطبيق.</small>' : ''}</div>` : ''}
+    <div id="rBody" style="display:flex;flex-direction:column;gap:16px"></div>
+    <div class="card" style="display:flex;flex-direction:column;gap:12px" id="rTools"></div>`;
+  const body = $('#rBody');
+  try {
+    ({ teacher: renderTeacher, mom: renderMom, solve: renderSolve, correct: renderCorrect, onpage: renderOnPage, words: renderWords })[current.mode](body, r);
+  } catch (e) { body.innerHTML = `<div class="card note warn">وصل رد غير مكتمل من المحرك. جرّب مرة أخرى أو اختر محركاً آخر.</div>`; }
+  renderTools();
+}
+function bridgePrompt(q) {
+  const p = S.profile;
+  return `أنت معلم أطفال لطيف لـ${isF() ? 'طالبة' : 'طالب'} في الصف ${p.grade} (منهج ${p.curriculum || 'سلطنة عُمان'}). ناقشني صوتياً في حل هذا السؤال خطوة بخطوة، واسألني سؤالاً واحداً في كل مرة، ولا تعطني الإجابة مباشرة.\n\nالسؤال: ${q}`.slice(0, 1600);
+}
+function bridgeHTML(q) {
+  const t = bridgePrompt(q);
+  return `<div class="bridge">
+    <a class="br gpt" href="https://chatgpt.com/?q=${encodeURIComponent(t)}" target="_blank" rel="noopener" data-copy="${esc(t)}">🎧 ناقشه مع ChatGPT<small>يفتح والسؤال مكتوب</small></a>
+    <a class="br gem" href="${esc(S.links.gem || 'https://gemini.google.com/app')}" target="_blank" rel="noopener" data-copy="${esc(t)}">🎙️ ناقشه مع Gemini<small>${S.links.gem ? 'يفتح معلّمك الخاص (Gem)' : 'انسخ ثم الصق'}</small></a></div>`;
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[data-copy]'); if (!a) return;
+  try { navigator.clipboard.writeText(a.dataset.copy).then(() => toast(a.classList.contains('gem') ? 'نسخت السؤال ✓ الصقه في Gemini ثم اضغط زر Live 🎙️' : 'نسخت السؤال أيضاً ✓', 3500), () => {}); } catch (err) {}
+});
+function allQuestionsText() {
+  const r = current.result || {};
+  const list = r.questions || r.answers || r.items || [];
+  return list.map(x => `${toAr(x.n || '')}) ${x.q || x.answer || ''}`).join('\n') || (r.title || '');
+}
+function renderTools() {
+  const t = $('#rTools'), mode = current.mode;
+  const txtModes = ['teacher', 'mom', 'solve', 'correct', 'words'];
+  t.innerHTML = `<h3>أدوات إضافية</h3>
+    ${mode !== 'teacher' ? bridgeHTML(allQuestionsText()) : ''}
+    <div class="actions">
+      ${txtModes.includes(mode) ? '<button class="btn sm ghost" id="tPdf">📄 حفظ PDF</button>' : ''}
+      <button class="btn sm ghost" id="tShare">💬 مشاركة واتساب</button>
+      <button class="btn sm ghost" id="tRerun">🔁 ${current.engine === 'demo' ? 'حلّلها بالذكاء الاصطناعي' : 'أعد التحليل'}</button>
+    </div>`;
+  const p = $('#tPdf'); if (p) p.onclick = exportReportPDF;
+  $('#tShare').onclick = shareWhatsApp;
+  $('#tRerun').onclick = () => {
+    runMode(current.mode, true);
+  };
+}
+
+/* --- المعلم التفاعلي --- */
+function renderTeacher(body, r) {
+  const qs = (r.questions || []).filter(q => q && q.q);
+  const st = current.tstate || (current.tstate = { i: 0, d: qs.map(() => ({ ok: false, tries: 0, hint: false, steps: false, ans: '' })), practice: null });
+  body.innerHTML = `<div class="card story"><div class="story-h"><h3>📖 قصة الدرس</h3><button class="chip" id="sayStory">🔊 استمع</button></div><p>${esc(r.story || '')}</p></div><div id="qStage"></div>`;
+  $('#sayStory').onclick = () => TTS.speak(r.story);
+  const stage = $('#qStage');
+  if (!qs.length) { stage.innerHTML = '<div class="card note">لم أجد أسئلة في الصورة. جرّب قص سؤال واحد بوضوح.</div>'; return; }
+  const draw = () => {
+    const i = st.i, q = qs[i], s = st.d[i];
+    if (i >= qs.length) return finish();
+    stage.innerHTML = `<div class="card qcard">
+      <div class="dots">${qs.map((_, k) => `<i class="${st.d[k].ok ? 'ok' : ''} ${k === i ? 'cur' : ''}"></i>`).join('')}</div>
+      <div class="qline"><span class="qnum">السؤال ${toAr(i + 1)} من ${toAr(qs.length)}</span><button class="chip" id="sayQ">🔊 اقرأ السؤال</button></div>
+      <p class="qtext">${esc(q.q)}</p>
+      <div class="ansrow"><input id="ansIn" placeholder="اكتب إجابتك هنا" value="${esc(s.ans)}" autocomplete="off" inputmode="text"></div>
+      <p class="voicehint">للإجابة بصوتك: اضغط 🎤 في لوحة المفاتيح وتكلّم.</p>
+      <div class="fb ${s.ok ? 'good' : ''}" id="fb">${s.ok ? `أحسنت${isF() ? 'ِ' : ''}! إجابة صحيحة ⭐` : ''}</div>
+      ${s.hint && !s.ok ? `<div class="fb hint">💡 ${esc(q.hint)}</div>` : ''}
+      ${s.steps ? `<ol class="steps">${(q.steps || []).map(x => `<li>${esc(x)}</li>`).join('')}<li><b>الإجابة: ${esc(q.answer)}</b></li></ol>` : ''}
+      <div class="helpers">
+        <button class="btn ok" id="chk">تحقق من إجابتي ✔️</button>
+        <button class="btn hint" id="hint">أعطني تلميحاً 💡</button>
+        <button class="btn ghost" id="steps">اشرح لي الحل خطوة بخطوة ✅</button>
+      </div>
+      <div class="nav2"><button id="prevQ" ${i === 0 ? 'disabled' : ''}>→ السابق</button><button id="nextQ">${i === qs.length - 1 ? 'إنهاء 🏁' : 'التالي ←'}</button></div>
+      ${bridgeHTML(q.q)}
+    </div>`;
+    const inp = $('#ansIn');
+    inp.oninput = () => s.ans = inp.value;
+    inp.onkeydown = e => { if (e.key === 'Enter') $('#chk').click(); };
+    $('#sayQ').onclick = () => TTS.speak(q.q);
+    $('#hint').onclick = () => { s.hint = true; draw(); TTS.speak(q.hint); };
+    $('#steps').onclick = () => {
+      s.steps = true; if (!s.ok) addMistake({ q: q.q, wrong: s.ans || '(لم يُجب)', right: q.answer, hint: q.hint, steps: q.steps }); draw();
+      TTS.speak((q.steps || []).join('. ') + '. الإجابة: ' + q.answer);
+    };
+    $('#prevQ').onclick = () => { st.i--; draw(); };
+    $('#nextQ').onclick = () => { st.i++; draw(); };
+    $('#chk').onclick = async () => {
+      const a = inp.value.trim(); if (!a) { toast('اكتب إجابتك أولاً، أو اضغط المايك 🎤'); inp.focus(); return; }
+      let ok = sameAnswer(a, q.answer), fbText = '';
+      if (!ok && current.engine !== 'demo' && anyEngine()) {
+        $('#fb').className = 'fb hint'; $('#fb').textContent = 'لحظة، أتحقق من إجابتك…';
+        try {
+          const j = (await askAI({ sys: buildSys(), prompt: `السؤال: ${q.q}\nالإجابة الصحيحة: ${q.answer}\nإجابة الطالب: ${a}\nهل إجابة الطالب صحيحة في المعنى؟ أعد: {"ok":true أو false,"feedback":"جملة قصيرة مشجعة لا تكشف الحل إن كانت خاطئة"}`, quick: true })).data;
+          ok = !!j.ok; fbText = j.feedback || '';
+        } catch (e) {}
+      }
+      s.tries++;
+      if (ok) {
+        const first = !s.ok; s.ok = true; draw();
+        if (first) { addStars(s.hint || s.steps ? 1 : 2); confetti(); sfx.win(); TTS.speak(g('أحسنت! إجابة صحيحة', 'أحسنتِ! إجابة صحيحة')); }
+      } else {
+        sfx.soft();
+        if (s.tries === 1) addMistake({ q: q.q, wrong: a, right: q.answer, hint: q.hint, steps: q.steps });
+        $('#fb').className = 'fb try';
+        $('#fb').textContent = fbText || (s.tries === 1 ? g('قريب! فكّر مرة أخرى، أو اطلب تلميحاً 💡', 'قريب! فكّري مرة أخرى، أو اطلبي تلميحاً 💡') : 'لا بأس، الخطأ يعلّمنا. جرّب التلميح أو شرح الحل خطوة بخطوة.');
+      }
+    };
+  };
+  const finish = () => {
+    const okN = st.d.filter(d => d.ok).length;
+    stage.innerHTML = `<div class="card empty"><div class="mascot bob">${mascotSVG(levelOf(S.stars))}</div>
+      <h2>${okN === qs.length ? 'ممتاز! أنهيت كل الأسئلة 🎉' : 'انتهينا من الورقة!'}</h2>
+      <p>أجبت عن ${toAr(okN)} من ${toAr(qs.length)} بشكل صحيح.</p>
+      <button class="btn alt" id="prac">أعطني سؤالاً مشابهاً لأختبر نفسي 🎯</button>
+      <button class="btn ghost sm" id="again">راجع الأسئلة من البداية</button>
+      <div id="pracBox" style="width:100%"></div></div>`;
+    if (okN === qs.length) { confetti(); sfx.win(); }
+    $('#again').onclick = () => { st.i = 0; draw(); };
+    $('#prac').onclick = () => practice(qs, $('#pracBox'));
+  };
+  draw();
+}
+async function practice(qs, box) {
+  let p;
+  if (current.engine === 'demo') p = DEMO_PRACTICE[Math.random() * DEMO_PRACTICE.length | 0];
+  else {
+    curCtl = new AbortController(); showLoading('أؤلّف لك سؤالاً جديداً…');
+    try {
+      p = (await askAI({ sys: buildSys(), signal: curCtl.signal, prompt: `هذه أسئلة الدرس:\n${qs.map(q => '- ' + q.q).join('\n')}\nألّف سؤالاً واحداً جديداً بالفكرة نفسها مع أرقام أو جمل مختلفة. أعد: {"q":"...","answer":"...","hint":"...","steps":["..."]}` })).data;
+    } catch (e) { hideLoading(); if (e.name !== 'AbortError') toast('لم أستطع تأليف سؤال الآن'); return; }
+    hideLoading();
+  }
+  let tries = 0;
+  box.innerHTML = `<div class="qcard card" style="text-align:right;box-shadow:none;margin-top:6px">
+    <span class="qnum">🎯 سؤال التدريب</span><p class="qtext">${esc(p.q)}</p>
+    <div class="ansrow"><input id="pIn" placeholder="إجابتك" autocomplete="off"></div>
+    <div class="fb" id="pFb"></div>
+    <div class="helpers"><button class="btn ok" id="pChk">تحقق ✔️</button><button class="btn hint" id="pHint">تلميح 💡</button><button class="btn ghost" id="pSteps">الحل خطوة بخطوة ✅</button></div></div>`;
+  $('#pHint').onclick = () => { $('#pFb').className = 'fb hint'; $('#pFb').textContent = '💡 ' + p.hint; };
+  $('#pSteps').onclick = () => { $('#pFb').className = 'fb hint'; $('#pFb').innerHTML = `<ol class="steps">${(p.steps || []).map(x => `<li>${esc(x)}</li>`).join('')}<li><b>الإجابة: ${esc(p.answer)}</b></li></ol>`; };
+  $('#pChk').onclick = () => {
+    const a = $('#pIn').value; tries++;
+    if (sameAnswer(a, p.answer)) { $('#pFb').className = 'fb good'; $('#pFb').textContent = 'رائع! فهمت الدرس فعلاً ⭐⭐⭐'; addStars(3); confetti(); sfx.win(); }
+    else { sfx.soft(); $('#pFb').className = 'fb try'; $('#pFb').textContent = tries > 1 ? 'جرّب التلميح أو شاهد الحل خطوة بخطوة.' : 'ليست هذه، حاول مرة أخرى!'; if (tries === 1) addMistake({ q: p.q, wrong: a, right: p.answer, hint: p.hint, steps: p.steps }); }
+  };
+}
+
+/* --- كبسولة الأم --- */
+function renderMom(body, r) {
+  body.innerHTML = `
+  <div class="card mom-card" style="--c:#7C3AED"><div class="story-h"><h3>⏱️ فكرة الدرس في ٣٠ ثانية</h3><button class="chip" data-say="${esc((r.summary || '') + ' ' + (r.goal || ''))}">🔊</button></div><p>${esc(r.summary)}</p>${r.goal ? `<p class="muted"><b>الهدف:</b> ${esc(r.goal)}</p>` : ''}</div>
+  <div class="card mom-card" style="--c:#FF8A3D"><h3>🏠 كيف تشرحينه لطفلك؟</h3><ol>${(r.howto || []).map(x => `<li>${esc(x)}</li>`).join('')}</ol>${r.home_example ? `<div class="home-ex"><b>مثال من البيت:</b> ${esc(r.home_example)}</div>` : ''}</div>
+  <div class="card mom-card" style="--c:#14B8A6"><h3>✅ نموذج الإجابة الكامل</h3><div class="tbl-wrap"><table><thead><tr><th>#</th><th>السؤال</th><th>الإجابة</th></tr></thead><tbody>
+  ${(r.answers || []).map(a => `<tr><td class="num">${toAr(a.n)}</td><td>${esc(a.q)}</td><td class="ans">${esc(a.a)}</td></tr>`).join('')}</tbody></table></div></div>`;
+  $$('[data-say]', body).forEach(b => b.onclick = () => TTS.speak(b.dataset.say));
+}
+/* --- الحل النموذجي --- */
+function renderSolve(body, r) {
+  body.innerHTML = `<div class="card"><div class="tbl-wrap"><table><thead><tr><th>#</th><th>السؤال</th><th>الإجابة</th></tr></thead><tbody>
+  ${(r.answers || []).map(a => `<tr><td class="num">${toAr(a.n)}</td><td>${esc(a.q)}${a.note ? `<br><small class="muted">${esc(a.note)}</small>` : ''}</td><td class="ans">${esc(a.a)}</td></tr>`).join('')}</tbody></table></div></div>
+  <p class="note">تريد الإجابات مكتوبة داخل الورقة نفسها؟ اختر وضع «الحل على الورقة ✍️».</p>`;
+}
+/* --- صحّح واجبي --- */
+function renderCorrect(body, r) {
+  const items = r.items || [], total = r.total || items.length, score = r.score ?? items.filter(i => i.ok).length;
+  const st = total ? Math.round(score / total * 5) : 0;
+  body.innerHTML = `
+  <div class="card score"><div class="big">${toAr(score)}/${toAr(total)}</div><div><div class="stars5">${[0, 1, 2, 3, 4].map(k => `<span class="${k < st ? '' : 'off'}">⭐</span>`).join('')}</div><p>${esc(r.praise || '')}</p></div></div>
+  <div class="card" style="display:flex;flex-direction:column;gap:10px"><h3>📝 علّمت لك على الورقة</h3><img id="markedImg" alt="الورقة مصححة" style="width:100%;border-radius:12px;border:2px solid var(--line)">
+    <div class="row"><button class="btn sm ghost" id="mSave">🖼️ حفظ صورة HD</button><button class="btn sm ghost" id="mPdf">📄 حفظ PDF</button></div></div>
+  <div class="card">${items.map(it => `<div class="item"><span class="mk ${it.ok ? 'y' : 'n'}">${it.ok ? '✅' : '⚠️'}</span><div class="body">
+    <b>${toAr(it.n)}) ${esc(it.q)}</b><span>إجابتك: <span class="stu">${esc(it.student)}</span></span>
+    ${it.ok ? '' : `<span>الصحيح: <b style="color:var(--ok-d)">${esc(it.right)}</b></span><div class="why">${esc(it.why)}</div>`}</div></div>`).join('')}</div>`;
+  if (!current.awarded) {
+    current.awarded = true;
+    if (score) addStars(score);
+    items.filter(i => !i.ok).forEach(i => addMistake({ q: i.q, wrong: i.student, right: i.right, hint: i.why }));
+    if (score === total && total) { confetti(); sfx.win(); }
+  }
+  renderMarked(items).then(c => {
+    c.toBlob(b => { const im = $('#markedImg'); if (im) im.src = URL.createObjectURL(b); }, 'image/jpeg', .85);
+    $('#mSave').onclick = () => c.toBlob(b => saveBlob(b, 'تصحيح-الواجب-HD.png'), 'image/png');
+    $('#mPdf').onclick = async () => saveBlob(makePDF([await pdfPage(c)]), 'تصحيح-الواجب-HD.pdf');
+  });
+}
+const ANS_FAMILY = 'Tajawal, system-ui, sans-serif', ANS_INK = '#1E40AF';
+const MX = document.createElement('canvas').getContext('2d');
+function wrapLines(text, wPx, size, fam) {
+  MX.font = `700 ${size}px ${fam}`;
+  const words = String(text).trim().split(/\s+/).filter(Boolean), lines = []; let line = '';
+  for (const w of words) { const t = line ? line + ' ' + w : w; if (MX.measureText(t).width > wPx * .94 && line) { lines.push(line); line = w; } else line = t; }
+  if (line) lines.push(line); return lines.length ? lines : [''];
+}
+function fitSize(text, wPx, hPx, maxS, fam) {
+  for (let s = Math.max(9, Math.round(maxS)); s > 9; s--) {
+    const L = wrapLines(text, wPx, s, fam); MX.font = `700 ${s}px ${fam}`;
+    if (L.every(l => MX.measureText(l).width <= wPx * .98) && L.length * s * 1.25 <= hPx * 1.05) return s;
+  }
+  return 9;
+}
+function fixBox(b) {
+  if (!Array.isArray(b) || b.length < 4) return null;
+  let [y1, x1, y2, x2] = b.map(v => Number(toLatin(v)));
+  if ([y1, x1, y2, x2].some(isNaN)) return null;
+  if (Math.max(y1, x1, y2, x2) <= 1.01) { y1 *= 1000; x1 *= 1000; y2 *= 1000; x2 *= 1000; }
+  if (y1 > y2) [y1, y2] = [y2, y1]; if (x1 > x2) [x1, x2] = [x2, x1];
+  const cl = v => Math.max(0, Math.min(1000, v));
+  y1 = cl(y1); y2 = cl(y2); x1 = cl(x1); x2 = cl(x2);
+  if (y2 - y1 < 8) { y1 = cl(y1 - 10); y2 = cl(y2 + 10); } if (x2 - x1 < 8) { x1 = cl(x1 - 30); x2 = cl(x2 + 30); }
+  return [y1, x1, y2, x2];
+}
+/* يحوّل أي صيغة مكان (box بالنسبة المئوية أو box_2d) إلى {x,y,w,h} بالنسبة المئوية */
+function itemRect(it) {
+  if (Array.isArray(it.box) && it.box.length >= 4) {
+    let [x1, y1, x2, y2] = it.box.map(v => Number(toLatin(v)));
+    if ([x1, y1, x2, y2].some(isNaN)) return null;
+    if (Math.max(x1, y1, x2, y2) <= 1.01) { x1 *= 100; y1 *= 100; x2 *= 100; y2 *= 100; }
+    if (x1 > x2) [x1, x2] = [x2, x1]; if (y1 > y2) [y1, y2] = [y2, y1];
+    const cl = v => Math.max(0, Math.min(100, v)); x1 = cl(x1); x2 = cl(x2); y1 = cl(y1); y2 = cl(y2);
+    if (y2 - y1 < 1) { y1 = cl(y1 - 1); y2 = cl(y2 + 1); } if (x2 - x1 < 2) { x1 = cl(x1 - 3); x2 = cl(x2 + 3); }
+    return { x: x1, y: y1, w: x2 - x1, h: y2 - y1 };
+  }
+  const b = fixBox(it.box_2d); if (!b) return null;
+  return { x: b[1] / 10, y: b[0] / 10, w: (b[3] - b[1]) / 10, h: (b[2] - b[0]) / 10 };
+}
+function fontFrac(r) {
+  let f = Number(toLatin(r && r.font_h)); if (!f || isNaN(f)) return null;
+  f = r._fmt === 'p' ? f / 100 : f / 1000; return Math.min(.08, Math.max(.01, f));
+}
+/* كبسولة بيضاء خلف الكلمة فقط ثم النص الأزرق */
+function pillText(x, t, cx, cy, s, ink) {
+  const w = x.measureText(t).width, ph = s * 1.22, pw = w + s * .55;
+  x.fillStyle = 'rgba(255,255,255,.92)'; roundRect(x, cx - pw / 2, cy - ph / 2, pw, ph, s * .28); x.fill();
+  x.fillStyle = ink; x.fillText(t, cx, cy + s * .04);
+}
+/* أبعاد التصدير: عرض لا يقل عن 2480 بكسل (A4 بدقة 300 DPI) ضمن حد ذاكرة الآيفون */
+function exportScale(w, h) { let k = Math.max(1, 2480 / w); if (w * k * h * k > 16.5e6) k = Math.sqrt(16.5e6 / (w * h)); return k; }
+async function renderMarked(items) {
+  await fontsReady();
+  const img = await loadImg(current.url), k = exportScale(img.naturalWidth, img.naturalHeight);
+  const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+  const x = c.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(img, 0, 0, c.width, c.height); x.direction = 'rtl';
+  const W = c.width, H = c.height, ff = fontFrac(current.result) || .026;
+  items.forEach(it => {
+    const b = itemRect(it); if (!b) return;
+    const bx = b.x / 100 * W, by = b.y / 100 * H, bw = b.w / 100 * W, bh = b.h / 100 * H;
+    const r = Math.max(12, Math.min(ff * H * .75, 40)), cx = bx - r * 1.4 > r ? bx - r * 1.4 : bx + bw + r * 1.4, cy = by + bh / 2;
+    x.lineWidth = Math.max(3, r * .25); x.lineCap = 'round'; x.lineJoin = 'round';
+    if (it.ok) {
+      x.strokeStyle = '#0F9F6E'; x.beginPath(); x.moveTo(cx - r * .7, cy); x.lineTo(cx - r * .15, cy + r * .6); x.lineTo(cx + r * .8, cy - r * .7); x.stroke();
+    } else {
+      x.strokeStyle = '#E11D48'; x.beginPath(); x.ellipse(bx + bw / 2, by + bh / 2, bw * .58 + 4, bh * .62 + 4, 0, 0, 7); x.stroke();
+      x.fillStyle = '#E11D48'; x.beginPath(); x.arc(cx, cy, r * .8, 0, 7); x.fill();
+      x.fillStyle = '#fff'; x.font = `800 ${r * 1.2}px Tajawal`; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('!', cx, cy + 1);
+      const fs = ff * H; x.font = `700 ${fs}px ${ANS_FAMILY}`; x.textAlign = 'center'; x.textBaseline = 'middle';
+      pillText(x, String(it.right || ''), bx + bw / 2, Math.max(fs * .7, by - fs * .7), fs, '#0F766E'); x.textBaseline = 'alphabetic';
+    }
+  });
+  return c;
+}
+/* --- عدسة الكلمات --- */
+function renderWords(body, r) {
+  const ws = r.words || [];
+  body.innerHTML = `<div class="card" style="display:flex;flex-direction:column;gap:12px"><h3>اضغط أي كلمة لتسمعها وتعرف معناها</h3>
+    <div class="wordgrid">${ws.map((w, i) => `<button class="word" data-i="${i}" ${w.lang === 'en' ? 'dir="ltr"' : ''}>${esc(w.w)}</button>`).join('')}</div>
+    <div id="wCard"></div></div>`;
+  $$('.word', body).forEach(b => b.onclick = () => {
+    const w = ws[+b.dataset.i]; $$('.word', body).forEach(x => x.classList.toggle('on', x === b));
+    $('#wCard').innerHTML = `<div class="card wordcard" style="box-shadow:none"><h3 ${w.lang === 'en' ? 'dir="ltr" style="text-align:right"' : ''}>${esc(w.w)}</h3><p><b>المعنى:</b> ${esc(w.meaning)}</p>${w.example ? `<p class="muted" ${w.lang === 'en' ? 'dir="ltr" style="text-align:right"' : ''}>${esc(w.example)}</p>` : ''}</div>`;
+    TTS.speak(w.w, w.lang === 'en' ? 'en' : 'ar');
+  });
+}
+
+/* --- الحل على الورقة --- */
+let OP = null;
+async function renderOnPage(body, r) {
+  await fontsReady();
+  const W = current.w, H = current.h, maxS = Math.max(10, (fontFrac(r) || .026) * H * 1.05);
+  OP = { items: [], sel: -1 };
+  if (Array.isArray(r._edits)) OP.items = r._edits.map(e => ({ ...e }));
+  else {
+    const dets = new Map((r._det || []).map(d => [String(d.id).trim(), d]));
+    OP.items = (r.answers || r.items || []).map(it => {
+      const text = String(it.answer_text ?? it.answer ?? '').trim(); if (!text) return null;
+      const id = String(it.box_id ?? '').trim(), d = dets.get(id) || dets.get('#' + id.replace(/^#/, ''));
+      let b, kind;
+      if (d) { b = itemRect({ box_2d: d.box_2d }); kind = d.type === 'box' ? 'cell' : 'line'; }
+      else { b = itemRect(it.custom_box_2d ? { box_2d: it.custom_box_2d } : it); kind = /table|box/.test(it.question_type || '') ? 'cell' : 'custom'; }
+      if (!b) return null;
+      const wPx = b.w / 100 * W, bH = b.h / 100 * H;
+      if (kind === 'cell') { const iw = wPx * .92, ih = bH * .84; return { ...b, kind, text, size: fitSize(text, iw, ih, Math.min(maxS * 1.15, ih * .7), ANS_FAMILY) }; }
+      return { ...b, kind, text, size: fitSize(text, wPx, kind === 'line' ? Math.max(bH, maxS * 1.3) : Math.max(bH, maxS * 1.3), maxS, ANS_FAMILY) };
+    }).filter(Boolean);
+  }
+  body.innerHTML = `
+  <div class="card" style="display:flex;flex-direction:column;gap:12px">
+    <h3>✍️ الإجابات مكتوبة في خاناتها</h3>
+    <p class="muted" style="font-size:14.5px">إذا جاءت إجابة في غير مكانها، اسحبها بإصبعك. اضغطها لتكبيرها أو تصغيرها أو تعديلها. يُحفظ مكانها الجديد تلقائياً.</p>
+    <div class="paper" id="paper"><img src="${current.url}" alt="الورقة"></div>
+    <div class="edbar" id="edbar"></div>
+    <div class="actions"><button class="btn sm" id="opPng">🖼️ حفظ صورة HD</button><button class="btn sm alt" id="opPdf">📄 تصدير PDF</button></div>
+  </div>`;
+  if (!OP.items.length) $('#paper').insertAdjacentHTML('afterend', '<p class="note warn">لم يحدد المحرك أماكن الخانات في هذه الصورة. جرّب صورة أوضح ومستقيمة، أو قصّ جزءاً أصغر من الورقة.</p>');
+  drawOverlays();
+  $('#opPng').onclick = async () => { showLoading('أجهّز الصورة بدقة عالية…'); try { const c = await renderOnPageCanvas(); c.toBlob(b => { hideLoading(); saveBlob(b, 'الحل-على-الورقة-HD.png'); }, 'image/png'); } catch (e) { hideLoading(); toast('تعذّر التصدير'); } };
+  $('#opPdf').onclick = async () => { showLoading('أجهّز ملف PDF…'); try { const c = await renderOnPageCanvas(); const pg = await pdfPage(c); hideLoading(); saveBlob(makePDF([pg]), 'الحل-على-الورقة-HD.pdf'); } catch (e) { hideLoading(); toast('تعذّر التصدير'); } };
+}
+function saveEdits() {
+  if (!current.result || !current.bagId) return;
+  current.result._edits = OP.items.map(({ x, y, w, h, text, size, kind }) => ({ x, y, w, h, text, size, kind }));
+  BAG.put({ id: current.bagId, date: Date.now(), mode: current.mode, title: current.result.title || MODES[current.mode].name, engine: current.engine, demo: current.demo, w: current.w, h: current.h, blob: current.blob, result: current.result }).catch(() => {});
+}
+function drawOverlays() {
+  const p = $('#paper'); if (!p) return;
+  $$('.ans-ov', p).forEach(n => n.remove());
+  OP.items.forEach((it, i) => {
+    const d = document.createElement('div');
+    d.className = 'ans-ov' + (i === OP.sel ? ' sel' : '');
+    Object.assign(d.style, { left: it.x + '%', top: it.y + '%', width: it.w + '%', height: it.h + '%', color: ANS_INK, fontFamily: ANS_FAMILY, fontWeight: 800, fontSize: `${it.size / current.w * 100}cqw` });
+    const cell = it.kind === 'cell', ww = it.w / 100 * current.w * (cell ? .92 : 1);
+    if (cell) Object.assign(d.style, { background: 'rgba(255,255,255,.94)', borderRadius: '.35em', boxShadow: 'inset 0 0 0 0 transparent', clipPath: 'inset(8% 4% round .35em)' });
+    d.innerHTML = wrapLines(it.text, ww, it.size, ANS_FAMILY).map(l => cell ? esc(l) : `<span class="pill">${esc(l)}</span>`).join('<br>');
+    d.dataset.i = i; p.appendChild(d);
+    let sx = null, sy, ox, oy, moved;
+    d.onpointerdown = e => { e.preventDefault(); d.setPointerCapture(e.pointerId); sx = e.clientX; sy = e.clientY; ox = it.x; oy = it.y; moved = false; };
+    d.onpointermove = e => {
+      if (sx == null) return; const r = p.getBoundingClientRect();
+      const dx = (e.clientX - sx) / r.width * 100, dy = (e.clientY - sy) / r.height * 100;
+      if (Math.abs(dx) + Math.abs(dy) > .6) moved = true;
+      it.x = Math.max(-5, Math.min(100 - it.w + 5, ox + dx)); it.y = Math.max(-5, Math.min(100 - it.h + 5, oy + dy));
+      d.style.left = it.x + '%'; d.style.top = it.y + '%';
+    };
+    d.onpointerup = () => { sx = null; if (moved) saveEdits(); else { OP.sel = OP.sel === i ? -1 : i; drawOverlays(); } };
+  });
+  const bar = $('#edbar');
+  if (OP.sel < 0) { bar.innerHTML = ''; return; }
+  bar.innerHTML = `<span class="chip">الإجابة ${toAr(OP.sel + 1)}</span><button class="btn sm ghost" id="eBig">أكبر ＋</button><button class="btn sm ghost" id="eSmall">أصغر －</button><button class="btn sm ghost" id="eEdit">تعديل ✏️</button><button class="btn sm ghost" id="eDel">حذف 🗑</button>`;
+  const it = OP.items[OP.sel];
+  $('#eBig').onclick = () => { it.size *= 1.12; drawOverlays(); saveEdits(); };
+  $('#eSmall').onclick = () => { it.size = Math.max(8, it.size / 1.12); drawOverlays(); saveEdits(); };
+  $('#eDel').onclick = () => { OP.items.splice(OP.sel, 1); OP.sel = -1; drawOverlays(); saveEdits(); };
+  $('#eEdit').onclick = () => openSheet(`<h3>تعديل الإجابة</h3><div class="field"><label for="eTxt">النص</label><input id="eTxt" value="${esc(it.text)}"></div><button class="btn" id="eOk">حفظ</button>`, s => {
+    $('#eTxt', s).focus(); $('#eOk', s).onclick = () => { it.text = $('#eTxt', s).value; closeSheet(); drawOverlays(); saveEdits(); };
+  });
+}
+async function renderOnPageCanvas() {
+  await fontsReady();
+  const img = await loadImg(current.url), k = exportScale(img.naturalWidth, img.naturalHeight);
+  const c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+  const x = c.getContext('2d'); x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+  x.filter = 'contrast(1.18) brightness(1.05)'; x.drawImage(img, 0, 0, c.width, c.height); x.filter = 'none';
+  x.direction = 'rtl'; x.textAlign = 'center'; x.textBaseline = 'middle';
+  const kk = c.width / current.w;
+  OP.items.forEach(it => {
+    const cell = it.kind === 'cell', s = it.size * kk, lines = wrapLines(it.text, it.w / 100 * current.w * (cell ? .92 : 1), it.size, ANS_FAMILY), lh = s * 1.3;
+    const cx = (it.x + it.w / 2) / 100 * c.width, cy = (it.y + it.h / 2) / 100 * c.height;
+    if (cell) { const bw = it.w / 100 * c.width, bh = it.h / 100 * c.height; x.fillStyle = 'rgba(255,255,255,.94)'; roundRect(x, cx - bw * .46, cy - bh * .42, bw * .92, bh * .84, Math.min(bh * .2, 6 * kk)); x.fill(); }
+    x.font = `800 ${s}px ${ANS_FAMILY}`;
+    lines.forEach((l, j) => { const yy = cy - (lines.length - 1) * lh / 2 + j * lh; if (cell) { x.fillStyle = ANS_INK; x.fillText(l, cx, yy + s * .04); } else pillText(x, l, cx, yy, s, ANS_INK); });
+  });
+  return c;
+}
+
+/* ============ الحفظ والتصدير ============ */
+/* صفحة PDF بدون فقدان (FlateDecode)، وإن لم يدعم المتصفح الضغط فـ JPEG بجودة 0.95 */
+async function pdfPage(c) {
+  if (window.CompressionStream) {
+    try {
+      const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data, rgb = new Uint8Array(c.width * c.height * 3);
+      for (let i = 0, j = 0; i < d.length; i += 4) { rgb[j++] = d[i]; rgb[j++] = d[i + 1]; rgb[j++] = d[i + 2]; }
+      const z = new Uint8Array(await new Response(new Blob([rgb]).stream().pipeThrough(new CompressionStream('deflate'))).arrayBuffer());
+      return { bytes: z, w: c.width, h: c.height, filter: 'FlateDecode' };
+    } catch (e) {}
+  }
+  return { bytes: await canvasJpeg(c, .95), w: c.width, h: c.height };
+}
+function canvasJpeg(c, q = .9) { return new Promise(r => c.toBlob(b => b.arrayBuffer().then(a => r(new Uint8Array(a))), 'image/jpeg', q)); }
+function makePDF(pages) {
+  const enc = new TextEncoder(), parts = [], off = []; let len = 0;
+  const push = d => { const b = typeof d === 'string' ? enc.encode(d) : d; parts.push(b); len += b.length; };
+  const PW = 595.28, PH = 841.89, M = 22, n = pages.length;
+  push('%PDF-1.4\n%âãÏÓ\n');
+  const obj = (i, s) => { off[i] = len; push(`${i} 0 obj\n${s}\nendobj\n`); };
+  obj(1, '<< /Type /Catalog /Pages 2 0 R >>');
+  obj(2, `<< /Type /Pages /Kids [${pages.map((_, i) => `${3 + i * 3} 0 R`).join(' ')}] /Count ${n} >>`);
+  pages.forEach((p, i) => {
+    const pg = 3 + i * 3, im = pg + 1, ct = pg + 2;
+    const s = Math.min((PW - 2 * M) / p.w, (PH - 2 * M) / p.h), dw = p.w * s, dh = p.h * s, x = (PW - dw) / 2, y = (PH - dh) / 2;
+    obj(pg, `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PW} ${PH}] /Resources << /XObject << /Im${i} ${im} 0 R >> >> /Contents ${ct} 0 R >>`);
+    off[im] = len; push(`${im} 0 obj\n<< /Type /XObject /Subtype /Image /Width ${p.w} /Height ${p.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /${p.filter || 'DCTDecode'} /Length ${p.bytes.length} >>\nstream\n`); push(p.bytes); push('\nendstream\nendobj\n');
+    const cs = `q ${dw.toFixed(2)} 0 0 ${dh.toFixed(2)} ${x.toFixed(2)} ${y.toFixed(2)} cm /Im${i} Do Q`;
+    obj(ct, `<< /Length ${cs.length} >>\nstream\n${cs}\nendstream`);
+  });
+  const total = 3 + n * 3, xref = len;
+  let xs = `xref\n0 ${total}\n0000000000 65535 f \n`;
+  for (let i = 1; i < total; i++) xs += String(off[i]).padStart(10, '0') + ' 00000 n \n';
+  push(xs + `trailer\n<< /Size ${total} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);
+  return new Blob(parts, { type: 'application/pdf' });
+}
+async function saveBlob(blob, name) {
+  if (CL.downloads) {
+    try { await CL.downloads.save({ filename: name, data: blob }); toast('تم الحفظ ✓'); return; }
+    catch (e) { if (e.code === 'declined') return toast('تم الإلغاء'); if (e.code === 'rate_limited') return toast('انتظر لحظة ثم حاول'); }
+  }
+  try {
+    const f = new File([blob], name, { type: blob.type });
+    if (navigator.canShare && navigator.canShare({ files: [f] })) { await navigator.share({ files: [f], title: name }); return; }
+  } catch (e) { if (e.name === 'AbortError') return; }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 5000); toast('جارٍ الحفظ…');
+}
+function reportBlocks() {
+  const r = current.result || {}, m = current.mode, B = [];
+  if (m === 'teacher') { B.push({ h: 'قصة الدرس', l: [r.story] }); (r.questions || []).forEach(q => B.push({ h: `السؤال ${toAr(q.n)}: ${q.q}`, l: [...(q.steps || []).map((s, i) => `${toAr(i + 1)}. ${s}`), `الإجابة: ${q.answer}`] })); }
+  if (m === 'mom') { B.push({ h: 'فكرة الدرس في ٣٠ ثانية', l: [r.summary, r.goal ? 'الهدف: ' + r.goal : ''] }); B.push({ h: 'كيف تشرحينه لطفلك؟', l: [...(r.howto || []).map((s, i) => `${toAr(i + 1)}. ${s}`), r.home_example ? 'مثال من البيت: ' + r.home_example : ''] }); B.push({ h: 'نموذج الإجابة', l: (r.answers || []).map(a => `${toAr(a.n)}) ${a.q}  ←  ${a.a}`) }); }
+  if (m === 'solve') B.push({ h: 'الحل النموذجي', l: (r.answers || []).map(a => `${toAr(a.n)}) ${a.q}  ←  ${a.a}`) });
+  if (m === 'correct') { B.push({ h: `النتيجة: ${toAr(r.score)} من ${toAr(r.total)}`, l: [r.praise] }); (r.items || []).forEach(i => B.push({ h: `${i.ok ? '✓' : '!'} ${toAr(i.n)}) ${i.q}`, l: [`إجابة الطالب: ${i.student}`, i.ok ? 'صحيحة' : `الصحيح: ${i.right} — ${i.why}`] })); }
+  if (m === 'words') B.push({ h: 'كلمات الدرس', l: (r.words || []).map(w => `${w.w}: ${w.meaning}${w.example ? ' — ' + w.example : ''}`) });
+  return B;
+}
+async function exportReportPDF() {
+  await fontsReady();
+  const W = 2480, PH = 3508, M = 180, maxW = W - 2 * M;
+  const blocks = reportBlocks(), r = current.result || {};
+  const meas = document.createElement('canvas').getContext('2d'); meas.direction = 'rtl';
+  const wrap = (t, font) => { meas.font = font; const out = []; String(t || '').split('\n').forEach(par => { let line = ''; par.split(/\s+/).forEach(w => { const tst = line ? line + ' ' + w : w; if (meas.measureText(tst).width > maxW && line) { out.push(line); line = w; } else line = tst; }); if (line) out.push(line); }); return out; };
+  const FT = '800 108px "Baloo Bhaijaan 2", Tajawal', FH = '700 76px Tajawal', FB = '400 68px Tajawal';
+  const lines = [{ t: r.title || MODES[current.mode].name, f: FT, c: '#5B21B6', lh: 160 }, { t: `${MODES[current.mode].name} • المعلّم الذكي • ${new Date().toLocaleDateString('ar-OM')}`, f: '500 52px Tajawal', c: '#7A6C93', lh: 120 }];
+  blocks.forEach(b => { lines.push({ gap: 48 }); wrap(b.h, FH).forEach(t => lines.push({ t, f: FH, c: '#C2410C', lh: 108 })); b.l.filter(Boolean).forEach(p => wrap(p, FB).forEach(t => lines.push({ t, f: FB, c: '#1F1B2E', lh: 100 }))); });
+  const pages = []; let c, x, y = Infinity;
+  const newPage = () => { c = document.createElement('canvas'); c.width = W; c.height = PH; x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, W, PH); x.fillStyle = '#7C3AED'; x.fillRect(0, 0, W, 28); x.direction = 'rtl'; x.textAlign = 'right'; x.textBaseline = 'alphabetic'; pages.push(c); y = M + 80; };
+  for (const l of lines) { if (l.gap) { y += l.gap; continue; } if (y + l.lh > PH - M) newPage(); x.font = l.f; x.fillStyle = l.c; x.fillText(l.t, W - M, y); y += l.lh; }
+  showLoading('أجهّز ملف PDF…'); const out = []; for (const p of pages) out.push(await pdfPage(p)); hideLoading();
+  saveBlob(makePDF(out), (r.title || 'الشرح') + '.pdf');
+}
+function shareWhatsApp() {
+  const B = reportBlocks(), r = current.result || {};
+  let t = `📚 ${r.title || MODES[current.mode].name}\n\n` + B.map(b => `*${b.h}*\n${b.l.filter(Boolean).join('\n')}`).join('\n\n');
+  if (current.mode === 'onpage') t = `📚 الحل على الورقة\n` + (r.items || []).map(i => `${toAr(i.n)}) ${i.answer}`).join('\n');
+  t = t.slice(0, 3000) + '\n\n— من تطبيق المعلّم الذكي';
+  openSheet(`<h3>مشاركة الحل</h3><p class="muted">اضغط الزر لفتح واتساب والنص جاهز، أو انسخه.</p>
+    <a class="btn ok" href="https://wa.me/?text=${encodeURIComponent(t)}" target="_blank" rel="noopener">💬 افتح واتساب</a>
+    <button class="btn ghost" id="cpy">📋 نسخ النص</button>`, s => { $('#cpy', s).onclick = () => { try { navigator.clipboard.writeText(t).then(() => toast('تم النسخ ✓'), () => toast('لم يسمح المتصفح بالنسخ')); } catch (e) {} }; });
+}
+/* ============ دفتر الأخطاء الذكي ============ */
+function addMistake(m) {
+  if (!m.q) return;
+  const ex = S.mistakes.find(x => x.q === m.q);
+  if (ex) { if (ex.mastered) { ex.mastered = false; ex.streak = 0; } ex.wrong = m.wrong || ex.wrong; }
+  else S.mistakes.unshift({ id: 'm' + Date.now() + Math.random().toString(36).slice(2, 6), date: Date.now(), streak: 0, mastered: false, from: (current.result && current.result.title) || '', ...m });
+  S.mistakes = S.mistakes.slice(0, 200); save(); updateBadge();
+}
+function renderMistakes() {
+  const act = S.mistakes.filter(m => !m.mastered), done = S.mistakes.filter(m => m.mastered);
+  const v = $('#v-mistakes');
+  if (!S.mistakes.length) { v.innerHTML = `<div class="card empty"><div class="mascot bob">${mascotSVG(levelOf(S.stars))}</div><h2>دفتر الأخطاء فارغ</h2><p class="muted">كل سؤال تخطئ فيه يُحفظ هنا تلقائياً، لتعود إليه لاحقاً وتتقنه. أجب عنه صحيحاً مرتين متتاليتين ليصبح «متقناً».</p></div>`; return; }
+  v.innerHTML = `<div class="card"><h3>📒 دفتر الأخطاء الذكي</h3><p class="muted" style="font-size:15px">${toAr(act.length)} للمراجعة • ${toAr(done.length)} متقن. أجب صحيحاً مرتين متتاليتين لتتقن السؤال وتربح ٣ نجوم.</p></div>
+  ${act.map(m => mistCard(m)).join('')}
+  ${done.length ? `<h2 class="sec">أتقنتها ✓</h2>${done.map(m => mistCard(m)).join('')}` : ''}`;
+  $$('.mist', v).forEach(card => {
+    const m = S.mistakes.find(x => x.id === card.dataset.id); if (!m || m.mastered) return;
+    const inp = $('input', card), fb = $('.fb', card);
+    $('[data-a="chk"]', card).onclick = () => {
+      if (sameAnswer(inp.value, m.right)) {
+        m.streak++; sfx.win();
+        if (m.streak >= 2) { m.mastered = true; save(); addStars(3); confetti(); toast('أتقنت هذا السؤال! ⭐⭐⭐'); renderMistakes(); updateBadge(); return; }
+        save(); fb.className = 'fb good'; fb.textContent = 'صحيح! أجب عنه صحيحاً مرة أخرى لاحقاً لتتقنه.'; inp.value = '';
+        $('.streak', card).textContent = '●'.repeat(m.streak) + '○'.repeat(2 - m.streak);
+      } else { m.streak = 0; save(); sfx.soft(); fb.className = 'fb try'; fb.textContent = 'ليست هذه. اضغط التلميح أو أظهر الإجابة.'; $('.streak', card).textContent = '○○'; }
+    };
+    $('[data-a="hint"]', card).onclick = () => { fb.className = 'fb hint'; fb.textContent = '💡 ' + (m.hint || 'راجع خطوات الحل في الدرس.'); };
+    $('[data-a="show"]', card).onclick = () => { fb.className = 'fb hint'; fb.innerHTML = `الإجابة الصحيحة: <b>${esc(m.right)}</b>${(m.steps || []).length ? `<ol class="steps" style="margin-top:8px">${m.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol>` : ''}`; m.streak = 0; save(); };
+    $('[data-a="say"]', card).onclick = () => TTS.speak(m.q);
+  });
+  $$('[data-del]', v).forEach(b => b.onclick = () => { S.mistakes = S.mistakes.filter(x => x.id !== b.dataset.del); save(); renderMistakes(); updateBadge(); });
+}
+function mistCard(m) {
+  return `<div class="card mist ${m.mastered ? 'done' : ''}" data-id="${m.id}">
+    <div class="qline"><span class="src">${esc(m.from || 'درس')} • ${new Date(m.date).toLocaleDateString('ar-OM')}</span>${m.mastered ? '<span class="chip teal">متقن ✓</span>' : `<span class="streak chip orange" title="التقدم">${'●'.repeat(m.streak) + '○'.repeat(2 - m.streak)}</span>`}</div>
+    <p class="qtext" style="font-size:21px">${esc(m.q)}</p>
+    ${m.mastered ? `<p>الإجابة: <b>${esc(m.right)}</b></p><button class="del" data-del="${m.id}" aria-label="حذف">🗑</button>` : `
+    <p class="muted" style="font-size:14.5px">إجابتك السابقة: <span style="font-family:var(--f-ans);color:var(--bad);font-size:18px;font-weight:700">${esc(m.wrong)}</span></p>
+    <div class="ansrow"><input placeholder="جرّب مرة أخرى" autocomplete="off"></div>
+    <div class="fb"></div>
+    <div class="row"><button class="btn sm ok" data-a="chk">تحقق ✔️</button><button class="btn sm hint" data-a="hint">تلميح 💡</button><button class="btn sm ghost" data-a="show">أظهر الإجابة</button><button class="btn sm ghost" data-a="say">🔊</button></div>`}
+  </div>`;
+}
+
+/* ============ حقيبة الدروس (IndexedDB بدون إنترنت) ============ */
+const BAG = {
+  db: null, mem: [],
+  open() {
+    if (this.db) return Promise.resolve(this.db);
+    return new Promise((res, rej) => { try { const r = indexedDB.open('muallim', 1); r.onupgradeneeded = () => r.result.createObjectStore('bag', { keyPath: 'id' }); r.onsuccess = () => res(this.db = r.result); r.onerror = () => rej(r.error); } catch (e) { rej(e); } });
+  },
+  async tx(mode, fn) { const db = await this.open(); return new Promise((res, rej) => { const t = db.transaction('bag', mode), st = t.objectStore('bag'), q = fn(st); t.oncomplete = () => res(q && q.result); t.onerror = () => rej(t.error); }); },
+  async put(v) { try { await this.tx('readwrite', s => s.put(v)); } catch (e) { this.mem = this.mem.filter(x => x.id !== v.id); this.mem.unshift(v); } },
+  async all() { try { const l = await this.tx('readonly', s => s.getAll()); return (l || []).sort((a, b) => b.date - a.date); } catch (e) { return this.mem; } },
+  async del(id) { try { await this.tx('readwrite', s => s.delete(id)); } catch (e) {} this.mem = this.mem.filter(x => x.id !== id); }
+};
+const bagURLs = [];
+async function renderBag() {
+  const v = $('#v-bag'), list = await BAG.all();
+  bagURLs.splice(0).forEach(u => URL.revokeObjectURL(u));
+  if (!list.length) { v.innerHTML = `<div class="card empty"><div class="mascot bob">${mascotSVG(levelOf(S.stars))}</div><h2>الحقيبة فارغة</h2><p class="muted">كل درس تصوّره وتشرحه يُحفظ هنا في جهازك، لتراجعه ليلة الامتحان بدون إنترنت.</p></div>`; return; }
+  v.innerHTML = `<div class="card"><h3>🎒 حقيبة الدروس</h3><p class="muted" style="font-size:15px">محفوظة في جهازك فقط، وتعمل بدون إنترنت.</p></div>` +
+    list.map(it => { const u = URL.createObjectURL(it.blob); bagURLs.push(u); const m = MODES[it.mode];
+      return `<div class="card bagitem" data-id="${esc(it.id)}"><img src="${u}" alt=""><div class="t"><b>${esc(it.title)}</b><span class="chips"><span class="chip" style="font-size:12.5px">${m.ic} ${m.name}</span></span><small class="muted">${new Date(it.date).toLocaleString('ar-OM', { dateStyle: 'medium', timeStyle: 'short' })}</small></div><button class="del" data-bdel="${esc(it.id)}" aria-label="حذف">🗑</button></div>`; }).join('');
+  $$('.bagitem', v).forEach(c => c.onclick = e => {
+    if (e.target.closest('[data-bdel]')) return;
+    const it = list.find(x => x.id === c.dataset.id); if (!it) return;
+    setCurrent({ blob: it.blob, w: it.w, h: it.h, demo: it.demo });
+    Object.assign(current, { mode: it.mode, result: it.result, engine: it.engine, awarded: true, tstate: null, fromBag: true });
+    renderResult(); show('result'); current.fromBag = true;
+  });
+  $$('[data-bdel]', v).forEach(b => b.onclick = async () => { await BAG.del(b.dataset.bdel); renderBag(); });
+}
+
+/* ============ الإعدادات ============ */
+function renderSettings() {
+  const p = S.profile, v = $('#v-settings');
+  const keyField = (id, label, help) => `<div class="field"><label for="k-${id}">${label}</label><div class="ansrow"><input id="k-${id}" type="password" value="${esc(S.keys[id])}" placeholder="الصق المفتاح هنا" autocomplete="off" style="font-size:15px;padding:10px 12px;border-width:2px"><button class="eye" data-eye="${id}" aria-label="إظهار المفتاح">👁</button></div><small class="muted">${help}</small></div>`;
+  v.innerHTML = `
+  <div class="card set"><h3>👤 ملف الطالب</h3>
+    <div class="field"><label for="pName">الاسم</label><input id="pName" value="${esc(p.name)}" placeholder="مثلاً: سارة"></div>
+    <div class="field"><label>الطالب</label><div class="seg" id="pGen"><button data-v="f" class="${p.gender === 'f' ? 'on' : ''}">طالبة</button><button data-v="m" class="${p.gender === 'm' ? 'on' : ''}">طالب</button></div></div>
+    <div class="field"><label for="pGrade">الصف</label><select id="pGrade">${Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}" ${+p.grade === i + 1 ? 'selected' : ''}>الصف ${toAr(i + 1)}</option>`).join('')}</select></div>
+    <div class="field"><label for="pCurr">المنهج</label><input id="pCurr" value="${esc(p.curriculum)}"></div>
+    <p class="note">يُضاف هذا الملف لكل طلب، فيتكيّف الشرح مع الصف والمنهج وصيغة المخاطبة.</p>
+  </div>
+
+  ${inArtifact ? `<div class="card set"><h3>⚡ محرك الذكاء الاصطناعي</h3>
+    <p>في هذه المعاينة يعمل التطبيق بمحرك <b>Claude</b> تلقائياً، ولا يحتاج أي مفتاح.</p>
+    <p class="note warn">نافذة المعاينة داخل تطبيق Claude تمنع أي اتصال خارجي، لذلك لا يمكن أن يعمل مفتاح Gemini أو OpenRouter هنا مهما كان صحيحاً. المفاتيح تعمل في نسخة التطبيق المستضافة على رابط خاص بك.</p>
+  </div>` : `<div class="card set"><h3>⚡ محركات الذكاء الاصطناعي</h3>
+    <p class="muted" style="font-size:15px">في الوضع «تلقائي» يبدأ التطبيق بـ Gemini، وإذا كان مشغولاً ينتقل إلى OpenRouter. المفاتيح تُحفظ في جهازك فقط.</p>
+    ${keyField('gemini', 'مفتاح Gemini (الأساسي والأدق)', 'مجاني بدون بطاقة من <a class="lnk" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>')}
+    <div class="field"><label for="mGem">نموذج Gemini</label><input id="mGem" list="gemList" value="${esc(S.models.gemini)}" dir="ltr"><datalist id="gemList"><option value="gemini-flash-latest"><option value="gemini-3.5-flash"><option value="gemini-flash-lite-latest"></datalist>
+      <button class="btn sm ghost" id="testGem">🔎 تحقق من المفتاح</button><small class="muted" id="gemOut"></small></div>
+    ${keyField('openrouter', 'مفتاح OpenRouter (احتياطي، اختياري)', 'من <a class="lnk" href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a>')}
+    <div class="field"><label for="mOr">نموذج OpenRouter</label><input id="mOr" value="${esc(S.models.openrouter)}" dir="ltr"></div>
+  </div>`}
+
+  <div class="card set"><h3>🔗 الربط مع Gemini وChatGPT (مثل السكل)</h3>
+    <p style="font-size:15.5px">اصنع «معلّماً خاصاً» مرة واحدة بالتعليمات الجاهزة، وسيفتحه زر «ناقشه مع Gemini» مباشرة للمحادثة الصوتية.</p>
+    <ol style="margin:0;padding-inline-start:20px;font-size:15px;display:flex;flex-direction:column;gap:4px">
+      <li>انسخ التعليمات بالزر أدناه.</li>
+      <li>في Gemini: Explore Gems ← New Gem، والصق التعليمات وسمّه «المعلّم الذكي». (إنشاء Gem مجاني)</li>
+      <li>اضغط Share ← Copy link والصق الرابط هنا.</li>
+      <li>في ChatGPT: إنشاء GPT خاص يحتاج اشتراكاً مدفوعاً، ولذلك يفتح الزر ChatGPT العادي والسؤال مكتوب جاهزاً.</li>
+    </ol>
+    <button class="btn sm" id="cpGem">📋 نسخ تعليمات المعلّم</button>
+    <div class="field"><label for="lGem">رابط الـ Gem</label><input id="lGem" dir="ltr" value="${esc(S.links.gem)}" placeholder="https://gemini.google.com/gem/..."></div>
+  </div>
+
+  <div class="card set"><h3>🧠 مهارات المعلّم</h3>
+    <p class="muted" style="font-size:15px">تعليمات ثابتة لكل وضع، تعمل مثل «السكل». عدّلها إن أردت أسلوباً مختلفاً.</p>
+    ${Object.entries(MODES).map(([k, m]) => `<details><summary>${m.ic} ${m.name}</summary><div class="field" style="margin-top:8px"><textarea data-skill="${k}">${esc(skill(k))}</textarea><button class="btn sm ghost" data-reset="${k}">استرجاع الأصل</button></div></details>`).join('')}
+  </div>
+
+  <div class="card set"><h3>🔊 صوت المعلّم</h3>
+    <p class="muted" style="font-size:15px">اختر من يشرح للطالب، واضغط «تجربة» لتسمع صوته.</p>
+    <div class="chars">${Object.entries(CHARS).map(([k, c]) => `<div class="char ${S.voice.char === k ? 'on' : ''}" data-char="${k}"><span class="em">${c.ic}</span><b>${c.name}</b><small>${c.sub}</small><button class="btn sm ghost" data-try="${k}">تجربة 🔊</button></div>`).join('')}</div>
+    <div class="field"><label>سرعة القراءة</label>${speedSegHTML()}</div>
+    ${inArtifact ? `<p class="note warn">في هذه المعاينة يُستخدم صوت جهازك، وهو صوت آلي، وتغيّر كل شخصية طبقته فقط. الأصوات البشرية عبر Gemini TTS وElevenLabs تحتاج اتصالاً خارجياً، فتعمل في نسخة التطبيق المستضافة.</p>` : `
+    <div class="field"><label for="vEng">محرك الصوت</label><select id="vEng">
+      <option value="auto" ${S.voice.engine === 'auto' ? 'selected' : ''}>تلقائي: Gemini ثم ElevenLabs ثم صوت الجهاز</option>
+      <option value="gemini" ${S.voice.engine === 'gemini' ? 'selected' : ''}>Gemini TTS (بمفتاح Gemini نفسه)</option>
+      <option value="eleven" ${S.voice.engine === 'eleven' ? 'selected' : ''}>ElevenLabs (مفتاح خاص)</option>
+      <option value="device" ${S.voice.engine === 'device' ? 'selected' : ''}>صوت الجهاز (بدون إنترنت)</option></select></div>
+    <div class="field"><label for="vModel">نموذج Gemini للصوت</label><input id="vModel" list="ttsList" dir="ltr" value="${esc(S.voice.ttsModel)}"><datalist id="ttsList"><option value="gemini-3.8-flash-lite-tts"><option value="gemini-3.8-flash-tts"><option value="gemini-3.1-flash-tts-preview"></datalist>
+      <small class="muted">الأصوات: المعلّم Charon، المعلّمة Aoede، صديقي Puck، صديقتي Leda.</small></div>
+    <details><summary>ElevenLabs (اختياري، ١٠ آلاف حرف مجاناً شهرياً)</summary>
+      <div class="field" style="margin-top:8px"><label for="elKey">مفتاح ElevenLabs</label><div class="ansrow"><input id="elKey" type="password" dir="ltr" value="${esc(S.voice.el.key)}" autocomplete="off"><button class="eye" data-eye2="elKey" aria-label="إظهار">👁</button></div>
+      <small class="muted">من <a class="lnk" href="https://elevenlabs.io/app/settings/api-keys" target="_blank" rel="noopener">elevenlabs.io</a>. الصق Voice ID لكل شخصية من مكتبة الأصوات.</small></div>
+      ${Object.entries(CHARS).map(([k, c]) => `<div class="field"><label for="el-${k}">${c.ic} ${c.name}: Voice ID</label><input id="el-${k}" dir="ltr" value="${esc(S.voice.el.ids[k])}"></div>`).join('')}
+    </details>`}
+  </div>
+
+  <div class="card set"><h3>📷 جودة الصورة المرسلة للفحص</h3>
+    <div class="seg" id="qual"><button data-v="1280" class="${S.imgMax == 1280 ? 'on' : ''}">عادية (أسرع)</button><button data-v="1600" class="${S.imgMax == 1600 ? 'on' : ''}">عالية (للخط الصغير)</button></div>
+    <small class="muted">هذه للنسخة المرسلة للذكاء الاصطناعي فقط. صورتك الأصلية تُحفظ بدقتها الكاملة للعرض والتصدير.</small>
+  </div>
+
+  <div class="card set"><h3>🗂️ البيانات</h3>
+    <div class="row"><button class="btn sm ghost" id="rsStars">تصفير النجوم</button><button class="btn sm ghost" id="rsMist">مسح دفتر الأخطاء</button></div>
+    <p class="note">ملاحظة خصوصية: في الباقات المجانية قد تستخدم الشركات الطلبات لتحسين خدماتها؛ تجنّب تصوير الوجوه والأسماء.</p>
+  </div>
+  <p class="foot">المعلّم الذكي • نموذج حي ${VERSION}</p>`;
+
+  const bind = (sel, fn) => { const e = $(sel, v); if (e) e.addEventListener('change', () => { fn(e.value); save(); }); };
+  bind('#pName', x => { S.profile.name = x.trim(); });
+  bind('#pGrade', x => { S.profile.grade = +x; });
+  bind('#pCurr', x => { S.profile.curriculum = x.trim(); });
+  $$('#pGen button', v).forEach(b => b.onclick = () => { S.profile.gender = b.dataset.v; save(); $$('#pGen button', v).forEach(x => x.classList.toggle('on', x === b)); });
+  for (const id of ['gemini', 'openrouter']) bind('#k-' + id, x => { S.keys[id] = x.trim(); refreshEngineUI(); });
+  bind('#mGem', x => { S.models.gemini = x.trim() || DEF.models.gemini; });
+  bind('#mOr', x => { S.models.openrouter = x.trim() || DEF.models.openrouter; });
+  bind('#lGem', x => { S.links.gem = x.trim(); });
+  bind('#vEng', x => { S.voice.engine = x; });
+  bind('#vModel', x => { S.voice.ttsModel = x.trim() || DEF.voice.ttsModel; });
+  bind('#elKey', x => { S.voice.el.key = x.trim(); });
+  for (const k of Object.keys(CHARS)) bind('#el-' + k, x => { S.voice.el.ids[k] = x.trim(); });
+  $$('[data-eye2]', v).forEach(b => b.onclick = () => { const i = $('#' + b.dataset.eye2, v); i.type = i.type === 'password' ? 'text' : 'password'; });
+  $$('[data-eye]', v).forEach(b => b.onclick = () => { const i = $('#k-' + b.dataset.eye, v); i.type = i.type === 'password' ? 'text' : 'password'; });
+  $$('[data-skill]', v).forEach(t => t.onchange = () => { S.skills[t.dataset.skill] = t.value; save(); toast('حُفظت المهارة ✓'); });
+  $$('[data-reset]', v).forEach(b => b.onclick = () => { delete S.skills[b.dataset.reset]; save(); $(`[data-skill="${b.dataset.reset}"]`, v).value = SKILLS[b.dataset.reset]; toast('عادت للأصل'); });
+  $$('#qual button', v).forEach(b => b.onclick = () => { S.imgMax = +b.dataset.v; save(); $$('#qual button', v).forEach(x => x.classList.toggle('on', x === b)); });
+  $('#cpGem', v).onclick = () => { try { navigator.clipboard.writeText(GEM_TEXT()).then(() => toast('نُسخت التعليمات ✓'), () => openSheet(`<h3>انسخ التعليمات يدوياً</h3><textarea style="width:100%;min-height:260px">${esc(GEM_TEXT())}</textarea><button class="btn" data-close>تم</button>`)); } catch (e) {} };
+  $('#rsStars', v).onclick = () => { S.stars = 0; save(); updateStars(); toast('صُفّرت النجوم'); };
+  $('#rsMist', v).onclick = () => { S.mistakes = []; save(); updateBadge(); toast('مُسح الدفتر'); };
+  if ($('#testGem', v)) $('#testGem', v).onclick = async () => {
+    const out = $('#gemOut', v), key = $('#k-gemini', v).value.trim();
+    if (!key) { out.textContent = 'الصق المفتاح أولاً.'; return; }
+    S.keys.gemini = key; save(); out.textContent = 'جارٍ التحقق…';
+    try {
+      const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200', { headers: { 'x-goog-api-key': key } }).catch(netErr);
+      if (!res.ok) throw await httpErr(res);
+      const d = await res.json();
+      const names = (d.models || []).filter(m => (m.supportedGenerationMethods || []).includes('generateContent') && /flash/i.test(m.name)).map(m => m.name.replace('models/', ''));
+      $('#gemList', v).innerHTML = names.map(n => `<option value="${esc(n)}">`).join('');
+      out.innerHTML = `✓ المفتاح يعمل. النماذج المتاحة: <span dir="ltr">${esc(names.slice(0, 8).join('، '))}</span>`;
+    } catch (e) { out.textContent = '✗ ' + e.message; }
+    refreshEngineUI();
+  };
+}
+
+/* ============ بدء التشغيل ============ */
+updateStars(); refreshEngineUI(); renderHome(); show('home');
+/* تثبيت التطبيق والعمل بدون إنترنت (في النسخة المستضافة فقط) */
+if (!inArtifact && 'serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
+</body>
+</html>
