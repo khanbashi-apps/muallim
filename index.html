@@ -36,6 +36,28 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
+.i{display:inline-block;vertical-align:-.22em;flex:none}
+.engbtn{border:2px solid var(--pri-l);background:var(--card);border-radius:14px;padding:6px 10px;font-size:14px;font-weight:800;color:var(--pri-d);display:flex;align-items:center;gap:4px;white-space:nowrap}
+.engopt{display:flex;align-items:center;gap:12px;border:2px solid var(--line);background:#fff;border-radius:18px;padding:12px 14px;text-align:right;width:100%}
+.engopt.on{border-color:var(--pri);background:var(--pri-l)}
+.engopt .ei{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;flex:none}
+.engopt b{display:block;font-size:17px}
+.engopt small{color:var(--muted);font-size:13px}
+.engopt small.ok{color:var(--ok-d);font-weight:700}
+.av{display:block;border-radius:50%}
+.mode.wide{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:2px;align-items:center;background:linear-gradient(135deg,#E0F2FE,#fff 70%)}
+.mode.wide .ic{grid-row:1/3;width:60px;height:60px;background:#fff;box-shadow:0 2px 8px rgba(14,165,233,.18)}
+.mode.wide b{align-self:end;font-size:20px}
+.mode.wide>span:last-child{align-self:start}
+.sugg{display:flex;flex-wrap:wrap;gap:8px}
+.sugg button{border:2px solid var(--pri-l);background:#fff;color:var(--pri-d);font-weight:800;border-radius:99px;padding:8px 14px;font-size:15px;display:inline-flex;align-items:center;gap:6px}
+.chat{display:flex;flex-direction:column;gap:10px}
+.bub{max-width:88%;border-radius:18px;padding:10px 14px;font-size:16.5px;line-height:1.75;white-space:pre-line}
+.bub.me{align-self:flex-start;background:var(--pri);color:#fff;border-bottom-right-radius:6px}
+.bub.ai{align-self:flex-end;background:#F6F1FF;color:var(--ink);border-bottom-left-radius:6px}
+.bub.ai .say{border:0;background:none;color:var(--pri);padding:0;margin-top:4px;display:flex;align-items:center;gap:4px;font-weight:800;font-size:13px}
+.send{border:0;width:56px;border-radius:16px;background:var(--pri);color:#fff;box-shadow:0 4px 0 var(--pri-d);flex:none;display:grid;place-items:center}
+#ldTime{font-size:14px;opacity:.75;min-height:1.4em}
 html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;
   background-image:radial-gradient(circle at 12% 8%,#FFE3F1 0 90px,transparent 91px),radial-gradient(circle at 92% 30%,#E7F5FF 0 70px,transparent 71px),radial-gradient(#F3E6FF 1.4px,transparent 1.6px);
@@ -132,7 +154,7 @@ p{margin:0}
 .thumbrow img{width:70px;height:90px;object-fit:cover;border-radius:12px;border:2px solid var(--line)}
 .modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .mode{border:0;text-align:right;background:var(--card);border-radius:20px;padding:14px;box-shadow:var(--lift);display:flex;flex-direction:column;gap:6px;position:relative;border-top:6px solid var(--c)}
-.mode .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:25px;background:color-mix(in srgb,var(--c) 15%,#fff)}
+.mode .ic{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 14%,#fff)}
 .mode b{font-family:var(--f-display);font-size:18px;line-height:1.2}
 .mode span{font-size:13.5px;color:var(--muted);line-height:1.45}
 .mode.suggest::after{content:"مقترح";position:absolute;top:10px;left:10px;background:var(--sec);color:#fff;font-size:11px;font-weight:800;border-radius:99px;padding:1px 8px}
@@ -191,12 +213,12 @@ td.ans{font-family:var(--f-ans);font-size:19px;color:var(--ink-ans);font-weight:
 tr:nth-child(even) td{background:#FCFAFF}
 .score{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,#14B8A6,#0EA5A0);color:#fff}
 .score .big{font-family:var(--f-display);font-size:46px;font-weight:800;line-height:1}
-.stars5{font-size:26px;letter-spacing:2px}
-.stars5 .off{opacity:.35;filter:grayscale(1)}
+.stars5{display:flex;gap:3px;color:#FFE27A}
+.stars5 .off{opacity:.35}
 .item{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px dashed var(--line)}
 .item:last-child{border:0}
-.item .mk{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:19px;flex:none}
-.item .mk.y{background:var(--ok-l)}.item .mk.n{background:var(--bad-l)}
+.item .mk{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;flex:none}
+.item .mk.y{background:var(--ok-l);color:var(--ok-d)}.item .mk.n{background:var(--bad-l);color:var(--bad)}
 .item .body{display:flex;flex-direction:column;gap:3px;min-width:0}
 .item .stu{font-family:var(--f-ans);font-size:18px;color:var(--ink-ans);font-weight:800}
 .item .why{background:var(--bad-l);color:#A11846;border-radius:12px;padding:8px 10px;font-size:15.5px}
@@ -214,13 +236,13 @@ tr:nth-child(even) td{background:#FCFAFF}
 .chars{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .char{border:3px solid var(--line);border-radius:20px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;background:#fff;cursor:pointer}
 .char.on{border-color:var(--pri);background:var(--pri-l)}
-.char .em{font-size:38px;line-height:1.1}
+.char .em{line-height:0}
 .char b{font-family:var(--f-display);font-size:18px}
 .char small{color:var(--muted);font-size:12.5px;line-height:1.3}
 .voicebar{display:flex;flex-direction:column;gap:10px;padding:14px}
 .charrow{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .charrow button{border:2px solid var(--line);background:#fff;border-radius:14px;padding:6px 2px;font-weight:800;font-size:12.5px;display:flex;flex-direction:column;align-items:center;gap:0}
-.charrow button span{font-size:24px;line-height:1.2}
+.charrow button span{line-height:0;margin-bottom:2px}
 .charrow button.on{border-color:var(--pri);background:var(--pri-l);color:var(--pri-d)}
 .edbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .sw{width:32px;height:32px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--line)}
@@ -240,7 +262,7 @@ tr:nth-child(even) td{background:#FCFAFF}
 .bagitem img{width:58px;height:76px;object-fit:cover;border-radius:10px;border:2px solid var(--line);flex:none}
 .bagitem .t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .bagitem .t b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.del{border:0;background:var(--bad-l);color:var(--bad);border-radius:12px;width:40px;height:40px;font-size:17px;flex:none}
+.del{border:0;background:var(--bad-l);color:var(--bad);border-radius:12px;width:40px;height:40px;flex:none;display:grid;place-items:center}
 
 /* الإعدادات */
 .set{display:flex;flex-direction:column;gap:12px}
@@ -262,9 +284,9 @@ a.lnk{color:var(--pri);font-weight:800}
 .tabs{position:fixed;inset:auto 0 0 0;z-index:30;display:flex;justify-content:space-around;align-items:flex-end;max-width:560px;margin:0 auto;
   padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:#fff;border-radius:26px 26px 0 0;box-shadow:0 -8px 30px rgba(42,27,74,.1)}
 .tabs button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:0;font-size:12.5px;font-weight:800;color:var(--muted);padding:4px 8px;position:relative;min-width:62px}
-.tabs button i{font-style:normal;font-size:22px;filter:grayscale(.6);opacity:.75}
+.tabs button i{font-style:normal;display:grid;place-items:center;height:26px;opacity:.7}
 .tabs button.on{color:var(--pri)}
-.tabs button.on i{filter:none;opacity:1}
+.tabs button.on i{opacity:1}
 .tabs em{position:absolute;top:0;right:12px;background:var(--bad);color:#fff;font-style:normal;font-size:11px;border-radius:99px;min-width:18px;height:18px;display:grid;place-items:center;padding:0 4px}
 .tabs .fab{width:68px;height:68px;min-width:68px;border-radius:50%;margin-top:-34px;background:linear-gradient(180deg,#FF9F5A,var(--sec));color:#fff;font-size:30px;box-shadow:0 6px 0 var(--sec-d),0 10px 24px rgba(255,138,61,.45);border:5px solid #fff;display:grid;place-items:center}
 .tabs .fab:active{transform:translateY(4px)}
@@ -276,7 +298,7 @@ a.lnk{color:var(--pri);font-weight:800}
 .sheet .grab{width:44px;height:5px;border-radius:9px;background:#D9CDE8;align-self:center}
 .pick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .pick button{border:0;background:var(--card);box-shadow:var(--lift);border-radius:18px;padding:14px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:800;font-size:14px}
-.pick button span{font-size:30px}
+.pick button span{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:var(--pri-l);color:var(--pri)}
 #loading{position:fixed;inset:0;z-index:70;background:linear-gradient(180deg,#7C3AED,#5B21B6);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px;text-align:center}
 #loading .mascot{width:150px;height:150px}
 #loading h2{font-size:24px}
@@ -302,26 +324,26 @@ a.lnk{color:var(--pri);font-weight:800}
 <body>
 <div class="app">
   <header class="top">
-    <button class="iconbtn" id="backBtn" hidden aria-label="رجوع">→</button>
+    <button class="iconbtn" id="backBtn" hidden aria-label="رجوع"><i data-i="back"></i></button>
     <div class="brand">
       <svg class="logo" viewBox="0 0 200 200" aria-hidden="true"><path id="logoStar" fill="#FBBF24" stroke="#F59E0B" stroke-width="16" stroke-linejoin="round"/><circle cx="84" cy="108" r="9" fill="#2A1B4A"/><circle cx="116" cy="108" r="9" fill="#2A1B4A"/><path d="M86 128 Q100 142 114 128" stroke="#2A1B4A" stroke-width="7" fill="none" stroke-linecap="round"/></svg>
-      <b>المعلّم الذكي</b><span class="ver" id="verPill">v1.3</span>
+      <b>المعلّم الذكي</b><span class="ver" id="verPill">v1.4</span>
     </div>
-    <label class="eng"><span class="sr">محرك الذكاء الاصطناعي</span><select id="engSel"></select></label>
-    <div class="starpill" id="starPill" title="نجومك">⭐ <b id="starNum">٠</b></div>
+    <button class="engbtn" id="engBtn" aria-label="محرك الذكاء الاصطناعي" hidden></button>
+    <div class="starpill" id="starPill" title="نجومك"><i data-i="starf"></i> <b id="starNum">٠</b></div>
   </header>
 
   <main id="main">
     <section class="view" id="v-home"></section>
     <section class="view" id="v-crop" hidden>
       <div class="card" style="display:flex;flex-direction:column;gap:12px">
-        <h3>حدّد السؤال بإصبعك ✂️</h3>
+        <h3>حدّد السؤال بإصبعك</h3>
         <p class="muted" style="font-size:15px">اسحب الإطار المضيء أو زواياه لاختيار سؤال واحد أو فقرة أو شكل، أو اختر الصفحة كاملة.</p>
         <div class="crop-wrap" id="cropWrap"><img id="cropImg" alt="الصورة الملتقطة"><div id="cropBox"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div></div>
         <div class="row">
           <button class="btn sm ghost" id="cropRot">↻ تدوير</button>
           <button class="btn sm ghost" id="cropFull">الصفحة كاملة</button>
-          <button class="btn sm ok" id="cropOk" style="flex:1">استخدم التحديد ✔</button>
+          <button class="btn sm ok" id="cropOk" style="flex:1">استخدم التحديد</button>
         </div>
       </div>
     </section>
@@ -333,11 +355,11 @@ a.lnk{color:var(--pri);font-weight:800}
   </main>
 
   <nav class="tabs" aria-label="التنقل">
-    <button data-tab="home" class="on"><i>🏠</i><span>الرئيسية</span></button>
-    <button data-tab="mistakes"><i>📒</i><span>الأخطاء</span><em id="mBadge" hidden></em></button>
-    <button class="fab" id="fab" aria-label="صوّر الواجب">📷</button>
-    <button data-tab="bag"><i>🎒</i><span>الحقيبة</span></button>
-    <button data-tab="settings"><i>⚙️</i><span>الإعدادات</span></button>
+    <button data-tab="home" class="on"><i data-i="home"></i><span>الرئيسية</span></button>
+    <button data-tab="mistakes"><i data-i="notebook"></i><span>الأخطاء</span><em id="mBadge" hidden></em></button>
+    <button class="fab" id="fab" aria-label="صوّر الواجب"><i data-i="camera" data-s="30"></i></button>
+    <button data-tab="bag"><i data-i="bag"></i><span>الحقيبة</span></button>
+    <button data-tab="settings"><i data-i="sliders"></i><span>الإعدادات</span></button>
   </nav>
 </div>
 
@@ -346,16 +368,17 @@ a.lnk{color:var(--pri);font-weight:800}
 
 <div id="speakbar" hidden>
   <div class="waves"><i></i><i></i><i></i><i></i></div>
-  <button id="spPause" aria-label="إيقاف مؤقت">⏸</button>
-  <button id="spReplay" aria-label="إعادة القراءة">↺</button>
+  <button id="spPause" aria-label="إيقاف مؤقت"><i data-i="pause" data-s="18"></i></button>
+  <button id="spReplay" aria-label="إعادة القراءة"><i data-i="replay" data-s="18"></i></button>
   <span id="spState" style="font-size:13px;font-weight:700" hidden>يجهّز الصوت…</span>
   <button id="spRate" aria-label="سرعة الصوت">١x</button>
-  <button id="spStop" aria-label="إيقاف">✕</button>
+  <button id="spStop" aria-label="إيقاف"><i data-i="x" data-s="18"></i></button>
 </div>
 <div id="overlay" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
 <div id="loading" hidden>
   <div class="mascot thinking" id="ldMascot"></div>
   <h2 id="ldTitle">المعلّم يقرأ الورقة…</h2>
+  <p id="ldTime"></p>
   <div class="ldots"><i></i><i></i><i></i></div>
   <p id="ldTip"></p>
   <button class="btn sm" id="ldStop">إيقاف</button>
@@ -366,7 +389,7 @@ a.lnk{color:var(--pri);font-weight:800}
 <script>
 "use strict";
 /* ============ أساسيات ============ */
-const VERSION = 'v1.3';
+const VERSION = 'v1.4';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -390,6 +413,77 @@ const NP = name => {
 let toastT;
 function toast(msg, ms = 2600) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), ms); }
 
+/* ============ مكتبة الأيقونات (مرسومة، ثنائية اللون) ============ */
+const T = ' fill="currentColor" fill-opacity=".16"';
+const IC = {
+  home: `<path${T} d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>`,
+  notebook: `<rect${T} x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3M3 8h3M3 12h3M3 16h3"/>`,
+  camera: `<path${T} d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="14" r="3.5"/>`,
+  bag: `<path${T} d="M6 10a6 6 0 0 1 12 0v9a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M9 14h6v4H9z"/>`,
+  sliders: `<path d="M4 7h9M18 7h2M4 17h3M11 17h9"/><circle${T} cx="15.5" cy="7" r="2.5"/><circle${T} cx="8.5" cy="17" r="2.5"/>`,
+  back: `<path d="M5 12h14M13 6l6 6-6 6"/>`,
+  next: `<path d="M19 12H5M11 6l-6 6 6 6"/>`,
+  x: `<path d="M6 6l12 12M18 6 6 18"/>`,
+  pause: `<path d="M9 5v14M15 5v14"/>`,
+  play: `<path${T} d="M8 5l11 7-11 7z"/>`,
+  replay: `<path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/>`,
+  star: `<path${T} d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>`,
+  starf: `<path fill="currentColor" stroke="none" d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.3l-5.8 3.1 1.1-6.5-4.7-4.6 6.5-.9z"/>`,
+  teacher: `<rect${T} x="3" y="4" width="18" height="12" rx="2"/><path d="M7 9h6M7 12h4M8 20l4-4 4 4"/>`,
+  heart: `<path${T} d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7a4.2 4.2 0 0 1 7.5 2.8C19.5 15.4 12 20 12 20z"/>`,
+  clipboard: `<rect${T} x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/>`,
+  check: `<circle${T} cx="12" cy="12" r="9"/><path d="M8 12.5l2.6 2.6L16 9.6"/>`,
+  tick: `<path d="M5 12.5l4.5 4.5L19 7.5"/>`,
+  warn: `<path${T} d="M12 3.5 21.5 20h-19z"/><path d="M12 10v4.5M12 17.6v.1"/>`,
+  pen: `<path${T} d="M4 20l1-4L16 5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14 7l3 3M13 20h7"/>`,
+  lens: `<path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><circle${T} cx="12" cy="12" r="4"/><path d="M12 9.6v.1"/>`,
+  image: `<rect${T} x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-9 8"/>`,
+  flask: `<path${T} d="M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/><path d="M9 3h6M7.5 15h9"/>`,
+  speaker: `<path${T} d="M4 10v4h4l5 4V6L8 10z"/><path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11"/>`,
+  mic: `<rect${T} x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/>`,
+  file: `<path${T} d="M6 3h8l5 5v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M8.5 14h7M8.5 17.5h4"/>`,
+  chat: `<path${T} d="M4.5 19.5l1.2-3.6A8 8 0 1 1 8.4 18.5z"/><path d="M9 11h.01M12 11h.01M15 11h.01"/>`,
+  share: `<circle${T} cx="18" cy="5" r="2.5"/><circle${T} cx="6" cy="12" r="2.5"/><circle${T} cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/>`,
+  download: `<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>`,
+  edit: `<path${T} d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/>`,
+  trash: `<path${T} d="M6 7l1 13h10l1-13"/><path d="M4 7h16M10 11v6M14 11v6M9 7V4h6v3"/>`,
+  eye: `<path${T} d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>`,
+  copy: `<rect${T} x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>`,
+  bulb: `<path${T} d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/><path d="M9.5 18.5h5M10.5 21h3"/>`,
+  steps: `<path d="M4 6l1.5 1.5L8 5M4 12l1.5 1.5L8 11M4 18l1.5 1.5L8 17M11 6h9M11 12h9M11 18h9"/>`,
+  user: `<circle${T} cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>`,
+  bolt: `<path${T} d="M13 2L4 14h7l-1 8 9-12h-7z"/>`,
+  link: `<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>`,
+  sparkles: `<path${T} d="M11 3l1.8 4.7 4.7 1.8-4.7 1.8L11 16l-1.8-4.7L4.5 9.5l4.7-1.8z"/><path d="M18 14l.9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9z"/>`,
+  data: `<ellipse${T} cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>`,
+  book: `<path${T} d="M12 6c-2-1.5-5-2-8-1.5V19c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V4.5C17 4 14 4.5 12 6z"/><path d="M12 6v14.5"/>`,
+  clock: `<circle${T} cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>`,
+  house: `<path${T} d="M4 11 12 4l8 7v9H4z"/><path d="M10 20v-5h4v5"/>`,
+  target: `<circle${T} cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>`,
+  flag: `<path${T} d="M5 4h11l-2 4 2 4H5"/><path d="M5 21V3"/>`,
+  headset: `<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect${T} x="3" y="14" width="4" height="7" rx="1.5"/><rect${T} x="17" y="14" width="4" height="7" rx="1.5"/>`,
+  gem: `<path${T} d="M12 2c.6 5 3.9 8.4 9 10-5.1 1.6-8.4 5-9 10-.6-5-3.9-8.4-9-10 5.1-1.6 8.4-5 9-10z"/>`,
+  send: `<path${T} d="M21 3 3 10.5l7 2.5 2.5 7z"/><path d="M10 13l5-5"/>`,
+  search: `<circle${T} cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/>`,
+  chevron: `<path d="M6 9l6 6 6-6"/>`,
+  sun: `<circle${T} cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>`,
+  moon: `<path${T} d="M20 14.5A8 8 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"/>`,
+  words: `<path d="M3 18l4.5-11L12 18M4.7 14h5.6"/><circle${T} cx="17" cy="15" r="3"/><path d="M20 12v6"/>`
+};
+function I(n, s = 22) { return `<svg class="i" viewBox="0 0 24 24" width="${s}" height="${s}" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${IC[n] || ''}</svg>`; }
+function paintIcons(root = document) { $$('[data-i]', root).forEach(e => { e.innerHTML = I(e.dataset.i, +(e.dataset.s || 22)); }); }
+/* صور الشخصيات الأربع (المعلّم بالكمة العُمانية، المعلّمة والطالبة بالحجاب) */
+function avatar(k, s = 44) {
+  const face = '<circle cx="24" cy="27" r="11" fill="#F6C9A0"/><circle cx="20" cy="26" r="1.4" fill="#2A1B4A"/><circle cx="28" cy="26" r="1.4" fill="#2A1B4A"/><path d="M20.5 31q3.5 3 7 0" stroke="#2A1B4A" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="17.5" cy="29.5" r="1.8" fill="#FF9DB5" opacity=".6"/><circle cx="30.5" cy="29.5" r="1.8" fill="#FF9DB5" opacity=".6"/>';
+  const bg = { man: '#E9DDFE', woman: '#FFE6D5', boy: '#D7F7F2', girl: '#FFE3EF' }[k];
+  let x = '';
+  if (k === 'man') x = face + '<path d="M13 21a11 8 0 0 1 22 0v1.5H13z" fill="#fff" stroke="#7C3AED" stroke-width="1.5"/><path d="M15.5 19.5h17" stroke="#7C3AED" stroke-width="1.2" stroke-dasharray="1.5 1.5"/><path d="M14.5 30q9.5 13 19 0v2q-9.5 10-19 0z" fill="#3B2A1F"/>';
+  if (k === 'woman') x = '<path d="M24 12c-8.5 0-14 6.5-14 15v14h28V27c0-8.5-5.5-15-14-15z" fill="#7C3AED"/>' + face.replace('r="11"', 'r="9.5"');
+  if (k === 'boy') x = face + '<path d="M12.5 25c0-8 5-12.5 11.5-12.5S35.5 17 35.5 25c-2.5-3.6-6.5-5.4-11.5-5.4s-9 1.8-11.5 5.4z" fill="#3B2A1F"/>';
+  if (k === 'girl') x = '<path d="M24 13c-8 0-13 6-13 14v13h26V27c0-8-5-14-13-14z" fill="#F472B6"/>' + face.replace('r="11"', 'r="9.5"');
+  return `<svg class="av" viewBox="0 0 48 48" width="${s}" height="${s}" aria-hidden="true"><circle cx="24" cy="24" r="24" fill="${bg}"/><clipPath id="avc-${k}"><circle cx="24" cy="24" r="24"/></clipPath><g clip-path="url(#avc-${k})">${x}</g></svg>`;
+}
+
 /* ============ الحالة المحفوظة ============ */
 const DEF = {
   profile: { name: '', grade: 3, gender: 'f', curriculum: 'سلطنة عُمان' },
@@ -405,7 +499,7 @@ try { S = JSON.parse(localStorage.getItem('mz_state') || '{}'); } catch (e) { S 
 S = Object.assign(JSON.parse(JSON.stringify(DEF)), S);
 for (const k of ['profile', 'keys', 'models', 'links']) S[k] = Object.assign({}, DEF[k], S[k] || {});
 S.voice = Object.assign({}, DEF.voice, S.voice || {}); S.voice.el = Object.assign({}, DEF.voice.el, S.voice.el || {}); S.voice.el.ids = Object.assign({}, DEF.voice.el.ids, S.voice.el.ids || {});
-if (S.v !== 'v1.3') { delete S.skills.onpage; delete S.skills.correct; if (S.engine === 'pollinations') S.engine = 'auto'; S.v = 'v1.3'; }
+if (S.v !== 'v1.4') { delete S.skills.onpage; delete S.skills.correct; if (!['auto', 'gemini', 'openrouter'].includes(S.engine)) S.engine = 'auto'; S.v = 'v1.4'; }
 function save() { try { localStorage.setItem('mz_state', JSON.stringify(S)); } catch (e) {} }
 const isF = () => S.profile.gender === 'f';
 const g = (m, f) => isF() ? f : m;
@@ -481,7 +575,7 @@ function addStars(n) {
   const after = levelOf(S.stars);
   if (after > before) setTimeout(() => {
     confetti(); sfx.win();
-    openSheet(`<div class="empty"><div class="mascot bob" style="width:150px;height:150px">${mascotSVG(after)}</div><h2>كبرت لمعة! 🎉</h2><p>وصلت إلى مستوى <b>${LEVELS[after].name}</b>. ${g('استمر يا بطل', 'استمري يا بطلة')}!</p><button class="btn" data-close>رائع!</button></div>`);
+    openSheet(`<div class="empty"><div class="mascot bob" style="width:150px;height:150px">${mascotSVG(after)}</div><h2>كبرت لمعة!</h2><p>وصلت إلى مستوى <b>${LEVELS[after].name}</b>. ${g('استمر يا بطل', 'استمري يا بطلة')}!</p><button class="btn" data-close>رائع!</button></div>`);
   }, 700);
 }
 function updateStars(pop) { $('#starNum').textContent = toAr(S.stars); if (pop) { const p = $('#starPill'); p.classList.remove('pop'); void p.offsetWidth; p.classList.add('pop'); } }
@@ -607,7 +701,7 @@ const TTS = {
     else if (this.mode === 'native') this.stop();
     else if (this.mode === 'device') { if (speechSynthesis.paused) { speechSynthesis.resume(); this.paused(false); } else { speechSynthesis.pause(); this.paused(true); } }
   },
-  paused(p) { $('#speakbar').classList.toggle('paused', p); $('#spPause').textContent = p ? '▶' : '⏸'; },
+  paused(p) { $('#speakbar').classList.toggle('paused', p); $('#spPause').innerHTML = I(p ? 'play' : 'pause', 18); },
   stop(keep) { this.token++; try { NP('TextToSpeech') && NP('TextToSpeech').stop(); } catch (e) {} try { speechSynthesis.cancel(); } catch (e) {} try { AUD.pause(); } catch (e) {} this.mode = null; if (!keep) this.ui(false); },
   ui(on, loading) { $('#speakbar').hidden = !on; $('#spState').hidden = !loading; this.paused(false); $$('.mascot').forEach(m => m.classList.toggle('talking', on && !loading)); }
 };
@@ -621,7 +715,7 @@ $('#spStop').onclick = () => TTS.stop();
 $('#spReplay').onclick = () => TTS.speak(TTS.last, TTS.lang);
 $('#spRate').onclick = () => { const i = SPEEDS.findIndex(x => x[0] === S.voice.speed); setSpeed(SPEEDS[(i + 1) % 3][0]); toast('سرعة القراءة: ' + speedLabel()); };
 $('#spRate').textContent = speedLabel();
-const charRowHTML = () => `<div class="charrow">${Object.entries(CHARS).map(([k, c]) => `<button data-char="${k}" class="${S.voice.char === k ? 'on' : ''}"><span>${c.ic}</span>${c.name}</button>`).join('')}</div>`;
+const charRowHTML = () => `<div class="charrow">${Object.entries(CHARS).map(([k, c]) => `<button data-char="${k}" class="${S.voice.char === k ? 'on' : ''}"><span>${avatar(k, 34)}</span>${c.name}</button>`).join('')}</div>`;
 const speedSegHTML = () => `<div class="seg">${SPEEDS.map(([v, l]) => `<button data-speed="${v}" class="${S.voice.speed === v ? 'on' : ''}">${l}</button>`).join('')}</div>`;
 document.addEventListener('click', e => {
   const t = e.target.closest('[data-try]');
@@ -683,7 +777,7 @@ async function drawWorksheet(student) {
     }
   });
   x.textAlign = 'center'; x.font = '700 26px Tajawal'; x.fillStyle = '#9A8BB5';
-  x.fillText('راجع إجاباتك قبل التسليم ⭐', WS.W / 2, WS.H - 60);
+  x.fillText('راجع إجاباتك قبل التسليم', WS.W / 2, WS.H - 60);
   return c;
 }
 function roundRect(x, X, Y, W, H, r) { x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + W, Y, X + W, Y + H, r); x.arcTo(X + W, Y + H, X, Y + H, r); x.arcTo(X, Y + H, X, Y, r); x.arcTo(X, Y, X + W, Y, r); x.closePath(); }
@@ -719,6 +813,13 @@ const DEMO = {
     return { title: 'تصحيح ورقة الجمع والطرح', font_h: 26, score: items.filter(i => i.ok).length, total: items.length, items, praise: 'عمل رائع! أربع إجابات صحيحة من ست. ركّز على ترتيب الخانات وستصبح بطلاً في الأعداد.' };
   },
   onpage: () => ({ font_h: 26, items: WS_Q.map((q, i) => ({ n: i + 1, answer: q.a, box_2d: nb(WS.boxes[i]) })) }),
+  lens: () => ({ title: 'ورقة رياضيات: الجمع والطرح والتقريب', summary: 'هذه ورقة عمل للصف الثالث فيها ستة أسئلة: جمع وطرح أعداد من ثلاث منازل، وكتابة عدد بالأرقام، والتقريب لأقرب عشرة، ومسألة ضرب بسيطة.\nالمطلوب أن تحل كل سؤال وتكتب الناتج في الخانة الفارغة.',
+    suggestions: [
+      { label: 'كيف أقرّب لأقرب عشرة؟', ask: 'كيف أقرّب عدداً لأقرب عشرة؟', a: 'انظر إلى رقم **الآحاد**:\n١. إذا كان ٥ أو أكثر، نرفع العشرات واحداً ونجعل الآحاد صفراً.\n٢. إذا كان أقل من ٥، نُبقي العشرات ونجعل الآحاد صفراً.\nمثال: ٣٤٧ ← الآحاد ٧، إذن نقرّب إلى **٣٥٠**.' },
+      { label: 'اشرح مسألة العلب', ask: 'اشرح لي مسألة علب الأقلام خطوة بخطوة', a: 'في كل علبة ٤ أقلام، وعندنا ٣ علب.\n١. نكرر العدد ٤ ثلاث مرات: ٤ + ٤ + ٤.\n٢. أو نضرب مباشرة: ٣ × ٤.\nالناتج **١٢ قلماً**.' },
+      { label: 'ما معنى خانة العشرات؟', ask: 'ما معنى خانة العشرات والآحاد؟', a: 'كل رقم في العدد له **منزلة**.\nفي العدد ٣٢٥: الرقم ٥ في **الآحاد**، و٢ في **العشرات** أي عشرون، و٣ في **المئات** أي ثلاثمئة.' }
+    ],
+    words: DEMO.words().words }),
   words: () => ({ words: [
     { w: 'أوجد', lang: 'ar', meaning: 'احسب واعرف النتيجة.', example: 'أوجد ناتج ٢ + ٣.' },
     { w: 'الناتج', lang: 'ar', meaning: 'الجواب الذي نحصل عليه بعد الحساب.', example: 'ناتج ٥ + ٥ هو ١٠.' },
@@ -787,6 +888,13 @@ const SKILLS = {
 - الإجابة قصيرة ومباشرة كما يكتبها الطالب في الفراغ، ومشكّلة بالحركات.
 - كل فراغ له إجابته الخاصة، حتى لو كان في السؤال الواحد فراغان.
 - تجاهل أي كتابة سابقة بخط اليد على الورقة.`,
+  lens: `حلّل الصورة مثل عدسة ذكية بأسلوب معلّم: تعرّف على محتواها (درس، سؤال، نص، رسم، خريطة، تجربة، كلمات أجنبية…) وما المطلوب فيها.
+١) "title": عنوان قصير لما في الصورة.
+٢) "summary": شرح مبسّط من ٢ إلى ٤ جمل لما في الصفحة وما المطلوب فيها.
+٣) "suggestions": من ٣ إلى ٥ أسئلة مفيدة خاصة بهذه الصفحة بالذات؛ "label" قصير جداً (٢ إلى ٤ كلمات) و"ask" السؤال كاملاً.
+٤) "words": حتى ٨ كلمات صعبة أو جديدة (عربية أو إنجليزية) بمعنى مبسّط ومثال. اتركها فارغة إن لم توجد.
+الشكل المطلوب:
+{"title":"...","summary":"...","suggestions":[{"label":"...","ask":"..."}],"words":[{"w":"الكلمة","lang":"ar أو en","meaning":"معنى مبسّط","example":"مثال قصير"}]}`,
   words: `استخرج أهم الكلمات الصعبة أو الجديدة في الصورة (عربية أو إنجليزية، حتى ١٢ كلمة).
 الشكل المطلوب:
 {"words":[{"w":"الكلمة","lang":"ar أو en","meaning":"معنى مبسّط بالعربية","example":"مثال قصير"}]}`
@@ -1058,26 +1166,39 @@ async function httpErr(res) {
   if (res.status === 404) return new Error('اسم النموذج غير موجود؛ غيّره من الإعدادات');
   return new Error(`خطأ ${res.status}${msg ? ': ' + msg.slice(0, 120) : ''}`);
 }
-async function runGemini({ sys, prompt, blob, signal, json = true }) {
+/* مهلة قصوى للطلب مع ربطه بزر الإيقاف */
+function timed(signal, ms) {
+  const c = new AbortController(); let timedOut = false;
+  const t = setTimeout(() => { timedOut = true; c.abort(); }, ms);
+  if (signal) { if (signal.aborted) c.abort(); else signal.addEventListener('abort', () => c.abort(), { once: true }); }
+  return { signal: c.signal, done: () => clearTimeout(t), timedOut: () => timedOut };
+}
+const TIMEOUT_MSG = 'تأخّر الرد أكثر من دقيقتين. تأكد من الإنترنت ثم حاول مرة أخرى';
+async function runGemini({ sys, prompt, blob, signal, json = true, _noThink }) {
   const parts = [{ text: prompt }];
   if (blob) parts.push({ inlineData: { mimeType: 'image/jpeg', data: (await blobToB64(blob)).split(',')[1] } });
-  const body = { systemInstruction: { parts: [{ text: sys }] }, contents: [{ role: 'user', parts }], generationConfig: { temperature: 0.4, ...(json ? { responseMimeType: 'application/json' } : {}) } };
-  let res;
-  try { res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(S.models.gemini)}:generateContent`, { method: 'POST', signal, headers: { 'Content-Type': 'application/json', 'x-goog-api-key': S.keys.gemini }, body: JSON.stringify(body) }); }
-  catch (e) { netErr(e); }
-  if (!res.ok) throw await httpErr(res);
-  const d = await res.json();
+  const model = S.models.gemini, gc = { temperature: 0.4, ...(json ? { responseMimeType: 'application/json' } : {}) };
+  // التفكير المنخفض يقلل وقت الانتظار كثيراً في نماذج Gemini 3
+  if (!_noThink) gc.thinkingConfig = /gemini-2\./.test(model) ? { thinkingBudget: 512 } : { thinkingLevel: 'low' };
+  const body = { systemInstruction: { parts: [{ text: sys }] }, contents: [{ role: 'user', parts }], generationConfig: gc };
+  const tm = timed(signal, 120000); let res;
+  try { res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, { method: 'POST', signal: tm.signal, headers: { 'Content-Type': 'application/json', 'x-goog-api-key': S.keys.gemini }, body: JSON.stringify(body) }); }
+  catch (e) { tm.done(); if (tm.timedOut()) throw new Error(TIMEOUT_MSG); netErr(e); }
+  if (res.status === 400 && !_noThink) { const tx = await res.clone().text().catch(() => ''); if (/thinking/i.test(tx)) { tm.done(); return runGemini({ sys, prompt, blob, signal, json, _noThink: true }); } }
+  if (!res.ok) { tm.done(); throw await httpErr(res); }
+  let d; try { d = await res.json(); } catch (e) { tm.done(); if (tm.timedOut()) throw new Error(TIMEOUT_MSG); throw e; }
+  tm.done();
   const txt = (d.candidates?.[0]?.content?.parts || []).filter(p => p.text && !p.thought).map(p => p.text).join('');
   if (!txt) throw new Error(d.promptFeedback?.blockReason ? 'رفض المحرك الصورة' : 'رد فارغ من Gemini');
   return json ? parseLoose(txt) : txt;
 }
 async function runOpenAI(url, key, model, { sys, prompt, blob, signal, json = true }) {
   const content = blob ? [{ type: 'text', text: prompt }, { type: 'image_url', image_url: { url: await blobToB64(blob) } }] : prompt;
-  let res;
-  try { res = await fetch(url, { method: 'POST', signal, headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key, 'X-Title': 'Al-Muallim Al-Thaki' }, body: JSON.stringify({ model, temperature: 0.4, messages: [{ role: 'system', content: sys }, { role: 'user', content }] }) }); }
-  catch (e) { netErr(e); }
-  if (!res.ok) throw await httpErr(res);
-  const d = await res.json();
+  const tm = timed(signal, 120000); let res;
+  try { res = await fetch(url, { method: 'POST', signal: tm.signal, headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key, 'X-Title': 'Al-Muallim Al-Thaki' }, body: JSON.stringify({ model, temperature: 0.4, messages: [{ role: 'system', content: sys }, { role: 'user', content }] }) }); }
+  catch (e) { tm.done(); if (tm.timedOut()) throw new Error(TIMEOUT_MSG); netErr(e); }
+  if (!res.ok) { tm.done(); throw await httpErr(res); }
+  let d; try { d = await res.json(); } finally { tm.done(); }
   let txt = d.choices?.[0]?.message?.content;
   if (Array.isArray(txt)) txt = txt.map(p => p.text || '').join('');
   if (!txt) throw new Error('رد فارغ');
@@ -1122,14 +1243,16 @@ function openSheet(html, onMount) {
 }
 function closeSheet() { $('#overlay').hidden = true; $('#sheet').innerHTML = ''; }
 $('#overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closeSheet(); });
-const TIPS = ['لمعة تقرأ كل سطر بعناية…', 'نرتّب الأسئلة بالترتيب نفسه…', 'هل تعلم؟ التقريب يساعدنا على الحساب الذهني بسرعة.', 'نجهّز تلميحات لا تكشف الحل…', 'كل خطأ فرصة لنتعلم شيئاً جديداً ⭐'];
-let ldTimer, curCtl;
+const TIPS = ['لمعة تقرأ كل سطر بعناية…', 'نرتّب الأسئلة بالترتيب نفسه…', 'هل تعلم؟ التقريب يساعدنا على الحساب الذهني بسرعة.', 'نجهّز تلميحات لا تكشف الحل…', 'كل خطأ فرصة لنتعلم شيئاً جديداً'];
+let ldTimer, ldTimer2, curCtl;
 function showLoading(title) {
   $('#ldMascot').innerHTML = mascotSVG(levelOf(S.stars)); $('#ldTitle').textContent = title || 'المعلّم يقرأ الورقة…';
   let i = 0; $('#ldTip').textContent = TIPS[0]; clearInterval(ldTimer); ldTimer = setInterval(() => { $('#ldTip').textContent = TIPS[++i % TIPS.length]; }, 2600);
+  const t0 = Date.now(); $('#ldTime').textContent = '';
+  ldTimer2 = setInterval(() => { const sec = Math.round((Date.now() - t0) / 1000); $('#ldTime').textContent = sec >= 3 ? toAr(sec) + ' ث' : ''; if (sec === 25) $('#ldTip').textContent = 'الصورة تحتاج وقتاً أطول قليلاً…'; }, 1000);
   $('#loading').hidden = false;
 }
-function hideLoading() { $('#loading').hidden = true; clearInterval(ldTimer); }
+function hideLoading() { $('#loading').hidden = true; clearInterval(ldTimer); clearInterval(ldTimer2); }
 $('#ldStop').onclick = () => { curCtl && curCtl.abort(); hideLoading(); toast('تم الإيقاف'); };
 
 /* ============ التنقل ============ */
@@ -1148,29 +1271,24 @@ document.addEventListener('click', e => { const go = e.target.closest('[data-go]
 
 /* ============ المحرك في الشريط العلوي ============ */
 function refreshEngineUI() {
-  const sel = $('#engSel');
-  sel.closest('label').hidden = inArtifact;
-  if (!inArtifact) {
-    const ids = ['auto', 'gemini', 'openrouter'];
-    if (!ids.includes(S.engine)) S.engine = 'auto';
-    sel.innerHTML = ids.map(id => `<option value="${id}" ${S.engine === id ? 'selected' : ''}>${ENGINE_LABEL[id]}${id !== 'auto' && !ENGINES[id].has() ? ' ⚪' : ''}</option>`).join('');
-  }
-  if (curView === 'home') { const e = $('#engStatus'); if (e) e.innerHTML = engineStatusHTML(); }
+  const b = $('#engBtn'); b.hidden = inArtifact;
+  if (inArtifact) return;
+  if (!['auto', 'gemini', 'openrouter'].includes(S.engine)) S.engine = 'auto';
+  b.innerHTML = I('bolt', 16) + ENGINE_LABEL[S.engine] + I('chevron', 14);
 }
-$('#engSel').onchange = e => { S.engine = e.target.value; save(); toast('المحرك: ' + ENGINE_LABEL[S.engine]); refreshEngineUI(); };
-function engineStatusHTML() {
-  const row = (color, name, txt) => `<div class="engrow"><span class="dot" style="background:${color}"></span>${name}<small>${txt}</small></div>`;
-  let h = '';
-  if (inArtifact) {
-    h += row(CL.sample ? ENGINES.claude.color : '#D9CDE8', 'Claude', CL.ready ? (CL.sample ? 'يعمل الآن في هذه المعاينة ✓' : 'غير متاح هنا') : 'جارٍ التحقق…');
-    h += `<p class="note" style="margin-top:4px">مفاتيح Gemini وOpenRouter تعمل في نسخة التطبيق المستضافة فقط، لأن نافذة المعاينة هنا تمنع أي اتصال خارجي.</p>`;
-  } else for (const id of ['gemini', 'openrouter']) {
-    const e = ENGINES[id];
-    h += row(e.has() ? e.color : '#D9CDE8', e.name, e.has() ? 'جاهز ✓' : 'أضف المفتاح المجاني من الإعدادات');
-  }
-  h += row('#FBBF24', 'الورقة التجريبية', 'تعمل دائماً بدون إنترنت');
-  return h;
-}
+$('#engBtn').onclick = () => {
+  const opt = (id, ic, name, ok) => `<button class="engopt ${S.engine === id ? 'on' : ''}" data-eng="${id}"><span class="ei" style="background:${id === 'gemini' ? '#E3ECFF;color:#2563EB' : id === 'openrouter' ? '#EFE6FF;color:#6D28D9' : '#FFF1D6;color:#B45309'}">${I(ic, 24)}</span><span><b>${name}</b><small class="${ok ? 'ok' : ''}">${ok ? 'جاهز' : 'يحتاج مفتاحاً'}</small></span></button>`;
+  openSheet(`<h3>محرك الذكاء الاصطناعي</h3>
+    ${opt('auto', 'bolt', 'تلقائي', anyEngineFor(['gemini', 'openrouter']))}
+    ${opt('gemini', 'gem', 'Gemini', ENGINES.gemini.has())}
+    ${opt('openrouter', 'sparkles', 'OpenRouter', ENGINES.openrouter.has())}`, sh => {
+    $$('[data-eng]', sh).forEach(x => x.onclick = () => {
+      const id = x.dataset.eng; S.engine = id; save(); refreshEngineUI(); closeSheet();
+      if (id !== 'auto' && !ENGINES[id].has()) { renderSettings(); show('settings'); toast('أضف المفتاح أولاً'); }
+    });
+  });
+};
+const anyEngineFor = ids => ids.some(id => ENGINES[id].has());
 
 /* ============ الرئيسية ============ */
 let demoThumbURL = '';
@@ -1183,27 +1301,26 @@ function renderHome() {
   <div class="hero card">
     <div class="mascot bob">${mascotSVG(lv)}</div>
     <div class="hero-txt">
-      <p class="hello">${hr < 12 ? 'صباح الخير ☀️' : 'مساء الخير 🌙'}</p>
+      <p class="hello">${I(hr < 12 ? 'sun' : 'moon', 18)} ${hr < 12 ? 'صباح الخير' : 'مساء الخير'}</p>
       <h1>${S.profile.name ? 'أهلاً يا ' + esc(S.profile.name) + '!' : 'أهلاً بك!'}</h1>
-      <div class="lvl"><span>رفيقتك: ${LEVELS[lv].name}</span><span>${next ? toAr(next.min - S.stars) + ' نجمة للمستوى التالي' : 'أعلى مستوى 👑'}</span></div>
+      <div class="lvl"><span>رفيقتك: ${LEVELS[lv].name}</span><span>${next ? toAr(next.min - S.stars) + ' نجمة للمستوى التالي' : 'أعلى مستوى'}</span></div>
       <div class="bar"><i style="width:${pct}%"></i></div>
     </div>
   </div>
-  ${S.profile.name ? '' : '<button class="card setup" data-go="settings">👤 أنشئ ملف الطالب: الاسم والصف والمنهج، ليتكيّف الشرح معه تلقائياً</button>'}
-  <div class="cta"><button class="btn big" id="hCam">📷 صوّر الواجب</button><button class="btn alt" id="hGal">🖼️ المعرض</button></div>
+  ${!inArtifact && !anyEngine() ? `<button class="card setup" data-go="settings">${I('gem')} أضف مفتاح Gemini المجاني ليبدأ التحليل</button>` : ''}
+  ${S.profile.name ? '' : `<button class="card setup" data-go="settings">${I('user')} أنشئ ملف الطالب: الاسم والصف والمنهج</button>`}
+  <div class="cta"><button class="btn big" id="hCam">${I('camera', 24)} صوّر الواجب</button><button class="btn alt" id="hGal">${I('image', 22)} المعرض</button></div>
   <h2 class="sec">جرّب الآن بورقة جاهزة</h2>
   <div class="demo card">
     <img id="demoThumb" alt="ورقة عمل تجريبية" ${demoThumbURL ? `src="${demoThumbURL}"` : ''}>
-    <div><b>ورقة عمل رياضيات • الصف الثالث</b><p class="muted" style="font-size:14.5px">٦ أسئلة: جمع، طرح، كتابة الأعداد، تقريب، ضرب</p>
+    <div><b>ورقة عمل رياضيات • الصف الثالث</b>
       <div class="row"><button class="btn sm" id="dBlank">ورقة فارغة</button><button class="btn sm ghost" id="dSolved">محلولة بخط الطالب</button></div></div>
   </div>
   <div class="stats">
     <div class="stat"><b>${toAr(S.stars)}</b><span>نجمة</span></div>
     <div class="stat" data-go="mistakes"><b>${toAr(active)}</b><span>خطأ للمراجعة</span></div>
     <div class="stat" data-go="bag"><b id="bagCount">٠</b><span>درس محفوظ</span></div>
-  </div>
-  <h2 class="sec">المحركات</h2>
-  <div class="engines card" id="engStatus">${engineStatusHTML()}</div>`;
+  </div>`;
   $('#hCam').onclick = () => $('#fCam').click();
   $('#hGal').onclick = () => $('#fGal').click();
   $('#dBlank').onclick = () => startDemo(false);
@@ -1214,8 +1331,7 @@ function renderHome() {
 }
 function updateBadge() { const n = S.mistakes.filter(m => !m.mastered).length; const b = $('#mBadge'); b.hidden = !n; b.textContent = toAr(n); }
 $('#fab').onclick = () => openSheet(`<h3>من أين نأخذ الواجب؟</h3><div class="pick">
-  <button id="pCam"><span>📷</span>الكاميرا</button><button id="pGal"><span>🖼️</span>المعرض أو الملفات</button><button id="pDemo"><span>🧪</span>ورقة تجريبية</button></div>
-  <p class="note">نصيحة: صوّر الورقة من الأعلى في مكان مضيء، وتجنّب ظهور الوجوه أو الأسماء.</p>`, s => {
+  <button id="pCam"><span>${I('camera', 28)}</span>الكاميرا</button><button id="pGal"><span>${I('image', 28)}</span>المعرض أو الملفات</button><button id="pDemo"><span>${I('flask', 28)}</span>ورقة تجريبية</button></div>`, s => {
   $('#pCam', s).onclick = () => { closeSheet(); $('#fCam').click(); };
   $('#pGal', s).onclick = () => { closeSheet(); $('#fGal').click(); };
   $('#pDemo', s).onclick = () => { closeSheet(); startDemo(false); };
@@ -1283,19 +1399,19 @@ async function startDemo(solved) {
 
 /* ============ اختيار الوضع ============ */
 const MODES = {
-  teacher: { ic: '🧑‍🏫', name: 'المعلم التفاعلي', d: 'قصة الدرس، ثم سؤال تلو الآخر مع تلميحات', c: '#7C3AED' },
-  mom: { ic: '💜', name: 'كبسولة الأم', d: 'الفكرة في ٣٠ ثانية، وكيف تشرحينها، والإجابات', c: '#FF8A3D' },
-  solve: { ic: '📋', name: 'الحل النموذجي', d: 'جدول بكل الإجابات بترقيم الورقة', c: '#14B8A6' },
-  correct: { ic: '✅', name: 'صحّح واجبي', d: 'يقارن حلّك بخط يدك ويعلّم على الأخطاء', c: '#F2557A' },
-  onpage: { ic: '✍️', name: 'الحل على الورقة', d: 'يكتب الإجابات داخل خاناتها ويحفظها صورة أو PDF', c: '#2563EB' },
-  words: { ic: '🔤', name: 'عدسة الكلمات', d: 'معاني الكلمات ونطقها بالضغط عليها', c: '#EAB308' }
+  lens: { ic: 'lens', name: 'العدسة الذكية', d: 'تحلل الصفحة، ثم اسألها عن أي شيء فيها', c: '#0EA5E9', wide: true },
+  teacher: { ic: 'teacher', name: 'المعلم التفاعلي', d: 'قصة الدرس، ثم سؤال تلو الآخر مع تلميحات', c: '#7C3AED' },
+  mom: { ic: 'heart', name: 'كبسولة الأم', d: 'الفكرة في ٣٠ ثانية، وكيف تشرحينها، والإجابات', c: '#FF8A3D' },
+  solve: { ic: 'clipboard', name: 'الحل النموذجي', d: 'جدول بكل الإجابات بترقيم الورقة', c: '#14B8A6' },
+  correct: { ic: 'check', name: 'صحّح واجبي', d: 'يقارن حلّك بخط يدك ويعلّم على الأخطاء', c: '#F2557A' },
+  onpage: { ic: 'pen', name: 'الحل على الورقة', d: 'يكتب الإجابات داخل خاناتها ويحفظها صورة أو PDF', c: '#2563EB' },
+  words: { ic: 'words', name: 'عدسة الكلمات', d: 'معاني الكلمات ونطقها', c: '#EAB308', hide: true }
 };
 function renderModes(suggest) {
   $('#v-modes').innerHTML = `
   <div class="card thumbrow"><img src="${current.url}" alt="الصورة المختارة"><div><h3>ماذا نفعل بهذه الورقة؟</h3>
-    <p class="muted" style="font-size:14.5px">${current.demo ? 'ورقة تجريبية: النتائج جاهزة وفورية بدون إنترنت.' : 'المحرك: ' + ENGINE_LABEL[S.engine]}</p></div></div>
-  <div class="modes">${Object.entries(MODES).map(([k, m]) => `<button class="mode ${k === suggest ? 'suggest' : ''}" style="--c:${m.c}" data-mode="${k}"><span class="ic">${m.ic}</span><b>${m.name}</b><span>${m.d}</span></button>`).join('')}</div>
-  ${current.demo === 'blank' ? '<p class="note">جرّب «صحّح واجبي» على الورقة المحلولة بخط الطالب من الصفحة الرئيسية.</p>' : ''}`;
+    </div></div>
+  <div class="modes">${Object.entries(MODES).filter(([, m]) => !m.hide).map(([k, m]) => `<button class="mode ${k === suggest ? 'suggest' : ''} ${m.wide ? 'wide' : ''}" style="--c:${m.c}" data-mode="${k}"><span class="ic">${I(m.ic, m.wide ? 30 : 26)}</span><b>${m.name}</b><span>${m.d}</span></button>`).join('')}</div>`;
   $$('#v-modes [data-mode]').forEach(b => b.onclick = () => runMode(b.dataset.mode));
 }
 
@@ -1308,7 +1424,7 @@ async function runMode(mode, forceReal) {
   } else {
     if (!anyEngine()) return noEngineSheet();
     curCtl = new AbortController();
-    showLoading('المعلّم يقرأ الورقة…');
+    showLoading(mode === 'lens' ? 'العدسة تحلّل الصفحة…' : 'المعلّم يقرأ الورقة…');
     try {
       let det = null, blob;
       if (mode === 'onpage') { $('#ldTitle').textContent = 'أقيس الفراغات في الورقة…'; const im = await loadImg(current.url); det = detectBlanks(im); blob = await annotateForAI(im, det); }
@@ -1319,8 +1435,8 @@ async function runMode(mode, forceReal) {
       if (current.result && typeof current.result === 'object') { current.result._fmt = 'g'; if (det) current.result._det = det.boxes; }
     } catch (e) {
       hideLoading(); if (e.name === 'AbortError') return;
-      return openSheet(`<h3>لم ينجح التحليل 😕</h3><div class="note warn" style="white-space:pre-line">${esc(e.list ? e.list.join('\n') : e.message)}</div>
-        <p class="muted" style="font-size:15px">جرّب محركاً آخر من القائمة في الأعلى، أو تأكد من المفتاح في الإعدادات.</p><button class="btn" data-close>حسناً</button>`);
+      return openSheet(`<h3>لم ينجح التحليل</h3><div class="note warn" style="white-space:pre-line">${esc(e.list ? e.list.join('\n') : e.message)}</div>
+        <button class="btn" data-close>حسناً</button>`);
     }
     hideLoading();
   }
@@ -1340,13 +1456,13 @@ function renderResult() {
   const m = MODES[current.mode], r = current.result || {};
   const v = $('#v-result');
   v.innerHTML = `<div class="card res-head"><img src="${current.url}" alt=""><div><h3>${esc(r.title || m.name)}</h3>
-    <div class="chips"><span class="chip" style="background:color-mix(in srgb,${m.c} 14%,#fff);color:${m.c}">${m.ic} ${m.name}</span><span class="chip ${current.engine === 'demo' ? 'orange' : 'teal'}">${current.engine === 'demo' ? '🧪 نتائج تجريبية' : '⚡ ' + ENGINES[current.engine].name}</span></div></div></div>
-    ${['teacher', 'mom', 'correct', 'words'].includes(current.mode) ? `<div class="card voicebar"><b>من يشرح لك؟</b>${charRowHTML()}${speedSegHTML()}${inArtifact ? '<small class="muted">في هذه المعاينة يُستخدم صوت جهازك. الأصوات البشرية تعمل في نسخة التطبيق.</small>' : ''}</div>` : ''}
+    <div class="chips"><span class="chip" style="background:color-mix(in srgb,${m.c} 14%,#fff);color:${m.c};display:inline-flex;align-items:center;gap:4px">${I(m.ic, 16)} ${m.name}</span></div></div></div>
+    ${['teacher', 'mom', 'correct', 'words', 'lens'].includes(current.mode) ? `<div class="card voicebar"><b>من يشرح لك؟</b>${charRowHTML()}${speedSegHTML()}</div>` : ''}
     <div id="rBody" style="display:flex;flex-direction:column;gap:16px"></div>
     <div class="card" style="display:flex;flex-direction:column;gap:12px" id="rTools"></div>`;
   const body = $('#rBody');
   try {
-    ({ teacher: renderTeacher, mom: renderMom, solve: renderSolve, correct: renderCorrect, onpage: renderOnPage, words: renderWords })[current.mode](body, r);
+    ({ teacher: renderTeacher, mom: renderMom, solve: renderSolve, correct: renderCorrect, onpage: renderOnPage, words: renderWords, lens: renderLens })[current.mode](body, r);
   } catch (e) { body.innerHTML = `<div class="card note warn">وصل رد غير مكتمل من المحرك. جرّب مرة أخرى أو اختر محركاً آخر.</div>`; }
   renderTools();
 }
@@ -1357,12 +1473,12 @@ function bridgePrompt(q) {
 function bridgeHTML(q) {
   const t = bridgePrompt(q);
   return `<div class="bridge">
-    <a class="br gpt" href="https://chatgpt.com/?q=${encodeURIComponent(t)}" target="_blank" rel="noopener" data-copy="${esc(t)}">🎧 ناقشه مع ChatGPT<small>يفتح والسؤال مكتوب</small></a>
-    <a class="br gem" href="${esc(S.links.gem || 'https://gemini.google.com/app')}" target="_blank" rel="noopener" data-copy="${esc(t)}">🎙️ ناقشه مع Gemini<small>${S.links.gem ? 'يفتح معلّمك الخاص (Gem)' : 'انسخ ثم الصق'}</small></a></div>`;
+    <a class="br gpt" href="https://chatgpt.com/?q=${encodeURIComponent(t)}" target="_blank" rel="noopener" data-copy="${esc(t)}">${I('headset', 20)} ناقشه مع ChatGPT<small>يفتح والسؤال مكتوب</small></a>
+    <a class="br gem" href="${esc(S.links.gem || 'https://gemini.google.com/app')}" target="_blank" rel="noopener" data-copy="${esc(t)}">${I('mic', 20)} ناقشه مع Gemini<small>${S.links.gem ? 'يفتح معلّمك الخاص (Gem)' : 'انسخ ثم الصق'}</small></a></div>`;
 }
 document.addEventListener('click', e => {
   const a = e.target.closest('a[data-copy]'); if (!a) return;
-  try { navigator.clipboard.writeText(a.dataset.copy).then(() => toast(a.classList.contains('gem') ? 'نسخت السؤال ✓ الصقه في Gemini ثم اضغط زر Live 🎙️' : 'نسخت السؤال أيضاً ✓', 3500), () => {}); } catch (err) {}
+  try { navigator.clipboard.writeText(a.dataset.copy).then(() => toast(a.classList.contains('gem') ? 'نُسخ السؤال، الصقه في Gemini' : 'نُسخ السؤال', 3000), () => {}); } catch (err) {}
 });
 function allQuestionsText() {
   const r = current.result || {};
@@ -1371,13 +1487,12 @@ function allQuestionsText() {
 }
 function renderTools() {
   const t = $('#rTools'), mode = current.mode;
-  const txtModes = ['teacher', 'mom', 'solve', 'correct', 'words'];
-  t.innerHTML = `<h3>أدوات إضافية</h3>
-    ${mode !== 'teacher' ? bridgeHTML(allQuestionsText()) : ''}
+  const txtModes = ['teacher', 'mom', 'solve', 'correct', 'words', 'lens'];
+  t.innerHTML = `${!['teacher', 'lens'].includes(mode) ? bridgeHTML(allQuestionsText()) : ''}
     <div class="actions">
-      ${txtModes.includes(mode) ? '<button class="btn sm ghost" id="tPdf">📄 حفظ PDF</button>' : ''}
-      <button class="btn sm ghost" id="tShare">💬 مشاركة واتساب</button>
-      <button class="btn sm ghost" id="tRerun">🔁 ${current.engine === 'demo' ? 'حلّلها بالذكاء الاصطناعي' : 'أعد التحليل'}</button>
+      ${txtModes.includes(mode) ? `<button class="btn sm ghost" id="tPdf">${I('file', 18)} حفظ PDF</button>` : ''}
+      <button class="btn sm ghost" id="tShare">${I('share', 18)} مشاركة</button>
+      <button class="btn sm ghost" id="tRerun">${I('replay', 18)} ${current.engine === 'demo' ? 'حلّلها بالذكاء الاصطناعي' : 'أعد التحليل'}</button>
     </div>`;
   const p = $('#tPdf'); if (p) p.onclick = exportReportPDF;
   $('#tShare').onclick = shareWhatsApp;
@@ -1390,7 +1505,7 @@ function renderTools() {
 function renderTeacher(body, r) {
   const qs = (r.questions || []).filter(q => q && q.q);
   const st = current.tstate || (current.tstate = { i: 0, d: qs.map(() => ({ ok: false, tries: 0, hint: false, steps: false, ans: '' })), practice: null });
-  body.innerHTML = `<div class="card story"><div class="story-h"><h3>📖 قصة الدرس</h3><button class="chip" id="sayStory">🔊 استمع</button></div><p>${esc(r.story || '')}</p></div><div id="qStage"></div>`;
+  body.innerHTML = `<div class="card story"><div class="story-h"><h3>${I('book')} قصة الدرس</h3><button class="chip" id="sayStory">${I('speaker', 16)} استمع</button></div><p>${esc(r.story || '')}</p></div><div id="qStage"></div>`;
   $('#sayStory').onclick = () => TTS.speak(r.story);
   const stage = $('#qStage');
   if (!qs.length) { stage.innerHTML = '<div class="card note">لم أجد أسئلة في الصورة. جرّب قص سؤال واحد بوضوح.</div>'; return; }
@@ -1399,19 +1514,18 @@ function renderTeacher(body, r) {
     if (i >= qs.length) return finish();
     stage.innerHTML = `<div class="card qcard">
       <div class="dots">${qs.map((_, k) => `<i class="${st.d[k].ok ? 'ok' : ''} ${k === i ? 'cur' : ''}"></i>`).join('')}</div>
-      <div class="qline"><span class="qnum">السؤال ${toAr(i + 1)} من ${toAr(qs.length)}</span><button class="chip" id="sayQ">🔊 اقرأ السؤال</button></div>
+      <div class="qline"><span class="qnum">السؤال ${toAr(i + 1)} من ${toAr(qs.length)}</span><button class="chip" id="sayQ">${I('speaker', 16)} اقرأ</button></div>
       <p class="qtext">${esc(q.q)}</p>
       <div class="ansrow"><input id="ansIn" placeholder="اكتب إجابتك هنا" value="${esc(s.ans)}" autocomplete="off" inputmode="text"></div>
-      <p class="voicehint">للإجابة بصوتك: اضغط 🎤 في لوحة المفاتيح وتكلّم.</p>
-      <div class="fb ${s.ok ? 'good' : ''}" id="fb">${s.ok ? `أحسنت${isF() ? 'ِ' : ''}! إجابة صحيحة ⭐` : ''}</div>
-      ${s.hint && !s.ok ? `<div class="fb hint">💡 ${esc(q.hint)}</div>` : ''}
+      <div class="fb ${s.ok ? 'good' : ''}" id="fb">${s.ok ? `أحسنت${isF() ? 'ِ' : ''}! إجابة صحيحة` : ''}</div>
+      ${s.hint && !s.ok ? `<div class="fb hint">${I('bulb', 18)} ${esc(q.hint)}</div>` : ''}
       ${s.steps ? `<ol class="steps">${(q.steps || []).map(x => `<li>${esc(x)}</li>`).join('')}<li><b>الإجابة: ${esc(q.answer)}</b></li></ol>` : ''}
       <div class="helpers">
-        <button class="btn ok" id="chk">تحقق من إجابتي ✔️</button>
-        <button class="btn hint" id="hint">أعطني تلميحاً 💡</button>
-        <button class="btn ghost" id="steps">اشرح لي الحل خطوة بخطوة ✅</button>
+        <button class="btn ok" id="chk">${I('tick', 20)} تحقق من إجابتي</button>
+        <button class="btn hint" id="hint">${I('bulb', 20)} أعطني تلميحاً</button>
+        <button class="btn ghost" id="steps">${I('steps', 20)} اشرح الحل خطوة بخطوة</button>
       </div>
-      <div class="nav2"><button id="prevQ" ${i === 0 ? 'disabled' : ''}>→ السابق</button><button id="nextQ">${i === qs.length - 1 ? 'إنهاء 🏁' : 'التالي ←'}</button></div>
+      <div class="nav2"><button id="prevQ" ${i === 0 ? 'disabled' : ''}>→ السابق</button><button id="nextQ">${i === qs.length - 1 ? 'إنهاء' : 'التالي ←'}</button></div>
       ${bridgeHTML(q.q)}
     </div>`;
     const inp = $('#ansIn');
@@ -1426,7 +1540,7 @@ function renderTeacher(body, r) {
     $('#prevQ').onclick = () => { st.i--; draw(); };
     $('#nextQ').onclick = () => { st.i++; draw(); };
     $('#chk').onclick = async () => {
-      const a = inp.value.trim(); if (!a) { toast('اكتب إجابتك أولاً، أو اضغط المايك 🎤'); inp.focus(); return; }
+      const a = inp.value.trim(); if (!a) { toast('اكتب إجابتك أولاً'); inp.focus(); return; }
       let ok = sameAnswer(a, q.answer), fbText = '';
       if (!ok && current.engine !== 'demo' && anyEngine()) {
         $('#fb').className = 'fb hint'; $('#fb').textContent = 'لحظة، أتحقق من إجابتك…';
@@ -1443,16 +1557,16 @@ function renderTeacher(body, r) {
         sfx.soft();
         if (s.tries === 1) addMistake({ q: q.q, wrong: a, right: q.answer, hint: q.hint, steps: q.steps });
         $('#fb').className = 'fb try';
-        $('#fb').textContent = fbText || (s.tries === 1 ? g('قريب! فكّر مرة أخرى، أو اطلب تلميحاً 💡', 'قريب! فكّري مرة أخرى، أو اطلبي تلميحاً 💡') : 'لا بأس، الخطأ يعلّمنا. جرّب التلميح أو شرح الحل خطوة بخطوة.');
+        $('#fb').textContent = fbText || (s.tries === 1 ? g('قريب! فكّر مرة أخرى، أو اطلب تلميحاً', 'قريب! فكّري مرة أخرى، أو اطلبي تلميحاً') : 'لا بأس، الخطأ يعلّمنا. جرّب التلميح أو شرح الحل خطوة بخطوة.');
       }
     };
   };
   const finish = () => {
     const okN = st.d.filter(d => d.ok).length;
     stage.innerHTML = `<div class="card empty"><div class="mascot bob">${mascotSVG(levelOf(S.stars))}</div>
-      <h2>${okN === qs.length ? 'ممتاز! أنهيت كل الأسئلة 🎉' : 'انتهينا من الورقة!'}</h2>
+      <h2>${okN === qs.length ? 'ممتاز! أنهيت كل الأسئلة' : 'انتهينا من الورقة!'}</h2>
       <p>أجبت عن ${toAr(okN)} من ${toAr(qs.length)} بشكل صحيح.</p>
-      <button class="btn alt" id="prac">أعطني سؤالاً مشابهاً لأختبر نفسي 🎯</button>
+      <button class="btn alt" id="prac">${I('target', 20)} سؤال مشابه لأختبر نفسي</button>
       <button class="btn ghost sm" id="again">راجع الأسئلة من البداية</button>
       <div id="pracBox" style="width:100%"></div></div>`;
     if (okN === qs.length) { confetti(); sfx.win(); }
@@ -1473,15 +1587,15 @@ async function practice(qs, box) {
   }
   let tries = 0;
   box.innerHTML = `<div class="qcard card" style="text-align:right;box-shadow:none;margin-top:6px">
-    <span class="qnum">🎯 سؤال التدريب</span><p class="qtext">${esc(p.q)}</p>
+    <span class="qnum">سؤال التدريب</span><p class="qtext">${esc(p.q)}</p>
     <div class="ansrow"><input id="pIn" placeholder="إجابتك" autocomplete="off"></div>
     <div class="fb" id="pFb"></div>
-    <div class="helpers"><button class="btn ok" id="pChk">تحقق ✔️</button><button class="btn hint" id="pHint">تلميح 💡</button><button class="btn ghost" id="pSteps">الحل خطوة بخطوة ✅</button></div></div>`;
-  $('#pHint').onclick = () => { $('#pFb').className = 'fb hint'; $('#pFb').textContent = '💡 ' + p.hint; };
+    <div class="helpers"><button class="btn ok" id="pChk">${I('tick', 20)} تحقق</button><button class="btn hint" id="pHint">${I('bulb', 20)} تلميح</button><button class="btn ghost" id="pSteps">${I('steps', 20)} الحل خطوة بخطوة</button></div></div>`;
+  $('#pHint').onclick = () => { $('#pFb').className = 'fb hint'; $('#pFb').textContent = p.hint; };
   $('#pSteps').onclick = () => { $('#pFb').className = 'fb hint'; $('#pFb').innerHTML = `<ol class="steps">${(p.steps || []).map(x => `<li>${esc(x)}</li>`).join('')}<li><b>الإجابة: ${esc(p.answer)}</b></li></ol>`; };
   $('#pChk').onclick = () => {
     const a = $('#pIn').value; tries++;
-    if (sameAnswer(a, p.answer)) { $('#pFb').className = 'fb good'; $('#pFb').textContent = 'رائع! فهمت الدرس فعلاً ⭐⭐⭐'; addStars(3); confetti(); sfx.win(); }
+    if (sameAnswer(a, p.answer)) { $('#pFb').className = 'fb good'; $('#pFb').textContent = 'رائع! فهمت الدرس فعلاً'; addStars(3); confetti(); sfx.win(); }
     else { sfx.soft(); $('#pFb').className = 'fb try'; $('#pFb').textContent = tries > 1 ? 'جرّب التلميح أو شاهد الحل خطوة بخطوة.' : 'ليست هذه، حاول مرة أخرى!'; if (tries === 1) addMistake({ q: p.q, wrong: a, right: p.answer, hint: p.hint, steps: p.steps }); }
   };
 }
@@ -1489,27 +1603,26 @@ async function practice(qs, box) {
 /* --- كبسولة الأم --- */
 function renderMom(body, r) {
   body.innerHTML = `
-  <div class="card mom-card" style="--c:#7C3AED"><div class="story-h"><h3>⏱️ فكرة الدرس في ٣٠ ثانية</h3><button class="chip" data-say="${esc((r.summary || '') + ' ' + (r.goal || ''))}">🔊</button></div><p>${esc(r.summary)}</p>${r.goal ? `<p class="muted"><b>الهدف:</b> ${esc(r.goal)}</p>` : ''}</div>
-  <div class="card mom-card" style="--c:#FF8A3D"><h3>🏠 كيف تشرحينه لطفلك؟</h3><ol>${(r.howto || []).map(x => `<li>${esc(x)}</li>`).join('')}</ol>${r.home_example ? `<div class="home-ex"><b>مثال من البيت:</b> ${esc(r.home_example)}</div>` : ''}</div>
-  <div class="card mom-card" style="--c:#14B8A6"><h3>✅ نموذج الإجابة الكامل</h3><div class="tbl-wrap"><table><thead><tr><th>#</th><th>السؤال</th><th>الإجابة</th></tr></thead><tbody>
+  <div class="card mom-card" style="--c:#7C3AED"><div class="story-h"><h3>${I('clock')} فكرة الدرس في ٣٠ ثانية</h3><button class="chip" aria-label="استمع" data-say="${esc((r.summary || '') + ' ' + (r.goal || ''))}">${I('speaker', 18)}</button></div><p>${esc(r.summary)}</p>${r.goal ? `<p class="muted"><b>الهدف:</b> ${esc(r.goal)}</p>` : ''}</div>
+  <div class="card mom-card" style="--c:#FF8A3D"><h3>${I('house')} كيف تشرحينه لطفلك؟</h3><ol>${(r.howto || []).map(x => `<li>${esc(x)}</li>`).join('')}</ol>${r.home_example ? `<div class="home-ex"><b>مثال من البيت:</b> ${esc(r.home_example)}</div>` : ''}</div>
+  <div class="card mom-card" style="--c:#14B8A6"><h3>${I('check')} نموذج الإجابة الكامل</h3><div class="tbl-wrap"><table><thead><tr><th>#</th><th>السؤال</th><th>الإجابة</th></tr></thead><tbody>
   ${(r.answers || []).map(a => `<tr><td class="num">${toAr(a.n)}</td><td>${esc(a.q)}</td><td class="ans">${esc(a.a)}</td></tr>`).join('')}</tbody></table></div></div>`;
   $$('[data-say]', body).forEach(b => b.onclick = () => TTS.speak(b.dataset.say));
 }
 /* --- الحل النموذجي --- */
 function renderSolve(body, r) {
   body.innerHTML = `<div class="card"><div class="tbl-wrap"><table><thead><tr><th>#</th><th>السؤال</th><th>الإجابة</th></tr></thead><tbody>
-  ${(r.answers || []).map(a => `<tr><td class="num">${toAr(a.n)}</td><td>${esc(a.q)}${a.note ? `<br><small class="muted">${esc(a.note)}</small>` : ''}</td><td class="ans">${esc(a.a)}</td></tr>`).join('')}</tbody></table></div></div>
-  <p class="note">تريد الإجابات مكتوبة داخل الورقة نفسها؟ اختر وضع «الحل على الورقة ✍️».</p>`;
+  ${(r.answers || []).map(a => `<tr><td class="num">${toAr(a.n)}</td><td>${esc(a.q)}${a.note ? `<br><small class="muted">${esc(a.note)}</small>` : ''}</td><td class="ans">${esc(a.a)}</td></tr>`).join('')}</tbody></table></div></div>`;
 }
 /* --- صحّح واجبي --- */
 function renderCorrect(body, r) {
   const items = r.items || [], total = r.total || items.length, score = r.score ?? items.filter(i => i.ok).length;
   const st = total ? Math.round(score / total * 5) : 0;
   body.innerHTML = `
-  <div class="card score"><div class="big">${toAr(score)}/${toAr(total)}</div><div><div class="stars5">${[0, 1, 2, 3, 4].map(k => `<span class="${k < st ? '' : 'off'}">⭐</span>`).join('')}</div><p>${esc(r.praise || '')}</p></div></div>
-  <div class="card" style="display:flex;flex-direction:column;gap:10px"><h3>📝 علّمت لك على الورقة</h3><img id="markedImg" alt="الورقة مصححة" style="width:100%;border-radius:12px;border:2px solid var(--line)">
-    <div class="row"><button class="btn sm ghost" id="mSave">🖼️ حفظ صورة HD</button><button class="btn sm ghost" id="mPdf">📄 حفظ PDF</button></div></div>
-  <div class="card">${items.map(it => `<div class="item"><span class="mk ${it.ok ? 'y' : 'n'}">${it.ok ? '✅' : '⚠️'}</span><div class="body">
+  <div class="card score"><div class="big">${toAr(score)}/${toAr(total)}</div><div><div class="stars5">${[0, 1, 2, 3, 4].map(k => `<span class="${k < st ? '' : 'off'}">${I('starf', 26)}</span>`).join('')}</div><p>${esc(r.praise || '')}</p></div></div>
+  <div class="card" style="display:flex;flex-direction:column;gap:10px"><h3>${I('edit')} علّمت لك على الورقة</h3><img id="markedImg" alt="الورقة مصححة" style="width:100%;border-radius:12px;border:2px solid var(--line)">
+    <div class="row"><button class="btn sm ghost" id="mSave">${I('image', 18)} حفظ صورة</button><button class="btn sm ghost" id="mPdf">${I('file', 18)} حفظ PDF</button></div></div>
+  <div class="card">${items.map(it => `<div class="item"><span class="mk ${it.ok ? 'y' : 'n'}">${I(it.ok ? 'tick' : 'warn', 20)}</span><div class="body">
     <b>${toAr(it.n)}) ${esc(it.q)}</b><span>إجابتك: <span class="stu">${esc(it.student)}</span></span>
     ${it.ok ? '' : `<span>الصحيح: <b style="color:var(--ok-d)">${esc(it.right)}</b></span><div class="why">${esc(it.why)}</div>`}</div></div>`).join('')}</div>`;
   if (!current.awarded) {
@@ -1599,7 +1712,61 @@ async function renderMarked(items) {
   });
   return c;
 }
-/* --- عدسة الكلمات --- */
+/* --- العدسة الذكية --- */
+const mdLite = t => esc(String(t || '')).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/^#{1,6}\s*/gm, '');
+const plain = t => String(t || '').replace(/\*\*/g, '').replace(/^#{1,6}\s*/gm, '');
+const chatSys = () => buildSys().replace(/\n- أعد JSON[^\n]*/, '') + `
+- أنت الآن في محادثة عن صورة الصفحة المرفقة. أجب عن سؤال الطالب بدقة اعتماداً على ما في الصورة.
+- أجب بنص عادي قصير وواضح (حتى ٨ أسطر)، بلا JSON وبلا عناوين. يمكنك استخدام **للتأكيد** وقائمة مرقمة قصيرة.
+- إذا طلب حل سؤال فاشرح طريقة الحل خطوة بخطوة ثم اذكر الإجابة.`;
+let lensBusy = false;
+function renderLens(body, r) {
+  const chat = Array.isArray(r._chat) ? r._chat : (r._chat = []), ws = r.words || [], sg = r.suggestions || [];
+  body.innerHTML = `<div class="card" style="display:flex;flex-direction:column;gap:8px"><div class="story-h"><h3>${I('lens')} ماذا في الصفحة؟</h3><button class="chip" id="sayLens" aria-label="استمع">${I('speaker', 18)}</button></div><p style="white-space:pre-line;margin:0">${mdLite(r.summary)}</p></div>
+  <div class="card" style="display:flex;flex-direction:column;gap:12px"><h3>${I('chat')} اسأل عن هذه الصفحة</h3>
+    ${sg.length ? `<div class="sugg">${sg.map((x, i) => `<button data-sg="${i}">${I('sparkles', 16)} ${esc(x.label)}</button>`).join('')}</div>` : ''}
+    <div class="chat" id="lChat"></div>
+    <div class="ansrow"><input id="lQ" placeholder="اكتب سؤالك…" autocomplete="off" enterkeyhint="send" style="font-size:17px;font-weight:500"><button class="send" id="lSend" aria-label="إرسال"><span style="display:inline-flex;transform:scaleX(-1)">${I('send', 24)}</span></button></div>
+  </div>
+  ${ws.length ? `<div class="card" style="display:flex;flex-direction:column;gap:12px"><h3>${I('words')} كلمات من الصفحة</h3>
+    <div class="wordgrid">${ws.map((w, i) => `<button class="word" data-w="${i}" ${w.lang === 'en' ? 'dir="ltr"' : ''}>${esc(w.w)}</button>`).join('')}</div><div id="wCard"></div></div>` : ''}`;
+  $('#sayLens').onclick = () => TTS.speak(plain(r.summary));
+  const box = $('#lChat'), inp = $('#lQ');
+  const draw = () => {
+    box.innerHTML = chat.map((c, i) => `<div class="bub me">${esc(c.q)}</div>` + (c.a == null ? `<div class="bub ai"><span class="ldots" style="display:inline-flex;gap:4px"><i></i><i></i><i></i></span></div>` : `<div class="bub ai">${mdLite(c.a)}<button class="say" data-ca="${i}">${I('speaker', 15)} استمع</button></div>`)).join('');
+    $$('[data-ca]', box).forEach(b => b.onclick = () => TTS.speak(plain(chat[+b.dataset.ca].a)));
+  };
+  const persist = () => { if (current.bagId) BAG.put({ id: current.bagId, date: Date.now(), mode: current.mode, title: r.title || MODES.lens.name, engine: current.engine, demo: current.demo, w: current.w, h: current.h, blob: current.blob, result: r }).catch(() => {}); };
+  async function ask(q, canned) {
+    q = String(q || '').trim(); if (!q || lensBusy) return;
+    lensBusy = true; inp.value = ''; const entry = { q, a: null }; chat.push(entry); draw();
+    entry._el = box.lastElementChild; entry._el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    try {
+      if (canned) { await sleep(600); entry.a = canned; }
+      else if (!anyEngine()) { entry.a = 'أضف مفتاح Gemini من الإعدادات لتسأل أي سؤال.'; entry.tmp = true; }
+      else {
+        const hist = chat.filter(c => c !== entry && c.a && !c.tmp).slice(-4).map(c => `الطالب: ${c.q}\nالمعلّم: ${plain(c.a)}`).join('\n\n');
+        const res = await askAI({ sys: chatSys(), prompt: `ملخص الصفحة: ${plain(r.summary)}${hist ? '\n\nالمحادثة السابقة:\n' + hist : ''}\n\nسؤال الطالب الآن: ${q}`, blob: await aiImage(), json: false, signal: (curCtl = new AbortController()).signal });
+        entry.a = String(res.data || '').trim() || '…';
+      }
+    } catch (e) {
+      chat.splice(chat.indexOf(entry), 1); inp.value = q;
+      if (e.name !== 'AbortError') toast(e.list && e.list.length ? e.list[0] : e.message, 4000);
+    }
+    delete entry._el; lensBusy = false; draw(); persist();
+    const last = box.lastElementChild; if (last) last.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  $$('[data-sg]', body).forEach(b => b.onclick = () => { const x = sg[+b.dataset.sg]; ask(x.ask || x.label, current.engine === 'demo' ? x.a : null); });
+  $('#lSend').onclick = () => ask(inp.value);
+  inp.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); ask(inp.value); } };
+  $$('.word', body).forEach(b => b.onclick = () => {
+    const w = ws[+b.dataset.w]; $$('.word', body).forEach(x => x.classList.toggle('on', x === b));
+    $('#wCard').innerHTML = `<div class="card wordcard" style="box-shadow:none"><h3 ${w.lang === 'en' ? 'dir="ltr" style="text-align:right"' : ''}>${esc(w.w)}</h3><p><b>المعنى:</b> ${esc(w.meaning)}</p>${w.example ? `<p class="muted" ${w.lang === 'en' ? 'dir="ltr" style="text-align:right"' : ''}>${esc(w.example)}</p>` : ''}</div>`;
+    TTS.speak(w.w, w.lang === 'en' ? 'en' : 'ar');
+  });
+  draw();
+}
+/* --- عدسة الكلمات (للدروس المحفوظة سابقاً) --- */
 function renderWords(body, r) {
   const ws = r.words || [];
   body.innerHTML = `<div class="card" style="display:flex;flex-direction:column;gap:12px"><h3>اضغط أي كلمة لتسمعها وتعرف معناها</h3>
@@ -1635,13 +1802,13 @@ async function renderOnPage(body, r) {
   }
   body.innerHTML = `
   <div class="card" style="display:flex;flex-direction:column;gap:12px">
-    <h3>✍️ الإجابات مكتوبة في خاناتها</h3>
-    <p class="muted" style="font-size:14.5px">إذا جاءت إجابة في غير مكانها، اسحبها بإصبعك. اضغطها لتكبيرها أو تصغيرها أو تعديلها. يُحفظ مكانها الجديد تلقائياً.</p>
+    <h3>${I('pen')} الإجابات في خاناتها</h3>
+    <p class="muted" style="font-size:14px">اسحب أي إجابة لتحريكها، أو اضغطها لتعديلها.</p>
     <div class="paper" id="paper"><img src="${current.url}" alt="الورقة"></div>
     <div class="edbar" id="edbar"></div>
-    <div class="actions"><button class="btn sm" id="opPng">🖼️ حفظ صورة HD</button><button class="btn sm alt" id="opPdf">📄 تصدير PDF</button></div>
+    <div class="actions"><button class="btn sm" id="opPng">${I('image', 18)} حفظ صورة</button><button class="btn sm alt" id="opPdf">${I('file', 18)} حفظ PDF</button></div>
   </div>`;
-  if (!OP.items.length) $('#paper').insertAdjacentHTML('afterend', '<p class="note warn">لم يحدد المحرك أماكن الخانات في هذه الصورة. جرّب صورة أوضح ومستقيمة، أو قصّ جزءاً أصغر من الورقة.</p>');
+  if (!OP.items.length) $('#paper').insertAdjacentHTML('afterend', '<p class="note warn">لم تُحدَّد أماكن الإجابات. جرّب صورة أوضح ومستقيمة.</p>');
   drawOverlays();
   $('#opPng').onclick = async () => { showLoading('أجهّز الصورة بدقة عالية…'); try { const c = await renderOnPageCanvas(); c.toBlob(b => { hideLoading(); saveBlob(b, 'الحل-على-الورقة-HD.png'); }, 'image/png'); } catch (e) { hideLoading(); toast('تعذّر التصدير'); } };
   $('#opPdf').onclick = async () => { showLoading('أجهّز ملف PDF…'); try { const c = await renderOnPageCanvas(); const pg = await pdfPage(c); hideLoading(); saveBlob(makePDF([pg]), 'الحل-على-الورقة-HD.pdf'); } catch (e) { hideLoading(); toast('تعذّر التصدير'); } };
@@ -1766,6 +1933,7 @@ function reportBlocks() {
   if (m === 'mom') { B.push({ h: 'فكرة الدرس في ٣٠ ثانية', l: [r.summary, r.goal ? 'الهدف: ' + r.goal : ''] }); B.push({ h: 'كيف تشرحينه لطفلك؟', l: [...(r.howto || []).map((s, i) => `${toAr(i + 1)}. ${s}`), r.home_example ? 'مثال من البيت: ' + r.home_example : ''] }); B.push({ h: 'نموذج الإجابة', l: (r.answers || []).map(a => `${toAr(a.n)}) ${a.q}  ←  ${a.a}`) }); }
   if (m === 'solve') B.push({ h: 'الحل النموذجي', l: (r.answers || []).map(a => `${toAr(a.n)}) ${a.q}  ←  ${a.a}`) });
   if (m === 'correct') { B.push({ h: `النتيجة: ${toAr(r.score)} من ${toAr(r.total)}`, l: [r.praise] }); (r.items || []).forEach(i => B.push({ h: `${i.ok ? '✓' : '!'} ${toAr(i.n)}) ${i.q}`, l: [`إجابة الطالب: ${i.student}`, i.ok ? 'صحيحة' : `الصحيح: ${i.right} — ${i.why}`] })); }
+  if (m === 'lens') { B.push({ h: r.title || 'العدسة الذكية', l: [plain(r.summary)] }); (r._chat || []).filter(c => c.a && !c.tmp).forEach(c => B.push({ h: c.q, l: [plain(c.a)] })); if ((r.words || []).length) B.push({ h: 'كلمات من الصفحة', l: r.words.map(w => `${w.w}: ${w.meaning}${w.example ? ' — ' + w.example : ''}`) }); }
   if (m === 'words') B.push({ h: 'كلمات الدرس', l: (r.words || []).map(w => `${w.w}: ${w.meaning}${w.example ? ' — ' + w.example : ''}`) });
   return B;
 }
@@ -1789,9 +1957,9 @@ function shareWhatsApp() {
   let t = `📚 ${r.title || MODES[current.mode].name}\n\n` + B.map(b => `*${b.h}*\n${b.l.filter(Boolean).join('\n')}`).join('\n\n');
   if (current.mode === 'onpage') t = `📚 الحل على الورقة\n` + (r.items || []).map(i => `${toAr(i.n)}) ${i.answer}`).join('\n');
   t = t.slice(0, 3000) + '\n\n— من تطبيق المعلّم الذكي';
-  openSheet(`<h3>مشاركة الحل</h3><p class="muted">اضغط الزر لفتح واتساب والنص جاهز، أو انسخه.</p>
-    <a class="btn ok" href="https://wa.me/?text=${encodeURIComponent(t)}" target="_blank" rel="noopener">💬 افتح واتساب</a>
-    <button class="btn ghost" id="cpy">📋 نسخ النص</button>`, s => { $('#cpy', s).onclick = () => { try { navigator.clipboard.writeText(t).then(() => toast('تم النسخ ✓'), () => toast('لم يسمح المتصفح بالنسخ')); } catch (e) {} }; });
+  openSheet(`<h3>مشاركة الحل</h3>
+    <a class="btn ok" href="https://wa.me/?text=${encodeURIComponent(t)}" target="_blank" rel="noopener">${I('chat', 20)} واتساب</a>
+    <button class="btn ghost" id="cpy">${I('copy', 20)} نسخ النص</button>`, s => { $('#cpy', s).onclick = () => { try { navigator.clipboard.writeText(t).then(() => toast('تم النسخ ✓'), () => toast('لم يسمح المتصفح بالنسخ')); } catch (e) {} }; });
 }
 /* ============ دفتر الأخطاء الذكي ============ */
 function addMistake(m) {
@@ -1804,8 +1972,8 @@ function addMistake(m) {
 function renderMistakes() {
   const act = S.mistakes.filter(m => !m.mastered), done = S.mistakes.filter(m => m.mastered);
   const v = $('#v-mistakes');
-  if (!S.mistakes.length) { v.innerHTML = `<div class="card empty"><div class="mascot bob">${mascotSVG(levelOf(S.stars))}</div><h2>دفتر الأخطاء فارغ</h2><p class="muted">كل سؤال تخطئ فيه يُحفظ هنا تلقائياً، لتعود إليه لاحقاً وتتقنه. أجب عنه صحيحاً مرتين متتاليتين ليصبح «متقناً».</p></div>`; return; }
-  v.innerHTML = `<div class="card"><h3>📒 دفتر الأخطاء الذكي</h3><p class="muted" style="font-size:15px">${toAr(act.length)} للمراجعة • ${toAr(done.length)} متقن. أجب صحيحاً مرتين متتاليتين لتتقن السؤال وتربح ٣ نجوم.</p></div>
+  if (!S.mistakes.length) { v.innerHTML = `<div class="card empty"><div class="mascot bob">${mascotSVG(levelOf(S.stars))}</div><h2>دفتر الأخطاء فارغ</h2><p class="muted">الأسئلة التي تخطئ فيها تظهر هنا لتتقنها.</p></div>`; return; }
+  v.innerHTML = `<div class="card"><h3>${I('notebook')} دفتر الأخطاء</h3><p class="muted" style="font-size:15px">${toAr(act.length)} للمراجعة • ${toAr(done.length)} متقن</p></div>
   ${act.map(m => mistCard(m)).join('')}
   ${done.length ? `<h2 class="sec">أتقنتها ✓</h2>${done.map(m => mistCard(m)).join('')}` : ''}`;
   $$('.mist', v).forEach(card => {
@@ -1814,12 +1982,12 @@ function renderMistakes() {
     $('[data-a="chk"]', card).onclick = () => {
       if (sameAnswer(inp.value, m.right)) {
         m.streak++; sfx.win();
-        if (m.streak >= 2) { m.mastered = true; save(); addStars(3); confetti(); toast('أتقنت هذا السؤال! ⭐⭐⭐'); renderMistakes(); updateBadge(); return; }
+        if (m.streak >= 2) { m.mastered = true; save(); addStars(3); confetti(); toast('أتقنت هذا السؤال!'); renderMistakes(); updateBadge(); return; }
         save(); fb.className = 'fb good'; fb.textContent = 'صحيح! أجب عنه صحيحاً مرة أخرى لاحقاً لتتقنه.'; inp.value = '';
         $('.streak', card).textContent = '●'.repeat(m.streak) + '○'.repeat(2 - m.streak);
       } else { m.streak = 0; save(); sfx.soft(); fb.className = 'fb try'; fb.textContent = 'ليست هذه. اضغط التلميح أو أظهر الإجابة.'; $('.streak', card).textContent = '○○'; }
     };
-    $('[data-a="hint"]', card).onclick = () => { fb.className = 'fb hint'; fb.textContent = '💡 ' + (m.hint || 'راجع خطوات الحل في الدرس.'); };
+    $('[data-a="hint"]', card).onclick = () => { fb.className = 'fb hint'; fb.textContent = m.hint || 'راجع خطوات الحل في الدرس.'; };
     $('[data-a="show"]', card).onclick = () => { fb.className = 'fb hint'; fb.innerHTML = `الإجابة الصحيحة: <b>${esc(m.right)}</b>${(m.steps || []).length ? `<ol class="steps" style="margin-top:8px">${m.steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol>` : ''}`; m.streak = 0; save(); };
     $('[data-a="say"]', card).onclick = () => TTS.speak(m.q);
   });
@@ -1829,11 +1997,11 @@ function mistCard(m) {
   return `<div class="card mist ${m.mastered ? 'done' : ''}" data-id="${m.id}">
     <div class="qline"><span class="src">${esc(m.from || 'درس')} • ${new Date(m.date).toLocaleDateString('ar-OM')}</span>${m.mastered ? '<span class="chip teal">متقن ✓</span>' : `<span class="streak chip orange" title="التقدم">${'●'.repeat(m.streak) + '○'.repeat(2 - m.streak)}</span>`}</div>
     <p class="qtext" style="font-size:21px">${esc(m.q)}</p>
-    ${m.mastered ? `<p>الإجابة: <b>${esc(m.right)}</b></p><button class="del" data-del="${m.id}" aria-label="حذف">🗑</button>` : `
+    ${m.mastered ? `<p>الإجابة: <b>${esc(m.right)}</b></p><button class="del" data-del="${m.id}" aria-label="حذف">${I('trash', 20)}</button>` : `
     <p class="muted" style="font-size:14.5px">إجابتك السابقة: <span style="font-family:var(--f-ans);color:var(--bad);font-size:18px;font-weight:700">${esc(m.wrong)}</span></p>
     <div class="ansrow"><input placeholder="جرّب مرة أخرى" autocomplete="off"></div>
     <div class="fb"></div>
-    <div class="row"><button class="btn sm ok" data-a="chk">تحقق ✔️</button><button class="btn sm hint" data-a="hint">تلميح 💡</button><button class="btn sm ghost" data-a="show">أظهر الإجابة</button><button class="btn sm ghost" data-a="say">🔊</button></div>`}
+    <div class="row"><button class="btn sm ok" data-a="chk">${I('tick', 18)} تحقق</button><button class="btn sm hint" data-a="hint">${I('bulb', 18)} تلميح</button><button class="btn sm ghost" data-a="show">أظهر الإجابة</button><button class="btn sm ghost" data-a="say">🔊</button></div>`}
   </div>`;
 }
 
@@ -1853,10 +2021,10 @@ const bagURLs = [];
 async function renderBag() {
   const v = $('#v-bag'), list = await BAG.all();
   bagURLs.splice(0).forEach(u => URL.revokeObjectURL(u));
-  if (!list.length) { v.innerHTML = `<div class="card empty"><div class="mascot bob">${mascotSVG(levelOf(S.stars))}</div><h2>الحقيبة فارغة</h2><p class="muted">كل درس تصوّره وتشرحه يُحفظ هنا في جهازك، لتراجعه ليلة الامتحان بدون إنترنت.</p></div>`; return; }
-  v.innerHTML = `<div class="card"><h3>🎒 حقيبة الدروس</h3><p class="muted" style="font-size:15px">محفوظة في جهازك فقط، وتعمل بدون إنترنت.</p></div>` +
+  if (!list.length) { v.innerHTML = `<div class="card empty"><div class="mascot bob">${mascotSVG(levelOf(S.stars))}</div><h2>الحقيبة فارغة</h2><p class="muted">دروسك المحفوظة تظهر هنا، وتعمل بدون إنترنت.</p></div>`; return; }
+  v.innerHTML = `<div class="card"><h3>${I('bag')} حقيبة الدروس</h3></div>` +
     list.map(it => { const u = URL.createObjectURL(it.blob); bagURLs.push(u); const m = MODES[it.mode];
-      return `<div class="card bagitem" data-id="${esc(it.id)}"><img src="${u}" alt=""><div class="t"><b>${esc(it.title)}</b><span class="chips"><span class="chip" style="font-size:12.5px">${m.ic} ${m.name}</span></span><small class="muted">${new Date(it.date).toLocaleString('ar-OM', { dateStyle: 'medium', timeStyle: 'short' })}</small></div><button class="del" data-bdel="${esc(it.id)}" aria-label="حذف">🗑</button></div>`; }).join('');
+      return `<div class="card bagitem" data-id="${esc(it.id)}"><img src="${u}" alt=""><div class="t"><b>${esc(it.title)}</b><span class="chips"><span class="chip" style="font-size:12.5px;display:inline-flex;align-items:center;gap:4px;color:${m.c}">${I(m.ic, 14)} ${m.name}</span></span><small class="muted">${new Date(it.date).toLocaleString('ar-OM', { dateStyle: 'medium', timeStyle: 'short' })}</small></div><button class="del" data-bdel="${esc(it.id)}" aria-label="حذف">${I('trash', 20)}</button></div>`; }).join('');
   $$('.bagitem', v).forEach(c => c.onclick = e => {
     if (e.target.closest('[data-bdel]')) return;
     const it = list.find(x => x.id === c.dataset.id); if (!it) return;
@@ -1870,29 +2038,27 @@ async function renderBag() {
 /* ============ الإعدادات ============ */
 function renderSettings() {
   const p = S.profile, v = $('#v-settings');
-  const keyField = (id, label, help) => `<div class="field"><label for="k-${id}">${label}</label><div class="ansrow"><input id="k-${id}" type="password" value="${esc(S.keys[id])}" placeholder="الصق المفتاح هنا" autocomplete="off" style="font-size:15px;padding:10px 12px;border-width:2px"><button class="eye" data-eye="${id}" aria-label="إظهار المفتاح">👁</button></div><small class="muted">${help}</small></div>`;
+  const keyField = (id, label, help) => `<div class="field"><label for="k-${id}">${label}</label><div class="ansrow"><input id="k-${id}" type="password" value="${esc(S.keys[id])}" placeholder="الصق المفتاح هنا" autocomplete="off" style="font-size:15px;padding:10px 12px;border-width:2px"><button class="eye" data-eye="${id}" aria-label="إظهار المفتاح">${I('eye', 20)}</button></div><small class="muted">${help}</small></div>`;
   v.innerHTML = `
-  <div class="card set"><h3>👤 ملف الطالب</h3>
+  <div class="card set"><h3>${I('user')} ملف الطالب</h3>
     <div class="field"><label for="pName">الاسم</label><input id="pName" value="${esc(p.name)}" placeholder="مثلاً: سارة"></div>
     <div class="field"><label>الطالب</label><div class="seg" id="pGen"><button data-v="f" class="${p.gender === 'f' ? 'on' : ''}">طالبة</button><button data-v="m" class="${p.gender === 'm' ? 'on' : ''}">طالب</button></div></div>
     <div class="field"><label for="pGrade">الصف</label><select id="pGrade">${Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}" ${+p.grade === i + 1 ? 'selected' : ''}>الصف ${toAr(i + 1)}</option>`).join('')}</select></div>
     <div class="field"><label for="pCurr">المنهج</label><input id="pCurr" value="${esc(p.curriculum)}"></div>
-    <p class="note">يُضاف هذا الملف لكل طلب، فيتكيّف الشرح مع الصف والمنهج وصيغة المخاطبة.</p>
   </div>
 
-  ${inArtifact ? `<div class="card set"><h3>⚡ محرك الذكاء الاصطناعي</h3>
-    <p>في هذه المعاينة يعمل التطبيق بمحرك <b>Claude</b> تلقائياً، ولا يحتاج أي مفتاح.</p>
-    <p class="note warn">نافذة المعاينة داخل تطبيق Claude تمنع أي اتصال خارجي، لذلك لا يمكن أن يعمل مفتاح Gemini أو OpenRouter هنا مهما كان صحيحاً. المفاتيح تعمل في نسخة التطبيق المستضافة على رابط خاص بك.</p>
-  </div>` : `<div class="card set"><h3>⚡ محركات الذكاء الاصطناعي</h3>
-    <p class="muted" style="font-size:15px">في الوضع «تلقائي» يبدأ التطبيق بـ Gemini، وإذا كان مشغولاً ينتقل إلى OpenRouter. المفاتيح تُحفظ في جهازك فقط.</p>
+  ${inArtifact ? `<div class="card set"><h3>${I('bolt')} محرك الذكاء الاصطناعي</h3>
+    <p>في هذه المعاينة يعمل التطبيق بمحرك <b>Claude</b> دون مفتاح. مفاتيح Gemini وOpenRouter تعمل في نسخة التطبيق.</p>
+  </div>` : `<div class="card set"><h3>${I('bolt')} محركات الذكاء الاصطناعي</h3>
+    <p class="muted" style="font-size:15px">المفاتيح تُحفظ في جهازك فقط.</p>
     ${keyField('gemini', 'مفتاح Gemini (الأساسي والأدق)', 'مجاني بدون بطاقة من <a class="lnk" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>')}
     <div class="field"><label for="mGem">نموذج Gemini</label><input id="mGem" list="gemList" value="${esc(S.models.gemini)}" dir="ltr"><datalist id="gemList"><option value="gemini-flash-latest"><option value="gemini-3.5-flash"><option value="gemini-flash-lite-latest"></datalist>
-      <button class="btn sm ghost" id="testGem">🔎 تحقق من المفتاح</button><small class="muted" id="gemOut"></small></div>
+      <button class="btn sm ghost" id="testGem">${I('search', 18)} تحقق من المفتاح</button><small class="muted" id="gemOut"></small></div>
     ${keyField('openrouter', 'مفتاح OpenRouter (احتياطي، اختياري)', 'من <a class="lnk" href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a>')}
     <div class="field"><label for="mOr">نموذج OpenRouter</label><input id="mOr" value="${esc(S.models.openrouter)}" dir="ltr"></div>
   </div>`}
 
-  <div class="card set"><h3>🔗 الربط مع Gemini وChatGPT (مثل السكل)</h3>
+  <div class="card set"><h3>${I('link')} الربط مع Gemini وChatGPT</h3>
     <p style="font-size:15.5px">اصنع «معلّماً خاصاً» مرة واحدة بالتعليمات الجاهزة، وسيفتحه زر «ناقشه مع Gemini» مباشرة للمحادثة الصوتية.</p>
     <ol style="margin:0;padding-inline-start:20px;font-size:15px;display:flex;flex-direction:column;gap:4px">
       <li>انسخ التعليمات بالزر أدناه.</li>
@@ -1900,44 +2066,40 @@ function renderSettings() {
       <li>اضغط Share ← Copy link والصق الرابط هنا.</li>
       <li>في ChatGPT: إنشاء GPT خاص يحتاج اشتراكاً مدفوعاً، ولذلك يفتح الزر ChatGPT العادي والسؤال مكتوب جاهزاً.</li>
     </ol>
-    <button class="btn sm" id="cpGem">📋 نسخ تعليمات المعلّم</button>
+    <button class="btn sm" id="cpGem">${I('copy', 18)} نسخ تعليمات المعلّم</button>
     <div class="field"><label for="lGem">رابط الـ Gem</label><input id="lGem" dir="ltr" value="${esc(S.links.gem)}" placeholder="https://gemini.google.com/gem/..."></div>
   </div>
 
-  <div class="card set"><h3>🧠 مهارات المعلّم</h3>
-    <p class="muted" style="font-size:15px">تعليمات ثابتة لكل وضع، تعمل مثل «السكل». عدّلها إن أردت أسلوباً مختلفاً.</p>
-    ${Object.entries(MODES).map(([k, m]) => `<details><summary>${m.ic} ${m.name}</summary><div class="field" style="margin-top:8px"><textarea data-skill="${k}">${esc(skill(k))}</textarea><button class="btn sm ghost" data-reset="${k}">استرجاع الأصل</button></div></details>`).join('')}
+  <div class="card set"><h3>${I('sparkles')} مهارات المعلّم</h3>
+    ${Object.entries(MODES).filter(([, m]) => !m.hide).map(([k, m]) => `<details><summary>${m.name}</summary><div class="field" style="margin-top:8px"><textarea data-skill="${k}">${esc(skill(k))}</textarea><button class="btn sm ghost" data-reset="${k}">استرجاع الأصل</button></div></details>`).join('')}
   </div>
 
-  <div class="card set"><h3>🔊 صوت المعلّم</h3>
-    <p class="muted" style="font-size:15px">اختر من يشرح للطالب، واضغط «تجربة» لتسمع صوته.</p>
-    <div class="chars">${Object.entries(CHARS).map(([k, c]) => `<div class="char ${S.voice.char === k ? 'on' : ''}" data-char="${k}"><span class="em">${c.ic}</span><b>${c.name}</b><small>${c.sub}</small><button class="btn sm ghost" data-try="${k}">تجربة 🔊</button></div>`).join('')}</div>
+  <div class="card set"><h3>${I('speaker')} صوت المعلّم</h3>
+    <div class="chars">${Object.entries(CHARS).map(([k, c]) => `<div class="char ${S.voice.char === k ? 'on' : ''}" data-char="${k}"><span class="em">${avatar(k, 54)}</span><b>${c.name}</b><small>${c.sub}</small><button class="btn sm ghost" data-try="${k}">${I('speaker', 16)} تجربة</button></div>`).join('')}</div>
     <div class="field"><label>سرعة القراءة</label>${speedSegHTML()}</div>
-    ${inArtifact ? `<p class="note warn">في هذه المعاينة يُستخدم صوت جهازك، وهو صوت آلي، وتغيّر كل شخصية طبقته فقط. الأصوات البشرية عبر Gemini TTS وElevenLabs تحتاج اتصالاً خارجياً، فتعمل في نسخة التطبيق المستضافة.</p>` : `
+    ${inArtifact ? `<p class="note">في المعاينة يُستخدم صوت جهازك؛ الأصوات البشرية تعمل في نسخة التطبيق.</p>` : `
     <div class="field"><label for="vEng">محرك الصوت</label><select id="vEng">
       <option value="auto" ${S.voice.engine === 'auto' ? 'selected' : ''}>تلقائي: Gemini ثم ElevenLabs ثم صوت الجهاز</option>
       <option value="gemini" ${S.voice.engine === 'gemini' ? 'selected' : ''}>Gemini TTS (بمفتاح Gemini نفسه)</option>
       <option value="eleven" ${S.voice.engine === 'eleven' ? 'selected' : ''}>ElevenLabs (مفتاح خاص)</option>
       <option value="device" ${S.voice.engine === 'device' ? 'selected' : ''}>صوت الجهاز (بدون إنترنت)</option></select></div>
     <div class="field"><label for="vModel">نموذج Gemini للصوت</label><input id="vModel" list="ttsList" dir="ltr" value="${esc(S.voice.ttsModel)}"><datalist id="ttsList"><option value="gemini-3.8-flash-lite-tts"><option value="gemini-3.8-flash-tts"><option value="gemini-3.1-flash-tts-preview"></datalist>
-      <small class="muted">الأصوات: المعلّم Charon، المعلّمة Aoede، صديقي Puck، صديقتي Leda.</small></div>
+</div>
     <details><summary>ElevenLabs (اختياري، ١٠ آلاف حرف مجاناً شهرياً)</summary>
-      <div class="field" style="margin-top:8px"><label for="elKey">مفتاح ElevenLabs</label><div class="ansrow"><input id="elKey" type="password" dir="ltr" value="${esc(S.voice.el.key)}" autocomplete="off"><button class="eye" data-eye2="elKey" aria-label="إظهار">👁</button></div>
+      <div class="field" style="margin-top:8px"><label for="elKey">مفتاح ElevenLabs</label><div class="ansrow"><input id="elKey" type="password" dir="ltr" value="${esc(S.voice.el.key)}" autocomplete="off"><button class="eye" data-eye2="elKey" aria-label="إظهار">${I('eye', 20)}</button></div>
       <small class="muted">من <a class="lnk" href="https://elevenlabs.io/app/settings/api-keys" target="_blank" rel="noopener">elevenlabs.io</a>. الصق Voice ID لكل شخصية من مكتبة الأصوات.</small></div>
-      ${Object.entries(CHARS).map(([k, c]) => `<div class="field"><label for="el-${k}">${c.ic} ${c.name}: Voice ID</label><input id="el-${k}" dir="ltr" value="${esc(S.voice.el.ids[k])}"></div>`).join('')}
+      ${Object.entries(CHARS).map(([k, c]) => `<div class="field"><label for="el-${k}">${c.name}: Voice ID</label><input id="el-${k}" dir="ltr" value="${esc(S.voice.el.ids[k])}"></div>`).join('')}
     </details>`}
   </div>
 
-  <div class="card set"><h3>📷 جودة الصورة المرسلة للفحص</h3>
+  <div class="card set"><h3>${I('camera')} جودة الصورة للتحليل</h3>
     <div class="seg" id="qual"><button data-v="1280" class="${S.imgMax == 1280 ? 'on' : ''}">عادية (أسرع)</button><button data-v="1600" class="${S.imgMax == 1600 ? 'on' : ''}">عالية (للخط الصغير)</button></div>
-    <small class="muted">هذه للنسخة المرسلة للذكاء الاصطناعي فقط. صورتك الأصلية تُحفظ بدقتها الكاملة للعرض والتصدير.</small>
   </div>
 
-  <div class="card set"><h3>🗂️ البيانات</h3>
+  <div class="card set"><h3>${I('data')} البيانات</h3>
     <div class="row"><button class="btn sm ghost" id="rsStars">تصفير النجوم</button><button class="btn sm ghost" id="rsMist">مسح دفتر الأخطاء</button></div>
-    <p class="note">ملاحظة خصوصية: في الباقات المجانية قد تستخدم الشركات الطلبات لتحسين خدماتها؛ تجنّب تصوير الوجوه والأسماء.</p>
   </div>
-  <p class="foot">المعلّم الذكي • نموذج حي ${VERSION}</p>`;
+  <p class="foot">المعلّم الذكي ${VERSION}</p>`;
 
   const bind = (sel, fn) => { const e = $(sel, v); if (e) e.addEventListener('change', () => { fn(e.value); save(); }); };
   bind('#pName', x => { S.profile.name = x.trim(); });
@@ -1954,7 +2116,7 @@ function renderSettings() {
   for (const k of Object.keys(CHARS)) bind('#el-' + k, x => { S.voice.el.ids[k] = x.trim(); });
   $$('[data-eye2]', v).forEach(b => b.onclick = () => { const i = $('#' + b.dataset.eye2, v); i.type = i.type === 'password' ? 'text' : 'password'; });
   $$('[data-eye]', v).forEach(b => b.onclick = () => { const i = $('#k-' + b.dataset.eye, v); i.type = i.type === 'password' ? 'text' : 'password'; });
-  $$('[data-skill]', v).forEach(t => t.onchange = () => { S.skills[t.dataset.skill] = t.value; save(); toast('حُفظت المهارة ✓'); });
+  $$('[data-skill]', v).forEach(t => t.onchange = () => { S.skills[t.dataset.skill] = t.value; save(); toast('حُفظت المهارة'); });
   $$('[data-reset]', v).forEach(b => b.onclick = () => { delete S.skills[b.dataset.reset]; save(); $(`[data-skill="${b.dataset.reset}"]`, v).value = SKILLS[b.dataset.reset]; toast('عادت للأصل'); });
   $$('#qual button', v).forEach(b => b.onclick = () => { S.imgMax = +b.dataset.v; save(); $$('#qual button', v).forEach(x => x.classList.toggle('on', x === b)); });
   $('#cpGem', v).onclick = () => { try { navigator.clipboard.writeText(GEM_TEXT()).then(() => toast('نُسخت التعليمات ✓'), () => openSheet(`<h3>انسخ التعليمات يدوياً</h3><textarea style="width:100%;min-height:260px">${esc(GEM_TEXT())}</textarea><button class="btn" data-close>تم</button>`)); } catch (e) {} };
@@ -1977,7 +2139,7 @@ function renderSettings() {
 }
 
 /* ============ بدء التشغيل ============ */
-updateStars(); refreshEngineUI(); renderHome(); show('home');
+paintIcons(); updateStars(); refreshEngineUI(); renderHome(); show('home');
 /* تثبيت التطبيق والعمل بدون إنترنت (في النسخة المستضافة فقط) */
 if (!inArtifact && !isNative && 'serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>

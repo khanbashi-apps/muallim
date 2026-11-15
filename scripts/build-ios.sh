@@ -21,5 +21,5 @@ xcodebuild "${SRC[@]}" -scheme App -configuration Release -sdk iphoneos -destina
 APP=$(find build/Build/Products/Release-iphoneos -maxdepth 1 -name "*.app" | head -1)
 echo "APP=$APP"
 rm -rf Payload out && mkdir -p Payload out && cp -R "$APP" Payload/
-zip -qry out/Muallim-v1.3-unsigned.ipa Payload
+zip -qry out/Muallim-v1.4-unsigned.ipa Payload
 ls -la out
