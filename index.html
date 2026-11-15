@@ -334,7 +334,7 @@ a.lnk{color:var(--pri);font-weight:800}
     <button class="iconbtn" id="backBtn" hidden aria-label="رجوع"><i data-i="back"></i></button>
     <div class="brand">
       <svg class="logo" viewBox="0 0 200 200" aria-hidden="true"><path id="logoStar" fill="#FBBF24" stroke="#F59E0B" stroke-width="16" stroke-linejoin="round"/><circle cx="84" cy="108" r="9" fill="#2A1B4A"/><circle cx="116" cy="108" r="9" fill="#2A1B4A"/><path d="M86 128 Q100 142 114 128" stroke="#2A1B4A" stroke-width="7" fill="none" stroke-linecap="round"/></svg>
-      <b>المعلّم الذكي</b><span class="ver" id="verPill">v1.5</span>
+      <b>المعلّم الذكي</b><span class="ver" id="verPill">v1.6</span>
     </div>
     <button class="engbtn" id="engBtn" aria-label="محرك الذكاء الاصطناعي" hidden></button>
     <div class="starpill" id="starPill" title="نجومك"><i data-i="starf"></i> <b id="starNum">٠</b></div>
@@ -344,13 +344,13 @@ a.lnk{color:var(--pri);font-weight:800}
     <section class="view" id="v-home"></section>
     <section class="view" id="v-crop" hidden>
       <div class="card" style="display:flex;flex-direction:column;gap:12px">
-        <h3>حدّد السؤال بإصبعك</h3>
-        <p class="muted" style="font-size:15px">اسحب الإطار المضيء أو زواياه لاختيار سؤال واحد أو فقرة أو شكل، أو اختر الصفحة كاملة.</p>
+        <h3>الصورة كاملة محدّدة</h3>
+        <p class="muted" style="font-size:15px">اضغط «متابعة»، أو اسحب الزوايا إن أردت جزءاً منها فقط.</p>
         <div class="crop-wrap" id="cropWrap"><img id="cropImg" alt="الصورة الملتقطة"><div id="cropBox"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div></div>
         <div class="row">
           <button class="btn sm ghost" id="cropRot">↻ تدوير</button>
           <button class="btn sm ghost" id="cropFull">الصفحة كاملة</button>
-          <button class="btn sm ok" id="cropOk" style="flex:1">استخدم التحديد</button>
+          <button class="btn sm ok" id="cropOk" style="flex:1">متابعة</button>
         </div>
       </div>
     </section>
@@ -397,7 +397,7 @@ a.lnk{color:var(--pri);font-weight:800}
 <script>
 "use strict";
 /* ============ أساسيات ============ */
-const VERSION = 'v1.5';
+const VERSION = 'v1.6';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -507,7 +507,7 @@ try { S = JSON.parse(localStorage.getItem('mz_state') || '{}'); } catch (e) { S 
 S = Object.assign(JSON.parse(JSON.stringify(DEF)), S);
 for (const k of ['profile', 'keys', 'models', 'links']) S[k] = Object.assign({}, DEF[k], S[k] || {});
 S.voice = Object.assign({}, DEF.voice, S.voice || {}); S.voice.el = Object.assign({}, DEF.voice.el, S.voice.el || {}); S.voice.el.ids = Object.assign({}, DEF.voice.el.ids, S.voice.el.ids || {});
-if (S.v !== 'v1.5') { delete S.skills.onpage; delete S.skills.correct; if (!['auto', 'gemini', 'openrouter'].includes(S.engine)) S.engine = 'auto'; S.v = 'v1.5'; }
+if (S.v !== 'v1.6') { delete S.skills.onpage; delete S.skills.correct; if (!['auto', 'gemini', 'openrouter'].includes(S.engine)) S.engine = 'auto'; S.v = 'v1.6'; }
 function save() { try { localStorage.setItem('mz_state', JSON.stringify(S)); } catch (e) {} }
 const isF = () => S.profile.gender === 'f';
 const g = (m, f) => isF() ? f : m;
@@ -915,6 +915,8 @@ const FMT = {
 ٢) إذا كان مستطيل أحمر ليس مكان إجابة فعلاً (مثل إطار زخرفي أو جزء من رسمة) فلا تُرجعه.
 ٣) لكل سؤال يحتاج إجابة وليس عليه رقم أحمر (مثل: قارن وعلّل، أو فراغ لم يُكتشف): اجعل box_id = "CUSTOM"، واقرأ المسطرة الزرقاء وحدّد custom_box_2d = [ymin, xmin, ymax, xmax] في مساحة بيضاء فارغة تماماً تحت السؤال مباشرة، بعيداً عن الكلام المطبوع والرسومات. وفي الأسطر المنقطة يكون أسفل المستطيل ملاصقاً للنقاط من فوقها.
 ٤) font_h = ارتفاع سطر النص المطبوع بمقياس المسطرة (0-1000).
+٥) لكل فراغ إجابة واحدة كاملة في مستطيل واحد. لا تقسّم الكلمة على أكثر من مستطيل، ولا تكتب حروفاً متفرقة في مستطيلات مجاورة.
+٦) لا تكتب شيئاً في خانات الاسم والصف والقسم والتاريخ.
 الشكل المطلوب: {"font_h":22,"answers":[{"box_id":"#1","answer_text":"اسْمٍ"},{"box_id":"CUSTOM","answer_text":"الْجُمْلَةُ الثَّانِيَةُ صَحِيحَةٌ؛ لِأَنَّهَا تَبْدَأُ بِاسْمٍ.","custom_box_2d":[390,200,430,800]}]}`,
   correct: GRID_NOTE + `
 box_2d = [ymin, xmin, ymax, xmax] للمساحة التي كتب فيها الطالب إجابته. font_h = ارتفاع سطر النص المطبوع بالمقياس نفسه.
@@ -1087,7 +1089,8 @@ function detectBlanks(img) {
         const x1 = run[0].x1, x2 = run[run.length - 1].x2, top = Math.min(...run.map(d => d.y1)), bot = Math.max(...run.map(d => d.y2));
         if (sd / m < .45 && x2 - x1 >= W * .035) {
           const ign = new Set(run.map(d => d.i));
-          if (emptyBand(x1, x2, top - T * .55, bot + T * .45, ign) < .01) boxes.push({ type: 'dots', x1, x2, y1: Math.round(top - T * 1.55), y2: Math.round(top - 1) });
+          comps.forEach((o, ci) => { if (o.h <= Math.max(6, T * .5) && o.y1 >= top - 4 && o.y2 <= bot + 4 && o.x2 >= x1 && o.x1 <= x2) ign.add(ci); });
+          if (emptyBand(x1, x2, top - T * .55, bot + T * .45, ign) < .01) boxes.push({ type: 'dots', x1, x2, y1: Math.round(top - T * 1.55), y2: Math.round(top - 1), dt: top, db: bot });
         }
       }
     };
@@ -1102,16 +1105,23 @@ function detectBlanks(img) {
     for (const [a, b] of [[o.x1 - 9, o.x1 - 1], [o.x2 + 1, o.x2 + 9]]) for (let yy = Math.max(0, o.y1 - 2); yy <= Math.min(H - 1, o.y2 + 2); yy++) for (let xx = Math.max(0, a); xx <= Math.min(W - 1, b); xx++) { const l = lab[yy * W + xx]; if (l >= 0 && l !== i && longC[l]) return true; }
     return false;
   };
+  const sideUp = (xa, xb, y) => { for (let yy = Math.max(0, Math.round(y - T * 3)); yy < y - 2; yy++) for (let xx = Math.max(0, xa); xx <= Math.min(W - 1, xb); xx++) if (runLenV[yy * W + xx] >= T * 2.5) return true; return false; };
+  const isFrame = o => sideUp(o.x1 - 6, o.x1 + 14, o.y1) && sideUp(o.x2 - 14, o.x2 + 6, o.y1);
+  // خطوط الإجابة داكنة؛ الخط الملوّن أو الباهت غالباً حافة إطار زخرفي
+  const colored = (o, i) => { let sat = 0, lum = 0, n = 0; for (let yy = o.y1; yy <= o.y2; yy++) for (let xx = o.x1; xx <= o.x2; xx += 2) { const k = yy * W + xx; if (lab[k] !== i) continue; const r = px[k * 4], g = px[k * 4 + 1], bb = px[k * 4 + 2], mx = Math.max(r, g, bb), mn = Math.min(r, g, bb); sat += mx ? (mx - mn) / mx : 0; lum += L[k]; n++; } return n > 0 && (sat / n > .32 || lum / n > 165); };
   comps.forEach((o, i) => {
-    if (!lineCont(o, i) && o.y2 < H - T * 1.2 && o.y1 > T * 1.6 && o.w >= W * .05 && o.n / o.w <= Math.max(4, T * .3) && o.h <= o.w * .045 + T * .3 && o.w / o.h > 12) {
+    if (!lineCont(o, i) && !isFrame(o) && !colored(o, i) && o.y2 < H - T * 1.2 && o.y1 > T * 1.6 && o.w >= W * .05 && o.n / o.w <= Math.max(4, T * .3) && o.h <= o.w * .045 + T * .3 && o.w / o.h > 12) {
       if (emptyBand(o.x1, o.x2, o.y1 - T * 1.4, o.y1 - 2, new Set([i])) < .01) boxes.push({ type: 'line', x1: o.x1, x2: o.x2, y1: Math.round(o.y1 - T * 1.55), y2: o.y1 - 2 });
     }
   });
+  // الفجوة بين جزأين خالية من أي كتابة أو خط عمودي (لا ندمج سطرين يفصل بينهما كلام أو إطار)
+  const gapClear = (a, b) => !comps.some(o => o.h >= T * .55 && o.x2 > a.x2 + 1 && o.x1 < b.x1 - 1 && o.y2 >= Math.min(a.y2, b.y2) - T * 1.3 && o.y1 <= Math.max(a.db, b.db) + T * .3);
   // دمج أجزاء السطر المنقّط الواحد إذا انقسم بسبب ميلان الصورة أو التشويش
   const dl = boxes.filter(b => b.type === 'dots').sort((a, b) => a.x1 - b.x1);
   for (let i = 0; i < dl.length; i++) for (let j = 0; j < dl.length; j++) {
     const a = dl[i], b = dl[j]; if (i === j || a.dead || b.dead) continue;
-    if (Math.abs(a.y2 - b.y2) <= T * .6 && b.x1 >= a.x1 && b.x1 - a.x2 <= T * 2.5) { a.x2 = Math.max(a.x2, b.x2); a.y1 = Math.min(a.y1, b.y1); a.y2 = Math.max(a.y2, b.y2); b.dead = 1; }
+    const gap = b.x1 - a.x2;
+    if (Math.abs(a.y2 - b.y2) <= T * .6 && b.x1 >= a.x1 && gap <= Math.max(T * 2.5, .6 * Math.min(a.x2 - a.x1, b.x2 - b.x1)) && (gap <= T * 2.5 || gapClear(a, b))) { a.x2 = Math.max(a.x2, b.x2); a.y1 = Math.min(a.y1, b.y1); a.y2 = Math.max(a.y2, b.y2); a.db = Math.max(a.db, b.db); b.dead = 1; }
   }
   for (let i = boxes.length - 1; i >= 0; i--) if (boxes[i].dead) boxes.splice(i, 1);
   // --- ٤) إزالة التداخل ثم الترتيب العربي والترقيم
@@ -1470,7 +1480,7 @@ for (const id of ['fCam', 'fGal']) $('#' + id).onchange = async e => {
 function loadImg(src) { return new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; }); }
 let cropImgEl, crop = { x: 6, y: 6, w: 88, h: 88 };
 function openCrop(img) {
-  cropImgEl = img; $('#cropImg').src = img.src; crop = { x: 5, y: 5, w: 90, h: 90 }; placeCrop(); show('crop');
+  cropImgEl = img; $('#cropImg').src = img.src; crop = { x: 0, y: 0, w: 100, h: 100 }; placeCrop(); show('crop');
 }
 function placeCrop() { const b = $('#cropBox'); b.style.left = crop.x + '%'; b.style.top = crop.y + '%'; b.style.width = crop.w + '%'; b.style.height = crop.h + '%'; }
 (function cropDrag() {
@@ -1555,7 +1565,7 @@ async function runMode(mode, forceReal) {
       const job = { sys: buildSys(), prompt: skill(mode) + (FMT[mode] ? '\n\n' + FMT[mode] : ''), blob, signal: curCtl.signal, onProg };
       const r = await askAI(job, id => { $('#ldTitle').textContent = ENGINES[id].name + ' يقرأ الورقة…'; });
       onProg('done'); current.result = r.data; current.engine = r.engine;
-      if (current.result && typeof current.result === 'object') { current.result._fmt = 'g'; if (det) current.result._det = det.boxes; }
+      if (current.result && typeof current.result === 'object') { current.result._fmt = 'g'; if (det) { current.result._det = det.boxes; current.result._T = det.T / det.W; } }
     } catch (e) {
       hideLoading(); if (e.name === 'AbortError') return;
       return openSheet(`<h3>لم ينجح التحليل</h3><div class="note warn" style="white-space:pre-line">${esc(e.list && e.list.length ? e.list.join('\n') : e.message)}</div>
@@ -1907,6 +1917,9 @@ let OP = null;
 async function renderOnPage(body, r) {
   await fontsReady();
   const W = current.w, H = current.h, maxS = Math.max(10, (fontFrac(r) || .026) * H * 1.05);
+  // حجم موحّد لكل الإجابات: من ارتفاع حروف الورقة المقيس بالبكسل، وإلا من تقدير المحرك
+  const S0 = Math.max(W * .02, Math.min(W * .05, r._T ? r._T * W * 1.75 : maxS * 1.1));
+  const oneLine = (text, wPx, from) => { let s = from; MX.font = `700 ${s}px ${ANS_FAMILY}`; while (s > from * .72 && MX.measureText(text).width > wPx * .96) { s -= Math.max(1, from * .02); MX.font = `700 ${s}px ${ANS_FAMILY}`; } return Math.round(s); };
   OP = { items: [], sel: -1 };
   if (Array.isArray(r._edits)) OP.items = r._edits.map(e => ({ ...e }));
   else {
@@ -1919,9 +1932,22 @@ async function renderOnPage(body, r) {
       else { b = itemRect(it.custom_box_2d ? { box_2d: it.custom_box_2d } : it); kind = /table|box/.test(it.question_type || '') ? 'cell' : 'custom'; }
       if (!b) return null;
       const wPx = b.w / 100 * W, bH = b.h / 100 * H;
-      if (kind === 'cell') { const iw = wPx * .92, ih = bH * .84; return { ...b, kind, text, size: fitSize(text, iw, ih, Math.min(maxS * 1.15, ih * .7), ANS_FAMILY) }; }
-      return { ...b, kind, text, size: fitSize(text, wPx, kind === 'line' ? Math.max(bH, maxS * 1.3) : Math.max(bH, maxS * 1.3), maxS, ANS_FAMILY) };
+      if (kind === 'cell') { const iw = wPx * .92, ih = bH * .84; return { ...b, kind, text, size: fitSize(text, iw, ih, Math.min(S0, ih * .7), ANS_FAMILY) }; }
+      const size = oneLine(text, Math.max(wPx, S0 * 3), S0);
+      // الإجابة تجلس فوق السطر مباشرة
+      if (kind === 'line') { const hp = size * 1.3 / H * 100, bottom = b.y + b.h; b = { ...b, y: bottom - hp, h: hp }; if (wPx < S0 * 3) { const nw = S0 * 3 / W * 100; b.x -= (nw - b.w) / 2; b.w = nw; } }
+      return { ...b, kind, text, size };
     }).filter(Boolean);
+    // إزالة التكرار: إجابتان في المكان نفسه، أو حرف منفرد بجانب كلمة كاملة على السطر نفسه
+    const bare = t => t.replace(/[\u064B-\u0652\u0670\u0640\s.ـ]/g, '');
+    const area = o => o.w * o.h, inter = (a, b) => Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y));
+    const keep = [];
+    [...OP.items].sort((a, b) => bare(b.text).length - bare(a.text).length).forEach(it => {
+      if (keep.some(k => inter(k, it) > .25 * Math.min(area(k), area(it)))) return;
+      if (it.kind !== 'cell' && bare(it.text).length === 1 && keep.some(k => k.kind !== 'cell' && bare(k.text).length >= 2 && Math.abs((k.y + k.h / 2) - (it.y + it.h / 2)) < Math.max(k.h, it.h) && Math.max(k.x, it.x) - Math.min(k.x + k.w, it.x + it.w) < k.w * 1.2)) return;
+      keep.push(it);
+    });
+    OP.items = OP.items.filter(it => keep.includes(it));
   }
   body.innerHTML = `
   <div class="card" style="display:flex;flex-direction:column;gap:12px">
