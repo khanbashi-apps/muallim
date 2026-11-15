@@ -1,0 +1,6 @@
+run=6
+sha=f8fc5ac89b3d6d7753e63608de6ec4f725083a5f
+android=success
+ios=success
+file=dl/ios/out/Muallim-v1.7-unsigned.ipa
+file=dl/android/out/Muallim-v1.7.apk
