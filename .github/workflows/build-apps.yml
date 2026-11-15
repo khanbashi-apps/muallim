@@ -84,27 +84,26 @@ jobs:
         shell: bash
         run: |
           mkdir -p /tmp/logs
-          for f in dl/*/*.log; do [ -f "$f" ] && tail -c 400000 "$f" > "/tmp/logs/$(basename "$f")"; done
+          find dl -name '*.log' -exec sh -c 'tail -c 400000 "$1" > "/tmp/logs/$(basename "$1")"' _ {} \;
           {
             echo "run=${{ github.run_number }}"
             echo "sha=${{ github.sha }}"
             echo "android=${{ needs.android.result }}"
             echo "ios=${{ needs.ios.result }}"
+            find dl -name '*.apk' -o -name '*.ipa' | sed 's/^/file=/'
           } > /tmp/logs/status.txt
+          cd /tmp/logs
+          git init -q -b build-logs
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout --orphan build-logs
-          git rm -rf . -q || true
-          cp /tmp/logs/* .
-          git add -A
-          git commit -q -m "سجلات البناء رقم ${{ github.run_number }}"
-          git push -f origin build-logs
+          git add -A && git commit -q -m "سجلات البناء رقم ${{ github.run_number }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" build-logs
       - name: نشر APK و IPA كإصدار
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          files=$(ls dl/*/*.apk dl/*/*.ipa 2>/dev/null || true)
+          files=$(find dl -name '*.apk' -o -name '*.ipa' | tr '\n' ' ')
           if [ -z "$files" ]; then echo "لا توجد ملفات للنشر"; exit 0; fi
           tag="v1.3-build${{ github.run_number }}"
           gh release create "$tag" $files --target "${{ github.sha }}" --latest \
