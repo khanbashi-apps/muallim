@@ -11,5 +11,5 @@ npx @capacitor/assets generate --android --iconBackgroundColor '#7C3AED' --splas
 npx cap sync android
 if [ -n "${ANDROID_HOME:-}" ] && [ -x "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" ]; then yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true; fi
 cd android && chmod +x gradlew && ./gradlew assembleDebug --no-daemon --stacktrace --warning-mode none
-mkdir -p ../out && cp app/build/outputs/apk/debug/app-debug.apk ../out/Muallim-v1.6.apk
+mkdir -p ../out && cp app/build/outputs/apk/debug/app-debug.apk ../out/Muallim-v1.7.apk
 ls -la ../out

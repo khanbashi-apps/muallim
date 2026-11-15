@@ -41,6 +41,22 @@
 .diag{display:flex;flex-direction:column;gap:6px;font-size:14.5px}
 .diag div{display:flex;gap:8px;align-items:flex-start}
 .diag .y{color:var(--ok-d)}.diag .n{color:var(--bad)}
+.sklist{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.skrow{border:2px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px;background:#fff}
+.skrow.on{border-color:color-mix(in srgb,var(--ok) 55%,#fff);background:color-mix(in srgb,var(--ok) 6%,#fff)}
+.skhead{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.skhead b{display:block;font-size:17px}
+.skhead small{display:block;color:var(--muted);font-size:14px;line-height:1.6}
+.skctx{display:flex;flex-wrap:wrap;gap:5px}
+.skctx span{font-size:12px;font-weight:700;color:var(--pri-d);background:var(--pri-l);border-radius:99px;padding:2px 9px}
+.sksrc{font-size:12px;color:var(--muted);direction:ltr;text-align:right;text-decoration:none;word-break:break-word}
+.skf{display:flex;flex-direction:column;gap:6px}
+.skf label{font-size:14px;font-weight:700}
+.skf input{font-size:16px}
+.tgl{width:54px;height:32px;border-radius:99px;border:0;background:#DAD4E6;position:relative;flex:none;transition:background .2s}
+.tgl i{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.25);transition:right .2s}
+.tgl.on{background:var(--ok)}.tgl.on i{right:26px}
+details .cnt{font-weight:700;color:var(--muted);font-size:13px}
 .engopt{display:flex;align-items:center;gap:12px;border:2px solid var(--line);background:#fff;border-radius:18px;padding:12px 14px;text-align:right;width:100%}
 .engopt.on{border-color:var(--pri);background:var(--pri-l)}
 .engopt .ei{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;flex:none}
@@ -334,7 +350,7 @@ a.lnk{color:var(--pri);font-weight:800}
     <button class="iconbtn" id="backBtn" hidden aria-label="رجوع"><i data-i="back"></i></button>
     <div class="brand">
       <svg class="logo" viewBox="0 0 200 200" aria-hidden="true"><path id="logoStar" fill="#FBBF24" stroke="#F59E0B" stroke-width="16" stroke-linejoin="round"/><circle cx="84" cy="108" r="9" fill="#2A1B4A"/><circle cx="116" cy="108" r="9" fill="#2A1B4A"/><path d="M86 128 Q100 142 114 128" stroke="#2A1B4A" stroke-width="7" fill="none" stroke-linecap="round"/></svg>
-      <b>المعلّم الذكي</b><span class="ver" id="verPill">v1.6</span>
+      <b>المعلّم الذكي</b><span class="ver" id="verPill">v1.7</span>
     </div>
     <button class="engbtn" id="engBtn" aria-label="محرك الذكاء الاصطناعي" hidden></button>
     <div class="starpill" id="starPill" title="نجومك"><i data-i="starf"></i> <b id="starNum">٠</b></div>
@@ -397,7 +413,7 @@ a.lnk{color:var(--pri);font-weight:800}
 <script>
 "use strict";
 /* ============ أساسيات ============ */
-const VERSION = 'v1.6';
+const VERSION = 'v1.7';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -499,15 +515,16 @@ const DEF = {
   keys: { gemini: '', openrouter: '' },
   models: { gemini: 'gemini-flash-latest', openrouter: 'openrouter/free' },
   links: { gem: '', gpt: '' },
-  skills: {}, imgMax: 1280, mistakes: [],
+  skills: {}, lib: {}, imgMax: 1280, mistakes: [],
   voice: { char: 'woman', engine: 'auto', speed: 1, ttsModel: 'gemini-3.8-flash-lite-tts', el: { key: '', ids: { man: '', woman: '', boy: '', girl: '' } } }
 };
 let S;
 try { S = JSON.parse(localStorage.getItem('mz_state') || '{}'); } catch (e) { S = {}; }
 S = Object.assign(JSON.parse(JSON.stringify(DEF)), S);
+if (!S.lib || typeof S.lib !== 'object') S.lib = {};
 for (const k of ['profile', 'keys', 'models', 'links']) S[k] = Object.assign({}, DEF[k], S[k] || {});
 S.voice = Object.assign({}, DEF.voice, S.voice || {}); S.voice.el = Object.assign({}, DEF.voice.el, S.voice.el || {}); S.voice.el.ids = Object.assign({}, DEF.voice.el.ids, S.voice.el.ids || {});
-if (S.v !== 'v1.6') { delete S.skills.onpage; delete S.skills.correct; if (!['auto', 'gemini', 'openrouter'].includes(S.engine)) S.engine = 'auto'; S.v = 'v1.6'; }
+if (S.v !== 'v1.7') { delete S.skills.onpage; delete S.skills.correct; if (!['auto', 'gemini', 'openrouter'].includes(S.engine)) S.engine = 'auto'; S.v = 'v1.7'; }
 function save() { try { localStorage.setItem('mz_state', JSON.stringify(S)); } catch (e) {} }
 const isF = () => S.profile.gender === 'f';
 const g = (m, f) => isF() ? f : m;
@@ -948,11 +965,147 @@ async function gridBlob() {
   return new Promise(r => c.toBlob(r, 'image/jpeg', .88));
 }
 
-function buildSys() {
+function buildSys(ctx) {
   const p = S.profile;
   return SKILL_BASE.replace('{{GENDER}}', isF() ? 'المؤنث' : 'المذكر').replace('{{NAME}}', p.name || (isF() ? 'الطالبة' : 'الطالب'))
-    .replace('{{GRADE}}', toAr(p.grade)).replace('{{CURR}}', p.curriculum || 'سلطنة عُمان');
+    .replace('{{GRADE}}', toAr(p.grade)).replace('{{CURR}}', p.curriculum || 'سلطنة عُمان') + skillBlock(ctx);
 }
+/* ============ مكتبة المهارات (مختصرة ومعرّبة من مستودعات مفتوحة المصدر) ============
+   كل مهارة: تعليمات قصيرة تُضاف لطلب الذكاء الاصطناعي في الأوضاع المرتبطة بها فقط.
+   «ctx»: أين تعمل. «f»: خانات خاصة بالمهارة، وقيمها تُستبدل في النص مكان {{اسم_الخانة}}. */
+const CTX = { teacher: 'المعلّم التفاعلي', mom: 'كبسولة الأم', solve: 'الحل النموذجي', correct: 'صحّح واجبي', lens: 'العدسة الذكية', chat: 'محادثة العدسة', practice: 'سؤال التدريب' };
+const SK_MAX = 3;
+const SK_CATS = [['math', 'الرياضيات والعلوم', 'flask'], ['lang', 'العربية والإنجليزية', 'book'], ['learn', 'طرق التعلّم', 'bulb'], ['mom', 'للأم', 'heart']];
+const SK_SRC = {
+  gm: ['Gareth Manning — education-agent-skills', 'https://github.com/GarethManning/education-agent-skills', 'CC BY-SA 4.0']
+};
+const LIB = [
+  { id: 'math_coach', cat: 'math', name: 'مدرّب الرياضيات', desc: 'يعرف مستوى الطالب من سؤاله، وإذا لم يفهم يغيّر طريقة الشرح نفسها.', ctx: ['teacher', 'chat', 'practice'],
+    src: ['sugarforever — math-coach', 'https://github.com/sugarforever/math-coach', 'MIT'],
+    t: `- استنتج مستوى الطالب من طريقة سؤاله، وابدأ بأبسط طريقة تحلّ المسألة قبل أي طريقة متقدمة.
+- سمِّ كل قاعدة أو خاصية تعتمد عليها باسمها المدرسي (مثل: القيمة المنزلية، خاصية الإبدال) داخل الخطوات.
+- إذا ظهر أن الطالب لم يفهم فغيّر طريقة الشرح نفسها (رسم بالكلمات، أشياء محسوسة، مثال من البيت)، ولا تكرر الشرح نفسه ببطء.
+- في التدريب: سؤال بمستوى ما أثبت أنه يستطيعه، ثم أصعب قليلاً.` },
+  { id: 'math_zero', cat: 'math', name: 'الرياضيات من الصفر', desc: 'فكرة واحدة في كل خطوة، وأمثلة محلولة مشروحة بالكلام. مناسبة للطالب الضعيف.', ctx: ['teacher', 'mom', 'chat'],
+    src: ['sooryaask — math-skill', 'https://github.com/sooryaask/math-skill', 'MIT'],
+    t: `- افترض أن الطالب لا يعرف شيئاً سابقاً عن الموضوع: اشرح الفكرة بكلمات عادية قبل الرموز.
+- فكرة واحدة فقط في كل خطوة، وكل خطوة تقول لماذا تأتي بعد التي قبلها.
+- لا تقل «سهل» أو «واضح»، وامدح طريقة التفكير لا الذكاء.
+- عند الخطأ: ابدأ بما هو صحيح في محاولته، ثم أشر إلى أول خطوة انحرف فيها.` },
+  { id: 'hint_ladder', cat: 'math', name: 'سلّم التلميحات', desc: 'تلميح عام أولاً ثم أوضح ثم الخطوة، دون كشف الحل مرة واحدة.', ctx: ['teacher', 'practice', 'chat'], on: true,
+    f: [{ k: 'levels', l: 'عدد درجات السلّم', o: ['٢', '٣', '٤'], d: '٣' }],
+    src: ['cdmorozov — claude-tutors (math-tutor)', 'https://github.com/cdmorozov/claude-tutors', 'MIT'],
+    t: `- اجعل التلميح الأول عاماً يذكّر بالفكرة أو القاعدة فقط، بلا أي رقم أو خطوة من الحل.
+- اجعل خطوات الحل سلّماً من {{levels}} درجات: الأولى توجّه للطريقة، والوسطى تبدأ الحل، والأخيرة تقترب جداً من الجواب.
+- في المحادثة: لا تعطِ الجواب من أول طلب؛ أعطِ الدرجة التالية فقط واطلب محاولة قبل التي بعدها، إلا إذا طلب الحل صراحة بعد أن حاول.` },
+  { id: 'feynman', cat: 'math', name: 'شرح فاينمان للعلوم', desc: 'يشرح كيف يحدث الشيء قبل اسمه العلمي، بتشبيه من حياة الطفل.', ctx: ['teacher', 'mom', 'lens', 'chat'],
+    src: ['guicortei — feynman-technique', 'https://github.com/guicortei/feynman-technique', 'MIT'],
+    t: `- اشرح كيف يحدث الشيء أو لماذا يعمل قبل أن تذكر اسمه العلمي، ثم أعطِ الاسم.
+- استخدم تشبيهاً من حياة الطفل اليومية، وبيّن باختصار أين لا ينطبق التشبيه.
+- كل مصطلح جديد يُشرح بجملة بسيطة أول مرة يظهر.
+- اختم الشرح بسؤال صغير «ماذا يحدث لو…؟» يتأكد من الفهم.` },
+  { id: 'error_diag', cat: 'math', name: 'تشخيص الخطأ', desc: 'يبحث عن سبب الخطأ الحقيقي ونوعه بدل كلمة «خطأ».', ctx: ['correct', 'practice'], on: true, src: SK_SRC.gm,
+    t: `- لكل إجابة خاطئة حدّد نوع الخطأ: سهو في الحساب، أو قاعدة غير مفهومة، أو قراءة خاطئة للسؤال، أو خطأ في الكتابة والإملاء.
+- اذكر أول خطوة انحرف فيها الطالب، وكيف يتجنب الخطأ في المرة القادمة، في جملتين، وابدأ بما أصاب فيه إن وجد.
+- إذا تكرر نوع الخطأ نفسه في أكثر من سؤال فاذكر ذلك مع نصيحة واحدة في جملة التشجيع.
+- لا تكشف الإجابة الصحيحة في رد التحقق من إجابة الطالب.` },
+  { id: 'ar_grammar', cat: 'lang', name: 'النحو والإعراب', desc: 'إعراب منهجي وتصحيح نحوي، مبني على «جامع الدروس العربية» و«النحو الوافي».', ctx: ['teacher', 'solve', 'correct', 'mom', 'chat'],
+    f: [{ k: 'level', l: 'مستوى الإعراب', o: ['مبسّط', 'تفصيلي'], d: 'مبسّط' }],
+    src: ['specailm5 — arabic-grammar-skill', 'https://github.com/specailm5/arabic-grammar-skill', 'MIT'],
+    t: `- في أسئلة النحو والإعراب اتّبع منهجاً ثابتاً: نوع الكلمة، ثم موقعها، ثم حكمها (رفع، نصب، جر، جزم)، ثم العلامة الظاهرة أو المقدّرة وسببها.
+- الإعراب {{level}}: المبسّط مثل «مبتدأ مرفوع وعلامة رفعه الضمة»، والتفصيلي يذكر العلامة الفرعية والمحل الإعرابي للجمل.
+- عند تصحيح جملة: صنّف الخطأ (إملائي، صرفي، نحوي، تركيبي)، واقترح أصغر تعديل يصححه، واذكر القاعدة في جملة.
+- اعتمد قواعد «جامع الدروس العربية» و«النحو الوافي»، واكتب أمثلة الإعراب مشكولة.` },
+  { id: 'ar_writing', cat: 'lang', name: 'الكتابة العربية السليمة', desc: 'تصحيح التعبير والإنشاء: الإملاء والترقيم والأسلوب.', ctx: ['correct', 'mom', 'chat'],
+    src: ['ahmeddabak — claude-arabic-writing', 'https://github.com/ahmeddabak/claude-arabic-writing', 'MIT'],
+    t: `- في التعبير والإنشاء صحّح الإملاء (الهمزات، التاء المربوطة والهاء، الألف اللينة) وعلامات الترقيم، والتراكيب المترجمة حرفياً.
+- اقترح صياغة عربية طبيعية تحافظ على فكرة الطالب وكلماته قدر الإمكان، ولا تعِد كتابة النص كله.
+- اكتب أنت بفصحى سليمة بسيطة بلا تكلّف.` },
+  { id: 'en_coach', cat: 'lang', name: 'مدرّب الإنجليزي', desc: 'يصحح ما يكتبه الطالب بالإنجليزية ويعلّم قاعدة واحدة كل مرة.', ctx: ['teacher', 'correct', 'chat', 'practice'],
+    f: [{ k: 'level', l: 'مستوى الطالب في الإنجليزي', o: ['مبتدئ', 'متوسط', 'متقدم'], d: 'مبتدئ' }],
+    src: ['dinqe — language-tutor', 'https://github.com/dinqe/language-tutor', 'MIT'],
+    t: `- في أسئلة اللغة الإنجليزية: مستوى الطالب {{level}}. اشرح بالعربية واكتب الأمثلة بالإنجليزية.
+- صحّح كل ما يكتبه الطالب بالإنجليزية بصيغة: الخطأ ← الصحيح، مع السبب في جملة عربية قصيرة.
+- علّم قاعدة واحدة فقط في كل شرح مع مثالين قصيرين.
+- انتبه لأخطاء الناطقين بالعربية الشائعة: حذف am/is/are، ترتيب الصفة قبل الاسم، حرف s مع he/she/it، a وan، والخلط بين b وp.` },
+  { id: 'mnemonic', cat: 'lang', name: 'حفظ الكلمات بالربط', desc: 'يربط الكلمة الإنجليزية بكلمة عربية تشبهها في النطق لتسهيل الحفظ.', ctx: ['lens', 'teacher', 'chat'],
+    src: ['InvisCat — mnemonic-skill', 'https://github.com/InvisCat/mnemonic-skill', 'MIT'],
+    t: `- لكل كلمة إنجليزية صعبة أضف ربطاً للحفظ: كلمة أو عبارة عربية قريبة في النطق، مع صورة ذهنية طريفة تجمع الصوت والمعنى (مثال: run تشبه «رنّ»: تخيّل الجرس يرنّ فتركض).
+- اكتب الربط بعد عبارة «للحفظ:» في نهاية المثال، وقل إنه للتذكّر فقط وليس أصل الكلمة.
+- لا تفرض ربطاً ضعيفاً؛ إن لم تجد صوتاً قريباً فاتركه.` },
+  { id: 'bilingual', cat: 'lang', name: 'الشرح ثنائي اللغة', desc: 'شرح بالعربي مع المصطلح الأجنبي بجانبه، للمدارس ثنائية اللغة.', ctx: ['teacher', 'mom', 'solve', 'lens', 'chat'], on: true,
+    f: [{ k: 'lang', l: 'لغة المصطلحات', o: ['الإنجليزية', 'الفرنسية'], d: 'الإنجليزية' }],
+    src: SK_SRC.gm,
+    t: `- اكتب المصطلح العلمي أو الرياضي بالعربية ثم بين قوسين باللغة {{lang}} أول مرة يظهر، مثل: الكسر (fraction).
+- إذا كانت الورقة مكتوبة باللغة {{lang}}: اشرح بعربية بسيطة، وانقل السؤال كما هو، واكتب الإجابة بلغة الورقة نفسها.
+- ركّز الشرح على المصطلحات الخاصة بالمادة أكثر من الكلمات اليومية.` },
+  { id: 'socratic', cat: 'learn', name: 'المعلّم السقراطي', desc: 'يعلّم بالأسئلة المتدرجة بدل إعطاء الجواب مباشرة.', ctx: ['chat', 'teacher'],
+    src: ['Jane Street — agent_skills (socratic-tutor)', 'https://github.com/janestreet/agent_skills', 'MIT'],
+    t: `- علّم بالأسئلة: في المحادثة اسأل سؤالاً واحداً فقط في كل رد يقود الطالب للخطوة التالية، وانتظر جوابه.
+- إذا كان سؤال الطالب معلومة سريعة فأجبه مباشرة؛ الأسلوب السقراطي لتعلّم فكرة، لا لمعلومة عابرة.
+- إذا أخطأ فاسأله سؤالاً يكشف له التناقض بنفسه بدل التصحيح الفوري.
+- في التلميحات المكتوبة: اجعل التلميح سؤالاً موجّهاً بدل جملة خبرية.` },
+  { id: 'teach_back', cat: 'learn', name: 'اشرح لي بكلماتك', desc: 'الطالب يشرح الفكرة، والمعلّم يكتشف أين الفجوة في فهمه.', ctx: ['chat', 'teacher'], src: SK_SRC.gm,
+    t: `- بعد شرح فكرة اطلب من الطالب أن يشرحها لك كأنك صديق لا يعرفها، ثم اسأله سؤالاً أو اثنين بفضول حقيقي يكشفان الفجوة في فهمه.
+- لا تصحّح شرحه كله مرة واحدة: ابدأ بما فهمه صحيحاً ثم الفجوة الأهم.
+- اختم القصة أو الشرح بدعوة الطالب ليشرح الفكرة بكلماته.` },
+  { id: 'try_first', cat: 'learn', name: 'حاول أولاً', desc: 'يطلب محاولة الطالب قبل أن يشرح، ثم يبني الشرح عليها.', ctx: ['chat'], src: SK_SRC.gm,
+    t: `- قبل أن تشرح أو تجيب عن سؤال تعلّم، اطلب من الطالب محاولته الأولى ولو ناقصة، ومدى ثقته بها (قليلة أو متوسطة أو كبيرة)، ثم ابنِ شرحك على محاولته.
+- إذا قال «لا أعرف» فاسأله سؤالاً أصغر يستطيع الإجابة عنه.` },
+  { id: 'why', cat: 'learn', name: 'سؤال «لماذا؟»', desc: 'يضيف بعد كل فكرة سؤال لماذا أو كيف يعمّق الفهم.', ctx: ['teacher', 'lens', 'chat'], src: SK_SRC.gm,
+    t: `- بعد كل فكرة أساسية أضف سؤالاً قصيراً «لماذا…؟» أو «كيف…؟» يربطها بما يعرفه الطالب (مثل: لماذا نبدأ الجمع من الآحاد؟).
+- في العدسة اجعل أحد الأسئلة المقترحة على الأقل سؤال «لماذا…؟».` },
+  { id: 'fading', cat: 'learn', name: 'المثال المحلول المتدرّج', desc: 'مثال محلول كامل، ثم ناقص يكمله الطالب، ثم يحل وحده.', ctx: ['mom', 'chat', 'practice'], src: SK_SRC.gm,
+    t: `- عند تعليم طريقة حل: (١) مثال مشابه محلول بالكامل مع سبب كل خطوة، (٢) مثال محلول جزئياً يكمل الطالب آخر خطوة، (٣) مثال يحله وحده.
+- لكبسولة الأم: اجعل خطوات الشرح للطفل بهذا الترتيب نفسه.
+- سؤال التدريب بالطريقة نفسها وبأرقام أو كلمات جديدة.` },
+  { id: 'retrieval', cat: 'learn', name: 'تدريب الاسترجاع', desc: 'أسئلة مراجعة من الذاكرة بصعوبة متدرجة.', ctx: ['practice', 'lens'], src: SK_SRC.gm,
+    f: [{ k: 'count', l: 'عدد أسئلة المراجعة في العدسة', o: ['٢', '٣'], d: '٢' }],
+    t: `- أسئلة المراجعة تتطلب استرجاعاً من الذاكرة (أكمل، اذكر، لماذا) لا مجرد اختيار.
+- نوّع الصعوبة: سهل، ثم متوسط، ثم سؤال يحتاج تطبيقاً.
+- في العدسة: اجعل {{count}} من الأسئلة المقترحة أسئلة مراجعة سريعة على محتوى الصفحة.` },
+  { id: 'transfer', cat: 'learn', name: 'انقل الفكرة', desc: 'يختبر الفكرة في موقف جديد ليتأكد أن الطالب فهم ولم يحفظ.', ctx: ['practice', 'chat'], src: SK_SRC.gm,
+    t: `- سؤال التدريب ينقل الفكرة نفسها إلى موقف جديد من حياة الطفل (السوق، المطبخ، الملعب) بدل تكرار السؤال بأرقام أخرى.
+- بعد أن يتقن الطالب اسأله: أين يمكن أن تستخدم هذه الفكرة في مكان آخر؟` },
+  { id: 'book_page', cat: 'learn', name: 'معلّم صفحة الكتاب', desc: 'لكل صفحة: الفكرة الأساسية، ومثال من حياة الطفل، وجملة تساعده على التذكّر.', ctx: ['lens', 'mom', 'teacher'], on: true,
+    f: [{ k: 'interests', l: 'اهتمامات الطفل (لأمثلة قريبة منه)', ph: 'مثال: كرة القدم، الرسم، القطط', d: '' }],
+    src: ['DB-Shadow — book-page-tutor', 'https://github.com/DB-Shadow/book-page-tutor', 'MIT'],
+    t: `- عند تصوير صفحة من الكتاب: اذكر الفكرة الأساسية في جملة، ثم مثالاً من عالم الطفل ({{interests}})، ثم جملة تذكير قصيرة سهلة الحفظ.
+- في ملخص العدسة ضع الثلاثة بهذا الترتيب، كل واحد في سطر.
+- لا تلخّص الصفحة كلها؛ ركّز على أهم فكرة.` },
+  { id: 'hw_check', cat: 'mom', name: 'مراجعة الواجب قبل التسليم', desc: 'يتأكد من اكتمال الواجب ومطابقته لتعليمات المعلّمة.', ctx: ['correct', 'mom'],
+    f: [{ k: 'rules', l: 'تعليمات المعلّمة الثابتة', ph: 'مثال: كتابة الوحدات، الخط بالقلم الأزرق', d: '' }],
+    src: ['henryyu333 — assignment-check', 'https://github.com/henryyu333/assignment-check', 'MIT'],
+    t: `- راجع اكتمال الواجب: هل أُجيب عن كل الأسئلة؟ هل كُتبت الوحدات والخطوات المطلوبة؟ هل الخط مقروء؟
+- تعليمات المعلّمة الثابتة: {{rules}}. تحقق منها بنداً بنداً.
+- اذكر ما ينقص في جملة تبدأ بـ«قبل التسليم:» داخل جملة التشجيع، أو كآخر خطوة في كبسولة الأم.` },
+  { id: 'confidence', cat: 'mom', name: 'بناء الثقة', desc: 'للطفل الذي يقول «أنا ضعيف»: نجاحات صغيرة متتالية ومدح محدد.', ctx: ['teacher', 'chat', 'practice', 'correct'], src: SK_SRC.gm,
+    f: [{ k: 'subject', l: 'المادة التي يشعر فيها بالضعف', ph: 'مثال: الرياضيات', d: '' }],
+    t: `- الطالب يشعر بالضعف في {{subject}}: ابدأ بخطوة يستطيع النجاح فيها بالتأكيد، ثم زد الصعوبة تدريجياً.
+- امدح الجهد والطريقة بكلمات محددة («رتّبت الأرقام في منازلها بشكل صحيح») لا بعبارات عامة.
+- ذكّره بنجاح سابق عندما يتعثر، ولا تقل إن الشيء سهل.` }
+];
+const FILL_EMPTY = { interests: 'اهتماماته اليومية', rules: 'لا توجد تعليمات إضافية', subject: 'هذه المادة' };
+/* حالة المهارات: S.lib = { id: { on: bool, f: {k: v} } } */
+function skState(sk) {
+  const st = S.lib[sk.id] || {};
+  return { on: st.on === undefined ? !!sk.on : !!st.on, f: Object.assign({}, ...(sk.f || []).map(x => ({ [x.k]: x.d })), st.f || {}) };
+}
+const skOn = sk => skState(sk).on;
+const skCount = ctx => LIB.filter(sk => sk.ctx.includes(ctx) && skOn(sk)).length;
+function skText(sk) {
+  const st = skState(sk);
+  return sk.t.replace(/\{\{(\w+)\}\}/g, (_, k) => (st.f[k] || '').trim() || FILL_EMPTY[k] || '');
+}
+/* كتلة المهارات المفعّلة لوضع معيّن، تُضاف لتعليمات النظام */
+function skillBlock(ctx) {
+  if (!ctx) return '';
+  const act = LIB.filter(sk => sk.ctx.includes(ctx) && skOn(sk)).slice(0, SK_MAX);
+  if (!act.length) return '';
+  return `\n\n# مهارات تدريس مفعّلة\nطبّق التعليمات التالية داخل المحتوى المطلوب نفسه. إذا كان المطلوب JSON فلا تغيّر شكله ولا تضف حقولاً جديدة. وإذا تعارضت مهارة مع المطلوب في هذا الوضع فالمطلوب أولاً.\n` +
+    act.map(sk => `## ${sk.name}\n${skText(sk)}`).join('\n');
+}
+
 const GEM_TEXT = () => `${buildSys().replace(/\n- أعد JSON[^\n]*/, '')}
 - عندما يرسل لك الطالب سؤالاً: لا تعطه الإجابة مباشرة. ابدأ بسؤال صغير يقوده للفكرة، ثم أعطه تلميحاً، ثم اشرح الحل خطوة بخطوة فقط إذا طلب.
 - إذا أرسلت الأم صورة واجب: أعطها فكرة الدرس في ٣٠ ثانية، وكيف تشرحه بمثال من البيت، ثم نموذج الإجابة الكامل.
@@ -1562,7 +1715,7 @@ async function runMode(mode, forceReal) {
       let det = null, blob; onProg('prep');
       if (mode === 'onpage') { $('#ldTitle').textContent = 'أقيس الفراغات في الورقة…'; const im = await loadImg(current.url); det = detectBlanks(im); blob = await annotateForAI(im, det); }
       else blob = FMT[mode] ? await gridBlob() : await aiImage();
-      const job = { sys: buildSys(), prompt: skill(mode) + (FMT[mode] ? '\n\n' + FMT[mode] : ''), blob, signal: curCtl.signal, onProg };
+      const job = { sys: buildSys(mode), prompt: skill(mode) + (FMT[mode] ? '\n\n' + FMT[mode] : ''), blob, signal: curCtl.signal, onProg };
       const r = await askAI(job, id => { $('#ldTitle').textContent = ENGINES[id].name + ' يقرأ الورقة…'; });
       onProg('done'); current.result = r.data; current.engine = r.engine;
       if (current.result && typeof current.result === 'object') { current.result._fmt = 'g'; if (det) { current.result._det = det.boxes; current.result._T = det.T / det.W; } }
@@ -1678,7 +1831,7 @@ function renderTeacher(body, r) {
       if (!ok && current.engine !== 'demo' && anyEngine()) {
         $('#fb').className = 'fb hint'; $('#fb').textContent = 'لحظة، أتحقق من إجابتك…';
         try {
-          const j = (await askAI({ sys: buildSys(), prompt: `السؤال: ${q.q}\nالإجابة الصحيحة: ${q.answer}\nإجابة الطالب: ${a}\nهل إجابة الطالب صحيحة في المعنى؟ أعد: {"ok":true أو false,"feedback":"جملة قصيرة مشجعة لا تكشف الحل إن كانت خاطئة"}`, quick: true })).data;
+          const j = (await askAI({ sys: buildSys('practice'), prompt: `السؤال: ${q.q}\nالإجابة الصحيحة: ${q.answer}\nإجابة الطالب: ${a}\nهل إجابة الطالب صحيحة في المعنى؟ أعد: {"ok":true أو false,"feedback":"جملة قصيرة مشجعة لا تكشف الحل إن كانت خاطئة"}`, quick: true })).data;
           ok = !!j.ok; fbText = j.feedback || '';
         } catch (e) {}
       }
@@ -1714,7 +1867,7 @@ async function practice(qs, box) {
   else {
     curCtl = new AbortController(); showLoading('أؤلّف لك سؤالاً جديداً…');
     try {
-      p = (await askAI({ sys: buildSys(), signal: curCtl.signal, onProg: progFor('practice', false), prompt: `هذه أسئلة الدرس:\n${qs.map(q => '- ' + q.q).join('\n')}\nألّف سؤالاً واحداً جديداً بالفكرة نفسها مع أرقام أو جمل مختلفة. أعد: {"q":"...","answer":"...","hint":"...","steps":["..."]}` })).data;
+      p = (await askAI({ sys: buildSys('practice'), signal: curCtl.signal, onProg: progFor('practice', false), prompt: `هذه أسئلة الدرس:\n${qs.map(q => '- ' + q.q).join('\n')}\nألّف سؤالاً واحداً جديداً بالفكرة نفسها مع أرقام أو جمل مختلفة. أعد: {"q":"...","answer":"...","hint":"...","steps":["..."]}` })).data;
     } catch (e) { hideLoading(); if (e.name !== 'AbortError') toast('لم أستطع تأليف سؤال الآن'); return; }
     hideLoading();
   }
@@ -1845,10 +1998,42 @@ async function renderMarked(items) {
   });
   return c;
 }
+/* --- مكتبة المهارات في الإعدادات --- */
+function skRowHTML(sk) {
+  const st = skState(sk);
+  const fields = st.on && sk.f ? sk.f.map(x => `<div class="skf"><label>${x.l}</label>${x.o
+    ? `<div class="seg">${x.o.map(o => `<button data-skf="${sk.id}|${x.k}" data-v="${esc(o)}" class="${st.f[x.k] === o ? 'on' : ''}">${o}</button>`).join('')}</div>`
+    : `<input data-skt="${sk.id}|${x.k}" value="${esc(st.f[x.k] || '')}" placeholder="${esc(x.ph || '')}" maxlength="120">`}</div>`).join('') : '';
+  return `<div class="skrow ${st.on ? 'on' : ''}"><div class="skhead"><div><b>${sk.name}</b><small>${sk.desc}</small></div>
+    <button class="tgl ${st.on ? 'on' : ''}" role="switch" aria-checked="${st.on}" aria-label="${esc(sk.name)}" data-tgl="${sk.id}"><i></i></button></div>
+    <div class="skctx">${sk.ctx.map(c => `<span>${CTX[c]}</span>`).join('')}</div>${fields}
+    <a class="sksrc" href="${sk.src[1]}" target="_blank" rel="noopener">${esc(sk.src[0])} · ${sk.src[2]}</a></div>`;
+}
+function libHTML() {
+  const open = new Set($$('#libCard details[open]').map(d => d.dataset.cat));
+  if (!$('#libCard')) open.add('math');
+  return `<h3>${I('sparkles')} مكتبة المهارات</h3>
+    <p class="muted" style="font-size:14.5px">حتى ${toAr(SK_MAX)} مهارات في كل وضع.</p>
+    ${SK_CATS.map(([c, name, ic]) => { const list = LIB.filter(sk => sk.cat === c); return `<details data-cat="${c}" ${open.has(c) ? 'open' : ''}><summary>${I(ic, 18)} ${name} <span class="cnt">(${toAr(list.filter(skOn).length)}/${toAr(list.length)})</span></summary><div class="sklist">${list.map(skRowHTML).join('')}</div></details>`; }).join('')}
+    <p class="muted" style="font-size:12.5px;line-height:1.7">مهارات معرّبة ومختصرة من مستودعات مفتوحة المصدر، ومصدر كل مهارة ورخصتها تحتها. ما أُخذ عن رخصة CC BY-SA متاح بالرخصة نفسها.</p>`;
+}
+function bindLib() {
+  const card = $('#libCard'); if (!card) return;
+  const rerender = () => { card.innerHTML = libHTML(); bindLib(); };
+  const setSt = (id, fn) => { const sk = LIB.find(x => x.id === id), st = skState(sk); fn(st); S.lib[id] = st; save(); };
+  $$('[data-tgl]', card).forEach(b => b.onclick = () => {
+    const sk = LIB.find(x => x.id === b.dataset.tgl), on = !skOn(sk);
+    if (on) { const full = sk.ctx.find(c => skCount(c) >= SK_MAX); if (full) { toast(`«${CTX[full]}» فيه ${toAr(SK_MAX)} مهارات مفعّلة. أوقف واحدة أولاً`, 3500); return; } }
+    setSt(sk.id, st => st.on = on); rerender();
+  });
+  $$('[data-skf]', card).forEach(b => b.onclick = () => { const [id, k] = b.dataset.skf.split('|'); setSt(id, st => st.f[k] = b.dataset.v); rerender(); });
+  $$('[data-skt]', card).forEach(inp => inp.oninput = () => { const [id, k] = inp.dataset.skt.split('|'); setSt(id, st => st.f[k] = inp.value); });
+}
+
 /* --- العدسة الذكية --- */
 const mdLite = t => esc(String(t || '')).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/^#{1,6}\s*/gm, '');
 const plain = t => String(t || '').replace(/\*\*/g, '').replace(/^#{1,6}\s*/gm, '');
-const chatSys = () => buildSys().replace(/\n- أعد JSON[^\n]*/, '') + `
+const chatSys = () => buildSys('chat').replace(/\n- أعد JSON[^\n]*/, '') + `
 - أنت الآن في محادثة عن صورة الصفحة المرفقة. أجب عن سؤال الطالب بدقة اعتماداً على ما في الصورة.
 - أجب بنص عادي قصير وواضح (حتى ٨ أسطر)، بلا JSON وبلا عناوين. يمكنك استخدام **للتأكيد** وقائمة مرقمة قصيرة.
 - إذا طلب حل سؤال فاشرح طريقة الحل خطوة بخطوة ثم اذكر الإجابة.`;
@@ -2209,6 +2394,8 @@ function renderSettings() {
     <div id="gemOut" class="diag"></div>
   </div>`}
 
+
+  <div class="card set" id="libCard">${libHTML()}</div>
   <div class="card set"><h3>${I('link')} الربط مع Gemini وChatGPT</h3>
     <p style="font-size:15.5px">اصنع «معلّماً خاصاً» مرة واحدة بالتعليمات الجاهزة، وسيفتحه زر «ناقشه مع Gemini» مباشرة للمحادثة الصوتية.</p>
     <ol style="margin:0;padding-inline-start:20px;font-size:15px;display:flex;flex-direction:column;gap:4px">
@@ -2221,7 +2408,7 @@ function renderSettings() {
     <div class="field"><label for="lGem">رابط الـ Gem</label><input id="lGem" dir="ltr" value="${esc(S.links.gem)}" placeholder="https://gemini.google.com/gem/..."></div>
   </div>
 
-  <div class="card set"><h3>${I('sparkles')} مهارات المعلّم</h3>
+  <div class="card set"><h3>${I('sliders')} تعليمات الأوضاع (للمتقدمين)</h3>
     ${Object.entries(MODES).filter(([, m]) => !m.hide).map(([k, m]) => `<details><summary>${m.name}</summary><div class="field" style="margin-top:8px"><textarea data-skill="${k}">${esc(skill(k))}</textarea><button class="btn sm ghost" data-reset="${k}">استرجاع الأصل</button></div></details>`).join('')}
   </div>
 
@@ -2267,7 +2454,8 @@ function renderSettings() {
   for (const k of Object.keys(CHARS)) bind('#el-' + k, x => { S.voice.el.ids[k] = x.trim(); });
   $$('[data-eye2]', v).forEach(b => b.onclick = () => { const i = $('#' + b.dataset.eye2, v); i.type = i.type === 'password' ? 'text' : 'password'; });
   $$('[data-eye]', v).forEach(b => b.onclick = () => { const i = $('#k-' + b.dataset.eye, v); i.type = i.type === 'password' ? 'text' : 'password'; });
-  $$('[data-skill]', v).forEach(t => t.onchange = () => { S.skills[t.dataset.skill] = t.value; save(); toast('حُفظت المهارة'); });
+  $$('[data-skill]', v).forEach(t => t.onchange = () => { S.skills[t.dataset.skill] = t.value; save(); toast('حُفظت التعليمات'); });
+  bindLib();
   $$('[data-reset]', v).forEach(b => b.onclick = () => { delete S.skills[b.dataset.reset]; save(); $(`[data-skill="${b.dataset.reset}"]`, v).value = SKILLS[b.dataset.reset]; toast('عادت للأصل'); });
   $$('#qual button', v).forEach(b => b.onclick = () => { S.imgMax = +b.dataset.v; save(); $$('#qual button', v).forEach(x => x.classList.toggle('on', x === b)); });
   $('#cpGem', v).onclick = () => { try { navigator.clipboard.writeText(GEM_TEXT()).then(() => toast('نُسخت التعليمات ✓'), () => openSheet(`<h3>انسخ التعليمات يدوياً</h3><textarea style="width:100%;min-height:260px">${esc(GEM_TEXT())}</textarea><button class="btn" data-close>تم</button>`)); } catch (e) {} };
