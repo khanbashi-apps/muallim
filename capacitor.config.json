@@ -1,0 +1,7 @@
+{
+  "appId": "com.khanbashi.muallim",
+  "appName": "المعلّم الذكي",
+  "webDir": "www",
+  "backgroundColor": "#FFF7EE",
+  "ios": { "contentInset": "never" }
+}

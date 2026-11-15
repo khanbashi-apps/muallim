@@ -1,0 +1,21 @@
+{
+  "name": "muallim",
+  "version": "1.3.0",
+  "private": true,
+  "description": "المعلّم الذكي",
+  "scripts": {
+    "prepare-www": "bash scripts/prepare-www.sh"
+  },
+  "dependencies": {
+    "@capacitor-community/text-to-speech": "^8.0.2",
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/core": "^8.6.2",
+    "@capacitor/filesystem": "^8.1.5",
+    "@capacitor/ios": "^8.6.2",
+    "@capacitor/share": "^8.0.3"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^4.0.0",
+    "@capacitor/cli": "^8.6.2"
+  }
+}

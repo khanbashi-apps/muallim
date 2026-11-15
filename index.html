@@ -375,6 +375,17 @@ const toAr = n => String(n).replace(/[0-9]/g, d => AR[d]);
 const toLatin = s => String(s).replace(/[٠-٩]/g, d => AR.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const inArtifact = !!(window.claude && typeof window.claude.use === 'function');
+/* داخل تطبيق APK أو IPA المبني بـ Capacitor */
+const isNative = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' && window.Capacitor.isNativePlatform());
+/* مكتبة Capacitor الأساسية (capacitor.js) تُنسخ مع نسخة التطبيق فقط، وبها نسجّل الإضافات الأصلية */
+if (isNative) { const sc = document.createElement('script'); sc.src = 'capacitor.js'; document.head.appendChild(sc); }
+const NP = name => {
+  if (!isNative) return null;
+  const P = window.Capacitor.Plugins || {};
+  if (P[name]) return P[name];
+  const cx = window.capacitorExports;
+  try { return cx && cx.registerPlugin ? cx.registerPlugin(name) : null; } catch (e) { return null; }
+};
 
 let toastT;
 function toast(msg, ms = 2600) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), ms); }
@@ -574,6 +585,15 @@ const TTS = {
     }
   },
   device(t, lang) {
+    const nt = NP('TextToSpeech');
+    if (nt) {
+      const c = CHARS[S.voice.char], my = this.token;
+      this.mode = 'native'; this.ui(true);
+      nt.speak({ text: t, lang: lang === 'ar' ? 'ar-SA' : 'en-US', rate: Math.min(2, (c.rate || 1) * S.voice.speed), pitch: lang === 'ar' ? c.pitch : 1, volume: 1, category: 'playback' })
+        .catch(() => toast('صوت الجهاز غير متاح؛ ثبّت صوتاً عربياً من إعدادات الهاتف'))
+        .finally(() => { if (this.token === my && this.mode === 'native') { this.mode = null; this.ui(false); } });
+      return;
+    }
     if (!('speechSynthesis' in window)) { this.ui(false); return toast('النطق غير متاح في هذا المتصفح'); }
     const c = CHARS[S.voice.char]; speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(t), v = pickVoice(lang);
@@ -584,10 +604,11 @@ const TTS = {
   },
   pause() {
     if (this.mode === 'audio') { if (AUD.paused) { AUD.play().catch(() => {}); this.paused(false); } else { AUD.pause(); this.paused(true); } }
+    else if (this.mode === 'native') this.stop();
     else if (this.mode === 'device') { if (speechSynthesis.paused) { speechSynthesis.resume(); this.paused(false); } else { speechSynthesis.pause(); this.paused(true); } }
   },
   paused(p) { $('#speakbar').classList.toggle('paused', p); $('#spPause').textContent = p ? '▶' : '⏸'; },
-  stop(keep) { this.token++; try { speechSynthesis.cancel(); } catch (e) {} try { AUD.pause(); } catch (e) {} this.mode = null; if (!keep) this.ui(false); },
+  stop(keep) { this.token++; try { NP('TextToSpeech') && NP('TextToSpeech').stop(); } catch (e) {} try { speechSynthesis.cancel(); } catch (e) {} try { AUD.pause(); } catch (e) {} this.mode = null; if (!keep) this.ui(false); },
   ui(on, loading) { $('#speakbar').hidden = !on; $('#spState').hidden = !loading; this.paused(false); $$('.mascot').forEach(m => m.classList.toggle('talking', on && !loading)); }
 };
 AUD.onended = () => { if (TTS.mode === 'audio') { TTS.mode = null; TTS.ui(false); } };
@@ -1718,6 +1739,16 @@ function makePDF(pages) {
   return new Blob(parts, { type: 'application/pdf' });
 }
 async function saveBlob(blob, name) {
+  const fs = NP('Filesystem'), sh = NP('Share');
+  if (fs && sh) {
+    try {
+      const b64 = (await blobToB64(blob)).split(',')[1];
+      const safe = name.replace(/[\\/:*?"<>|]/g, '-');
+      const w = await fs.writeFile({ path: safe, data: b64, directory: 'CACHE' });
+      await sh.share({ title: safe, files: [w.uri] });
+      return;
+    } catch (e) { if (/cancel/i.test(String(e && (e.message || e)))) return; toast('تعذّر الحفظ: ' + (e && e.message || 'خطأ')); return; }
+  }
   if (CL.downloads) {
     try { await CL.downloads.save({ filename: name, data: blob }); toast('تم الحفظ ✓'); return; }
     catch (e) { if (e.code === 'declined') return toast('تم الإلغاء'); if (e.code === 'rate_limited') return toast('انتظر لحظة ثم حاول'); }
@@ -1948,7 +1979,7 @@ function renderSettings() {
 /* ============ بدء التشغيل ============ */
 updateStars(); refreshEngineUI(); renderHome(); show('home');
 /* تثبيت التطبيق والعمل بدون إنترنت (في النسخة المستضافة فقط) */
-if (!inArtifact && 'serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
+if (!inArtifact && !isNative && 'serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>
 </body>
 </html>
