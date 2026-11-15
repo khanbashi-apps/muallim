@@ -37,7 +37,10 @@
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 .i{display:inline-block;vertical-align:-.22em;flex:none}
-.engbtn{border:2px solid var(--pri-l);background:var(--card);border-radius:14px;padding:6px 10px;font-size:14px;font-weight:800;color:var(--pri-d);display:flex;align-items:center;gap:4px;white-space:nowrap}
+.engbtn{border:2px solid var(--pri-l);background:var(--card);border-radius:14px;padding:7px 8px;font-size:14px;font-weight:800;color:var(--pri-d);display:flex;align-items:center;gap:4px;white-space:nowrap}
+.diag{display:flex;flex-direction:column;gap:6px;font-size:14.5px}
+.diag div{display:flex;gap:8px;align-items:flex-start}
+.diag .y{color:var(--ok-d)}.diag .n{color:var(--bad)}
 .engopt{display:flex;align-items:center;gap:12px;border:2px solid var(--line);background:#fff;border-radius:18px;padding:12px 14px;text-align:right;width:100%}
 .engopt.on{border-color:var(--pri);background:var(--pri-l)}
 .engopt .ei{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;flex:none}
@@ -45,8 +48,8 @@
 .engopt small{color:var(--muted);font-size:13px}
 .engopt small.ok{color:var(--ok-d);font-weight:700}
 .av{display:block;border-radius:50%}
-.mode.wide{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:2px;align-items:center;background:linear-gradient(135deg,#E0F2FE,#fff 70%)}
-.mode.wide .ic{grid-row:1/3;width:60px;height:60px;background:#fff;box-shadow:0 2px 8px rgba(14,165,233,.18)}
+.mode.wide{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr;column-gap:14px;row-gap:2px;align-items:center;background:linear-gradient(135deg,color-mix(in srgb,var(--c) 13%,#fff),#fff 70%)}
+.mode.wide .ic{grid-row:1/3;width:60px;height:60px;background:#fff;box-shadow:0 2px 8px color-mix(in srgb,var(--c) 22%,transparent)}
 .mode.wide b{align-self:end;font-size:20px}
 .mode.wide>span:last-child{align-self:start}
 .sugg{display:flex;flex-wrap:wrap;gap:8px}
@@ -72,7 +75,7 @@ button{cursor:pointer}
   background:rgba(255,247,238,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:6px;flex:1;min-width:0}
 .brand b{font-family:var(--f-display);font-size:21px;font-weight:800;white-space:nowrap;color:var(--pri-d);overflow:hidden;text-overflow:ellipsis;min-width:0}
-.top:has(#backBtn:not([hidden])) .brand b{font-size:17px}
+.top:has(#backBtn:not([hidden])) .brand b{display:none}
 .logo{width:34px;height:34px;flex:none}
 .ver{font-size:11px;font-weight:800;background:var(--pri);color:#fff;border-radius:99px;padding:1px 8px;letter-spacing:.5px}
 .iconbtn{border:0;background:var(--card);width:40px;height:40px;border-radius:14px;box-shadow:var(--lift);font-size:20px;font-weight:800;color:var(--pri)}
@@ -302,7 +305,11 @@ a.lnk{color:var(--pri);font-weight:800}
 #loading{position:fixed;inset:0;z-index:70;background:linear-gradient(180deg,#7C3AED,#5B21B6);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px;text-align:center}
 #loading .mascot{width:150px;height:150px}
 #loading h2{font-size:24px}
-#loading p{opacity:.9;min-height:3.2em}
+#loading p{opacity:.9;min-height:1.6em}
+.pbar{width:min(300px,78vw);height:14px;border-radius:99px;background:rgba(255,255,255,.22);overflow:hidden;direction:ltr}
+.pbar i{display:block;height:100%;width:0;border-radius:99px;background:var(--star);transition:width .35s ease}
+.pbar.busy i{background-image:linear-gradient(45deg,rgba(255,255,255,.45) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.45) 50%,rgba(255,255,255,.45) 75%,transparent 75%);background-size:22px 22px;animation:pstripe .7s linear infinite}
+@keyframes pstripe{to{background-position:22px 0}}
 .ldots{display:flex;gap:8px}.ldots i{width:12px;height:12px;border-radius:50%;background:var(--star);animation:ld 1s infinite}
 .ldots i:nth-child(2){animation-delay:.15s}.ldots i:nth-child(3){animation-delay:.3s}
 @keyframes ld{50%{transform:translateY(-10px)}}
@@ -327,7 +334,7 @@ a.lnk{color:var(--pri);font-weight:800}
     <button class="iconbtn" id="backBtn" hidden aria-label="رجوع"><i data-i="back"></i></button>
     <div class="brand">
       <svg class="logo" viewBox="0 0 200 200" aria-hidden="true"><path id="logoStar" fill="#FBBF24" stroke="#F59E0B" stroke-width="16" stroke-linejoin="round"/><circle cx="84" cy="108" r="9" fill="#2A1B4A"/><circle cx="116" cy="108" r="9" fill="#2A1B4A"/><path d="M86 128 Q100 142 114 128" stroke="#2A1B4A" stroke-width="7" fill="none" stroke-linecap="round"/></svg>
-      <b>المعلّم الذكي</b><span class="ver" id="verPill">v1.4</span>
+      <b>المعلّم الذكي</b><span class="ver" id="verPill">v1.5</span>
     </div>
     <button class="engbtn" id="engBtn" aria-label="محرك الذكاء الاصطناعي" hidden></button>
     <div class="starpill" id="starPill" title="نجومك"><i data-i="starf"></i> <b id="starNum">٠</b></div>
@@ -379,7 +386,8 @@ a.lnk{color:var(--pri);font-weight:800}
   <div class="mascot thinking" id="ldMascot"></div>
   <h2 id="ldTitle">المعلّم يقرأ الورقة…</h2>
   <p id="ldTime"></p>
-  <div class="ldots"><i></i><i></i><i></i></div>
+  <div class="ldots" id="ldDots"><i></i><i></i><i></i></div>
+  <div class="pbar" id="ldBar" hidden role="progressbar" aria-valuemin="0" aria-valuemax="100"><i></i></div>
   <p id="ldTip"></p>
   <button class="btn sm" id="ldStop">إيقاف</button>
 </div>
@@ -389,7 +397,7 @@ a.lnk{color:var(--pri);font-weight:800}
 <script>
 "use strict";
 /* ============ أساسيات ============ */
-const VERSION = 'v1.4';
+const VERSION = 'v1.5';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -499,7 +507,7 @@ try { S = JSON.parse(localStorage.getItem('mz_state') || '{}'); } catch (e) { S 
 S = Object.assign(JSON.parse(JSON.stringify(DEF)), S);
 for (const k of ['profile', 'keys', 'models', 'links']) S[k] = Object.assign({}, DEF[k], S[k] || {});
 S.voice = Object.assign({}, DEF.voice, S.voice || {}); S.voice.el = Object.assign({}, DEF.voice.el, S.voice.el || {}); S.voice.el.ids = Object.assign({}, DEF.voice.el.ids, S.voice.el.ids || {});
-if (S.v !== 'v1.4') { delete S.skills.onpage; delete S.skills.correct; if (!['auto', 'gemini', 'openrouter'].includes(S.engine)) S.engine = 'auto'; S.v = 'v1.4'; }
+if (S.v !== 'v1.5') { delete S.skills.onpage; delete S.skills.correct; if (!['auto', 'gemini', 'openrouter'].includes(S.engine)) S.engine = 'auto'; S.v = 'v1.5'; }
 function save() { try { localStorage.setItem('mz_state', JSON.stringify(S)); } catch (e) {} }
 const isF = () => S.profile.gender === 'f';
 const g = (m, f) => isF() ? f : m;
@@ -624,8 +632,8 @@ async function geminiTTS(text, ch) {
     ? { contents: [{ role: 'user', parts: [{ text, speechMetadata: { style: c.style } }] }], generationConfig: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { voice: c.gem } } } }
     : { contents: [{ role: 'user', parts: [{ text: `اقرأ النص التالي بصوت ${c.style}:\n${text}` }] }], generationConfig: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: c.gem } } } } };
   let res;
-  try { res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': S.keys.gemini }, body: JSON.stringify(body) }); }
-  catch (e) { netErr(e); }
+  try { res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, { method: 'POST', signal: timed(null, 25000).signal, headers: { 'Content-Type': 'application/json', 'x-goog-api-key': S.keys.gemini }, body: JSON.stringify(body) }); }
+  catch (e) { e = new Error('تعذّر جلب الصوت'); throw e; }
   if (!res.ok) throw await httpErr(res);
   const d = await res.json(), part = (d.candidates?.[0]?.content?.parts || []).find(p => p.inlineData || p.inline_data);
   if (!part) throw new Error('لم يصل صوت من Gemini');
@@ -635,7 +643,7 @@ async function geminiTTS(text, ch) {
 }
 async function elevenTTS(text, ch) {
   const v = S.voice.el; let res;
-  try { res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(v.ids[ch])}?output_format=mp3_44100_128`, { method: 'POST', headers: { 'xi-api-key': v.key, 'Content-Type': 'application/json', 'Accept': 'audio/mpeg' }, body: JSON.stringify({ text, model_id: 'eleven_flash_v2_5' }) }); }
+  try { res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(v.ids[ch])}?output_format=mp3_44100_128`, { method: 'POST', signal: timed(null, 25000).signal, headers: { 'xi-api-key': v.key, 'Content-Type': 'application/json', 'Accept': 'audio/mpeg' }, body: JSON.stringify({ text, model_id: 'eleven_flash_v2_5' }) }); }
   catch (e) { netErr(e); }
   if (!res.ok) throw await httpErr(res);
   return await res.blob();
@@ -869,8 +877,8 @@ const SKILL_BASE = `أنت «المعلّم الذكي»: معلم عربي صب
 - أعد JSON صالحاً فقط، بدون أي نص أو علامات قبله أو بعده.`;
 const SKILLS = {
   teacher: `حلّل صورة الواجب.
-١) اكتب "story": شرحاً قصصياً مشوقاً من ٤ إلى ٦ جمل لفكرة الدرس الأساسية يناسب عمر الطالب.
-٢) استخرج كل الأسئلة الموجودة بالترتيب نفسه.
+١) اكتب "story": شرحاً قصصياً مشوقاً من ٣ إلى ٤ جمل قصيرة لفكرة الدرس الأساسية يناسب عمر الطالب.
+٢) استخرج كل الأسئلة الموجودة بالترتيب نفسه، ولكل سؤال تلميح من جملة واحدة وحتى ٣ خطوات قصيرة.
 الشكل المطلوب:
 {"title":"عنوان الدرس","subject":"المادة","story":"...","questions":[{"n":1,"q":"نص السؤال كما في الورقة","answer":"الإجابة الصحيحة المختصرة","hint":"تلميح يقرّب من الحل دون كشفه","steps":["خطوة ١","خطوة ٢"]}]}`,
   mom: `أنت تساعد أماً تريد مراجعة الدرس مع طفلها.
@@ -1140,7 +1148,7 @@ function annotateForAI(img, det) {
 /* ============ محركات الذكاء الاصطناعي (AI Router) ============ */
 const ENGINES = {
   gemini: { name: 'Gemini', color: '#2563EB', has: () => !!S.keys.gemini, run: runGemini, boxes: true },
-  openrouter: { name: 'OpenRouter', color: '#6D28D9', has: () => !!S.keys.openrouter, run: j => runOpenAI('https://openrouter.ai/api/v1/chat/completions', S.keys.openrouter, S.models.openrouter, j) },
+  openrouter: { name: 'OpenRouter', color: '#6D28D9', has: () => !!S.keys.openrouter, run: j => runOpenAI(OR_URL, S.keys.openrouter, S.models.openrouter, j) },
   claude: { name: 'Claude', color: '#E0661A', has: () => !!CL.sample, run: runClaude, preview: true }
 };
 const ENGINE_LABEL = { auto: 'تلقائي', gemini: 'Gemini', openrouter: 'OpenRouter', claude: 'Claude (معاينة)', demo: 'تجريبي' };
@@ -1166,46 +1174,144 @@ async function httpErr(res) {
   if (res.status === 404) return new Error('اسم النموذج غير موجود؛ غيّره من الإعدادات');
   return new Error(`خطأ ${res.status}${msg ? ': ' + msg.slice(0, 120) : ''}`);
 }
-/* مهلة قصوى للطلب مع ربطه بزر الإيقاف */
+/* مهلة قصوى لطلبات fetch البسيطة (الصوت والفحص) */
 function timed(signal, ms) {
   const c = new AbortController(); let timedOut = false;
   const t = setTimeout(() => { timedOut = true; c.abort(); }, ms);
   if (signal) { if (signal.aborted) c.abort(); else signal.addEventListener('abort', () => c.abort(), { once: true }); }
   return { signal: c.signal, done: () => clearTimeout(t), timedOut: () => timedOut };
 }
-const TIMEOUT_MSG = 'تأخّر الرد أكثر من دقيقتين. تأكد من الإنترنت ثم حاول مرة أخرى';
-async function runGemini({ sys, prompt, blob, signal, json = true, _noThink }) {
+/* ============ النقل المتدفق (XHR): تقدّم حقيقي للإرسال والاستقبال، وكشف التوقف ============ */
+let GEM_BASE = 'https://generativelanguage.googleapis.com/v1beta', OR_URL = 'https://openrouter.ai/api/v1/chat/completions';
+const GEM_LITE = 'gemini-flash-lite-latest';
+const NET = { stallUp: 35000, stallWait: 60000, stallRecv: 40000, cap: 240000, retryWait: 1200 };
+const STALL_MSG = { up: 'الإنترنت ضعيف: لم يكتمل إرسال الصورة', wait: 'لم يصل رد من الخادم', recv: 'انقطع الرد قبل اكتماله' };
+const abortErr = () => { const a = new Error('cancelled'); a.name = 'AbortError'; return a; };
+function xhrStream({ url, headers, body, signal, onUp, onDown }) {
+  return new Promise((resolve, reject) => {
+    if (signal && signal.aborted) return reject(abortErr());
+    const x = new XMLHttpRequest(); let phase = 'up', timer, done = false;
+    const end = () => { done = true; clearTimeout(timer); clearTimeout(cap); };
+    const fail = e => { if (done) return; end(); try { x.abort(); } catch (_) {} reject(e); };
+    const arm = () => { if (done) return; clearTimeout(timer); const ph = phase; timer = setTimeout(() => { const e = new Error(STALL_MSG[ph]); e.retry = true; e.stall = ph; fail(e); }, ph === 'up' ? NET.stallUp : ph === 'wait' ? NET.stallWait : NET.stallRecv); };
+    const cap = setTimeout(() => { const e = new Error('تأخّر الرد كثيراً'); e.retry = true; e.stall = 'cap'; fail(e); }, NET.cap);
+    x.open('POST', url, true);
+    for (const k in headers) x.setRequestHeader(k, headers[k]);
+    x.upload.onprogress = ev => { arm(); if (ev.lengthComputable && ev.total) onUp && onUp(Math.min(.99, ev.loaded / ev.total)); };
+    x.upload.onload = () => { if (phase === 'up') { phase = 'wait'; arm(); onUp && onUp(1); } };
+    x.onreadystatechange = () => { if (x.readyState >= 2 && x.status && phase !== 'recv') { if (phase === 'up') onUp && onUp(1); phase = 'recv'; arm(); } };
+    x.onprogress = () => { arm(); onDown && onDown(x.responseText); };
+    x.onload = () => { if (done) return; end(); resolve({ status: x.status, text: x.responseText || '' }); };
+    x.onerror = () => { const e = new Error('تعذّر الاتصال بالإنترنت أو بالخادم'); e.net = true; e.retry = true; fail(e); };
+    if (signal) signal.addEventListener('abort', () => fail(abortErr()), { once: true });
+    arm(); x.send(body);
+  });
+}
+/* يقرأ أسطر data: المكتملة فقط من نص SSE */
+function sseTake(text, st) {
+  const out = []; let i;
+  while ((i = text.indexOf('\n', st.pos)) >= 0) { const line = text.slice(st.pos, i).replace(/\r$/, ''); st.pos = i + 1; if (line.startsWith('data:')) out.push(line.slice(5).trim()); }
+  return out;
+}
+function httpErrText(status, text) {
+  let msg = '';
+  try { const j = JSON.parse(text); const er = (Array.isArray(j) ? j[0] : j).error; msg = er ? (er.message || String(er)) : ''; } catch (_) { const m = /"message"\s*:\s*"((?:[^"\\]|\\.)+)"/.exec(text || ''); if (m) msg = m[1]; }
+  msg = String(msg || '');
+  let e;
+  if (status === 429) e = new Error('انتهى الحد المجاني لهذا النموذج أو أنه مشغول');
+  else if (status === 401 || status === 403 || (status === 400 && /api.?key/i.test(msg))) e = new Error('المفتاح غير صحيح أو لا يملك صلاحية');
+  else if (status === 400 && /location is not supported/i.test(msg)) e = new Error('خدمة Gemini المجانية غير متاحة في منطقتك');
+  else if (status === 404) e = new Error('اسم النموذج غير موجود؛ غيّره من الإعدادات');
+  else if (status >= 500) e = new Error('خادم المحرك مشغول الآن');
+  else e = new Error(`خطأ ${status}${msg ? ': ' + msg.slice(0, 120) : ''}`);
+  e.status = status; e.retry = status === 429 || status === 404 || status >= 500;
+  e.thinking = status === 400 && /thinking/i.test(msg + ' ' + (text || '').slice(0, 600));
+  return e;
+}
+const pause = async (ms, signal) => { await sleep(ms); if (signal && signal.aborted) throw abortErr(); };
+async function shrinkBlob(blob, k = .72) {
+  const u = URL.createObjectURL(blob);
+  try { const im = await loadImg(u), c = document.createElement('canvas'); c.width = Math.round(im.naturalWidth * k); c.height = Math.round(im.naturalHeight * k);
+    const x = c.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(im, 0, 0, c.width, c.height);
+    return await new Promise(r => c.toBlob(r, 'image/jpeg', .74)); } finally { URL.revokeObjectURL(u); }
+}
+const b64Of = async blob => (await blobToB64(blob)).split(',')[1];
+/* محاولة واحدة مع نموذج واحد من Gemini (بثّ متدفق) */
+async function gemOnce(model, { sys, prompt, b64, signal, json, think, onProg }) {
   const parts = [{ text: prompt }];
-  if (blob) parts.push({ inlineData: { mimeType: 'image/jpeg', data: (await blobToB64(blob)).split(',')[1] } });
-  const model = S.models.gemini, gc = { temperature: 0.4, ...(json ? { responseMimeType: 'application/json' } : {}) };
-  // التفكير المنخفض يقلل وقت الانتظار كثيراً في نماذج Gemini 3
-  if (!_noThink) gc.thinkingConfig = /gemini-2\./.test(model) ? { thinkingBudget: 512 } : { thinkingLevel: 'low' };
-  const body = { systemInstruction: { parts: [{ text: sys }] }, contents: [{ role: 'user', parts }], generationConfig: gc };
-  const tm = timed(signal, 120000); let res;
-  try { res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, { method: 'POST', signal: tm.signal, headers: { 'Content-Type': 'application/json', 'x-goog-api-key': S.keys.gemini }, body: JSON.stringify(body) }); }
-  catch (e) { tm.done(); if (tm.timedOut()) throw new Error(TIMEOUT_MSG); netErr(e); }
-  if (res.status === 400 && !_noThink) { const tx = await res.clone().text().catch(() => ''); if (/thinking/i.test(tx)) { tm.done(); return runGemini({ sys, prompt, blob, signal, json, _noThink: true }); } }
-  if (!res.ok) { tm.done(); throw await httpErr(res); }
-  let d; try { d = await res.json(); } catch (e) { tm.done(); if (tm.timedOut()) throw new Error(TIMEOUT_MSG); throw e; }
-  tm.done();
-  const txt = (d.candidates?.[0]?.content?.parts || []).filter(p => p.text && !p.thought).map(p => p.text).join('');
-  if (!txt) throw new Error(d.promptFeedback?.blockReason ? 'رفض المحرك الصورة' : 'رد فارغ من Gemini');
-  return json ? parseLoose(txt) : txt;
+  if (b64) parts.push({ inlineData: { mimeType: 'image/jpeg', data: b64 } });
+  const gc = { temperature: 0.4, ...(json ? { responseMimeType: 'application/json' } : {}) };
+  // التفكير المنخفض يقلل وقت الانتظار كثيراً
+  if (think) gc.thinkingConfig = /gemini-2\./.test(model) ? { thinkingBudget: 512 } : { thinkingLevel: 'low' };
+  let out = '', fin = '', block = '', apiErr = null; const st = { pos: 0 };
+  const eat = t => { for (const d of sseTake(t, st)) { let j; try { j = JSON.parse(d); } catch (_) { continue; }
+    if (j.error) apiErr = j.error; if (j.promptFeedback && j.promptFeedback.blockReason) block = j.promptFeedback.blockReason;
+    const c = j.candidates && j.candidates[0]; if (!c) continue;
+    for (const p of (c.content && c.content.parts) || []) if (p.text && !p.thought) out += p.text;
+    if (c.finishReason) fin = c.finishReason; } };
+  const r = await xhrStream({ url: `${GEM_BASE}/models/${encodeURIComponent(model)}:streamGenerateContent?alt=sse`, signal,
+    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': S.keys.gemini },
+    body: JSON.stringify({ systemInstruction: { parts: [{ text: sys }] }, contents: [{ role: 'user', parts }], generationConfig: gc }),
+    onUp: f => onProg('up', f), onDown: t => { eat(t); if (out) onProg('recv', out.length); } });
+  if (r.status !== 200) throw httpErrText(r.status, r.text);
+  eat(r.text + '\n');
+  if (apiErr) { const e = httpErrText(apiErr.code || 500, JSON.stringify({ error: apiErr })); throw e; }
+  if (!out) { const e = new Error(block ? 'رفض المحرك هذه الصورة' : 'رد فارغ من Gemini'); e.retry = !block; throw e; }
+  if (!json) return out;
+  try { return parseLoose(out); } catch (_) { const e = new Error(fin === 'MAX_TOKENS' ? 'الرد أطول من الحد المسموح' : 'وصل رد غير مكتمل'); e.retry = true; throw e; }
 }
-async function runOpenAI(url, key, model, { sys, prompt, blob, signal, json = true }) {
-  const content = blob ? [{ type: 'text', text: prompt }, { type: 'image_url', image_url: { url: await blobToB64(blob) } }] : prompt;
-  const tm = timed(signal, 120000); let res;
-  try { res = await fetch(url, { method: 'POST', signal: tm.signal, headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key, 'X-Title': 'Al-Muallim Al-Thaki' }, body: JSON.stringify({ model, temperature: 0.4, messages: [{ role: 'system', content: sys }, { role: 'user', content }] }) }); }
-  catch (e) { tm.done(); if (tm.timedOut()) throw new Error(TIMEOUT_MSG); netErr(e); }
-  if (!res.ok) { tm.done(); throw await httpErr(res); }
-  let d; try { d = await res.json(); } finally { tm.done(); }
-  let txt = d.choices?.[0]?.message?.content;
-  if (Array.isArray(txt)) txt = txt.map(p => p.text || '').join('');
-  if (!txt) throw new Error('رد فارغ');
-  return json ? parseLoose(txt) : txt;
+async function gemTry(model, o) {
+  try { return await gemOnce(model, { ...o, think: true }); }
+  catch (e) { if (e.thinking) return gemOnce(model, { ...o, think: false }); throw e; }
 }
-async function runClaude({ sys, prompt, blob, signal, json = true, quick }) {
-  const opts = { signal };
+/* Gemini مع إعادة المحاولة: صورة أخف عند ضعف الاتصال، ثم نموذج أخف وأسرع */
+async function runGemini({ sys, prompt, blob, signal, json = true, quick, onProg = () => {} }) {
+  let b64 = blob ? await b64Of(blob) : null, first = null, netRetried = false;
+  const models = [...new Set(quick ? [GEM_LITE, S.models.gemini] : [S.models.gemini, GEM_LITE])].filter(Boolean);
+  for (let i = 0; i < models.length;) {
+    try { return await gemTry(models[i], { sys, prompt, b64, signal, json, onProg }); }
+    catch (e) {
+      if (e.name === 'AbortError' || !e.retry) throw e;
+      first = first || e;
+      if ((e.net || e.stall === 'up') && !netRetried) {
+        netRetried = true; onProg('retry', 'net');
+        if (blob && blob.size > 120000) { try { b64 = await b64Of(await shrinkBlob(blob)); } catch (_) {} }
+        await pause(NET.retryWait, signal); continue;
+      }
+      i++; if (i < models.length) { onProg('retry', 'model'); await pause(NET.retryWait, signal); }
+    }
+  }
+  throw first;
+}
+async function runOpenAI(url, key, model, { sys, prompt, blob, signal, json = true, onProg = () => {} }) {
+  const once = async img => {
+    const content = img ? [{ type: 'text', text: prompt }, { type: 'image_url', image_url: { url: 'data:image/jpeg;base64,' + img } }] : prompt;
+    let out = '', apiErr = null; const st = { pos: 0 };
+    const eat = t => { for (const d of sseTake(t, st)) { if (d === '[DONE]') continue; let j; try { j = JSON.parse(d); } catch (_) { continue; }
+      if (j.error) apiErr = j.error; const c = j.choices && j.choices[0]; if (!c) continue;
+      const v = c.delta ? c.delta.content : c.message && c.message.content;
+      if (typeof v === 'string') out += v; else if (Array.isArray(v)) out += v.map(p => p.text || '').join(''); } };
+    const r = await xhrStream({ url, signal, headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key, 'X-Title': 'Al-Muallim Al-Thaki' },
+      body: JSON.stringify({ model, temperature: 0.4, stream: true, messages: [{ role: 'system', content: sys }, { role: 'user', content }] }),
+      onUp: f => onProg('up', f), onDown: t => { eat(t); if (out) onProg('recv', out.length); } });
+    if (r.status !== 200) throw httpErrText(r.status, r.text);
+    eat(r.text + '\n');
+    if (!out && !apiErr) { try { const d = JSON.parse(r.text); if (d.error) apiErr = d.error; let v = d.choices && d.choices[0] && d.choices[0].message && d.choices[0].message.content; if (Array.isArray(v)) v = v.map(p => p.text || '').join(''); out = v || ''; } catch (_) {} }
+    if (apiErr && !out) throw httpErrText(+apiErr.code || 500, JSON.stringify({ error: apiErr }));
+    if (!out) { const e = new Error('رد فارغ'); e.retry = true; throw e; }
+    if (!json) return out;
+    try { return parseLoose(out); } catch (_) { const e = new Error('وصل رد غير مكتمل'); e.retry = true; throw e; }
+  };
+  let b64 = blob ? await b64Of(blob) : null;
+  try { return await once(b64); }
+  catch (e) {
+    if (e.name === 'AbortError' || !(e.net || e.stall === 'up')) throw e;
+    onProg('retry', 'net'); if (blob && blob.size > 120000) { try { b64 = await b64Of(await shrinkBlob(blob)); } catch (_) {} }
+    await pause(NET.retryWait, signal); return once(b64);
+  }
+}
+async function runClaude({ sys, prompt, blob, signal, json = true, quick, onProg = () => {} }) {
+  const opts = { signal }; onProg('up', 1);
   if (quick) opts.modelTier = 'quick';
   if (blob) {
     const lim = await CL.sample.limits().catch(() => null);
@@ -1220,15 +1326,15 @@ async function runClaude({ sys, prompt, blob, signal, json = true, quick }) {
     throw new Error(m[e.code] || 'تعذّر الحصول على رد من Claude');
   }
 }
-function engineOrder() { if (inArtifact) return ['claude']; return S.engine === 'auto' ? ['gemini', 'openrouter'] : [S.engine]; }
+function engineOrder() { if (inArtifact) return ['claude']; return S.engine === 'openrouter' ? ['openrouter', 'gemini'] : ['gemini', 'openrouter']; }
 function anyEngine() { return engineOrder().some(id => ENGINES[id] && ENGINES[id].has()); }
 async function askAI(job, onEngine) {
   const errors = [];
   for (const id of engineOrder()) {
     const e = ENGINES[id];
     if (!e) continue;
-    if (!e.has()) { if (S.engine !== 'auto') errors.push(`${e.name}: ${id === 'claude' ? 'غير متاح خارج المعاينة' : 'لم تُضف مفتاحاً بعد'}`); continue; }
-    try { onEngine && onEngine(id); const j = job.forEngine ? { ...job, ...(await job.forEngine(id)) } : job; const data = await e.run(j); return { data, engine: id }; }
+    if (!e.has()) { if (S.engine === id || id === 'claude') errors.push(`${e.name}: ${id === 'claude' ? 'غير متاح خارج المعاينة' : 'لم تُضف مفتاحاً بعد'}`); continue; }
+    try { if (errors.length && job.onProg) job.onProg('retry', 'engine'); onEngine && onEngine(id); const j = job.forEngine ? { ...job, ...(await job.forEngine(id)) } : job; const data = await e.run(j); return { data, engine: id }; }
     catch (err) { if (err.name === 'AbortError') throw err; errors.push(`${e.name}: ${err.message}`); }
   }
   const er = new Error(errors.length ? errors.join('\n') : 'NO_ENGINE'); er.list = errors; throw er;
@@ -1243,16 +1349,32 @@ function openSheet(html, onMount) {
 }
 function closeSheet() { $('#overlay').hidden = true; $('#sheet').innerHTML = ''; }
 $('#overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closeSheet(); });
-const TIPS = ['لمعة تقرأ كل سطر بعناية…', 'نرتّب الأسئلة بالترتيب نفسه…', 'هل تعلم؟ التقريب يساعدنا على الحساب الذهني بسرعة.', 'نجهّز تلميحات لا تكشف الحل…', 'كل خطأ فرصة لنتعلم شيئاً جديداً'];
-let ldTimer, ldTimer2, curCtl;
+let ldTimer2, curCtl;
 function showLoading(title) {
   $('#ldMascot').innerHTML = mascotSVG(levelOf(S.stars)); $('#ldTitle').textContent = title || 'المعلّم يقرأ الورقة…';
-  let i = 0; $('#ldTip').textContent = TIPS[0]; clearInterval(ldTimer); ldTimer = setInterval(() => { $('#ldTip').textContent = TIPS[++i % TIPS.length]; }, 2600);
-  const t0 = Date.now(); $('#ldTime').textContent = '';
-  ldTimer2 = setInterval(() => { const sec = Math.round((Date.now() - t0) / 1000); $('#ldTime').textContent = sec >= 3 ? toAr(sec) + ' ث' : ''; if (sec === 25) $('#ldTip').textContent = 'الصورة تحتاج وقتاً أطول قليلاً…'; }, 1000);
+  $('#ldTip').textContent = ''; $('#ldBar').hidden = true; $('#ldDots').hidden = false; $('#ldBar').classList.remove('busy'); $('#ldBar i').style.width = '0';
+  const t0 = Date.now(); $('#ldTime').textContent = ''; clearInterval(ldTimer2);
+  ldTimer2 = setInterval(() => { const sec = Math.round((Date.now() - t0) / 1000); $('#ldTime').textContent = sec >= 3 ? toAr(sec) + ' ث' : ''; }, 1000);
   $('#loading').hidden = false;
 }
-function hideLoading() { $('#loading').hidden = true; clearInterval(ldTimer); clearInterval(ldTimer2); }
+function hideLoading() { $('#loading').hidden = true; clearInterval(ldTimer2); }
+/* شريط التقدم: يتحرك بأحداث حقيقية (بايتات الإرسال وحروف الرد) */
+function setProg(pct, label, busy) {
+  const b = $('#ldBar'); b.hidden = false; $('#ldDots').hidden = true; b.classList.toggle('busy', !!busy);
+  pct = Math.max(0, Math.min(100, pct)); $('i', b).style.width = pct + '%'; b.setAttribute('aria-valuenow', Math.round(pct));
+  if (label != null) $('#ldTip').textContent = label;
+}
+const EXPECT = { teacher: 4500, mom: 2500, solve: 1500, correct: 2500, onpage: 1000, lens: 2200, practice: 500 };
+function progFor(kind, hasImg) {
+  const what = hasImg ? 'الصورة' : 'الطلب';
+  return (stage, v) => {
+    if (stage === 'prep') setProg(6, 'تجهيز ' + what + '…');
+    else if (stage === 'up') { if (v < 1) setProg(10 + 35 * v, `إرسال ${what} ${toAr(Math.round(v * 100))}٪`); else setProg(48, `وصل${hasImg ? 'ت' : ''} ${what}، والمعلّم يفكّر…`, true); }
+    else if (stage === 'recv') setProg(55 + 40 * (1 - Math.exp(-1.8 * v / (EXPECT[kind] || 2000))), 'يكتب الإجابة…');
+    else if (stage === 'retry') setProg(8, v === 'net' ? 'الاتصال ضعيف، أعيد المحاولة بصورة أخف…' : v === 'model' ? 'أجرّب نموذجاً أسرع…' : 'أجرّب المحرك الاحتياطي…', true);
+    else if (stage === 'done') setProg(100, 'تم');
+  };
+}
 $('#ldStop').onclick = () => { curCtl && curCtl.abort(); hideLoading(); toast('تم الإيقاف'); };
 
 /* ============ التنقل ============ */
@@ -1274,7 +1396,7 @@ function refreshEngineUI() {
   const b = $('#engBtn'); b.hidden = inArtifact;
   if (inArtifact) return;
   if (!['auto', 'gemini', 'openrouter'].includes(S.engine)) S.engine = 'auto';
-  b.innerHTML = I('bolt', 16) + ENGINE_LABEL[S.engine] + I('chevron', 14);
+  b.innerHTML = I({ auto: 'bolt', gemini: 'gem', openrouter: 'sparkles' }[S.engine], 18) + I('chevron', 14); b.setAttribute('aria-label', 'محرك الذكاء الاصطناعي: ' + ENGINE_LABEL[S.engine]);
 }
 $('#engBtn').onclick = () => {
   const opt = (id, ic, name, ok) => `<button class="engopt ${S.engine === id ? 'on' : ''}" data-eng="${id}"><span class="ei" style="background:${id === 'gemini' ? '#E3ECFF;color:#2563EB' : id === 'openrouter' ? '#EFE6FF;color:#6D28D9' : '#FFF1D6;color:#B45309'}">${I(ic, 24)}</span><span><b>${name}</b><small class="${ok ? 'ok' : ''}">${ok ? 'جاهز' : 'يحتاج مفتاحاً'}</small></span></button>`;
@@ -1404,7 +1526,7 @@ const MODES = {
   mom: { ic: 'heart', name: 'كبسولة الأم', d: 'الفكرة في ٣٠ ثانية، وكيف تشرحينها، والإجابات', c: '#FF8A3D' },
   solve: { ic: 'clipboard', name: 'الحل النموذجي', d: 'جدول بكل الإجابات بترقيم الورقة', c: '#14B8A6' },
   correct: { ic: 'check', name: 'صحّح واجبي', d: 'يقارن حلّك بخط يدك ويعلّم على الأخطاء', c: '#F2557A' },
-  onpage: { ic: 'pen', name: 'الحل على الورقة', d: 'يكتب الإجابات داخل خاناتها ويحفظها صورة أو PDF', c: '#2563EB' },
+  onpage: { ic: 'pen', name: 'الحل على الورقة', d: 'يكتب الإجابات داخل خاناتها ويحفظها صورة أو PDF', c: '#2563EB', wide: true },
   words: { ic: 'words', name: 'عدسة الكلمات', d: 'معاني الكلمات ونطقها', c: '#EAB308', hide: true }
 };
 function renderModes(suggest) {
@@ -1425,18 +1547,19 @@ async function runMode(mode, forceReal) {
     if (!anyEngine()) return noEngineSheet();
     curCtl = new AbortController();
     showLoading(mode === 'lens' ? 'العدسة تحلّل الصفحة…' : 'المعلّم يقرأ الورقة…');
+    const onProg = progFor(mode, true);
     try {
-      let det = null, blob;
+      let det = null, blob; onProg('prep');
       if (mode === 'onpage') { $('#ldTitle').textContent = 'أقيس الفراغات في الورقة…'; const im = await loadImg(current.url); det = detectBlanks(im); blob = await annotateForAI(im, det); }
       else blob = FMT[mode] ? await gridBlob() : await aiImage();
-      const job = { sys: buildSys(), prompt: skill(mode) + (FMT[mode] ? '\n\n' + FMT[mode] : ''), blob, signal: curCtl.signal };
+      const job = { sys: buildSys(), prompt: skill(mode) + (FMT[mode] ? '\n\n' + FMT[mode] : ''), blob, signal: curCtl.signal, onProg };
       const r = await askAI(job, id => { $('#ldTitle').textContent = ENGINES[id].name + ' يقرأ الورقة…'; });
-      current.result = r.data; current.engine = r.engine;
+      onProg('done'); current.result = r.data; current.engine = r.engine;
       if (current.result && typeof current.result === 'object') { current.result._fmt = 'g'; if (det) current.result._det = det.boxes; }
     } catch (e) {
       hideLoading(); if (e.name === 'AbortError') return;
-      return openSheet(`<h3>لم ينجح التحليل</h3><div class="note warn" style="white-space:pre-line">${esc(e.list ? e.list.join('\n') : e.message)}</div>
-        <button class="btn" data-close>حسناً</button>`);
+      return openSheet(`<h3>لم ينجح التحليل</h3><div class="note warn" style="white-space:pre-line">${esc(e.list && e.list.length ? e.list.join('\n') : e.message)}</div>
+        <div class="row"><button class="btn" id="reTry" style="flex:1">${I('replay', 20)} حاول مرة أخرى</button><button class="btn ghost" data-close>إغلاق</button></div>`, sh => { $('#reTry', sh).onclick = () => { closeSheet(); runMode(mode, true); }; });
     }
     hideLoading();
   }
@@ -1581,7 +1704,7 @@ async function practice(qs, box) {
   else {
     curCtl = new AbortController(); showLoading('أؤلّف لك سؤالاً جديداً…');
     try {
-      p = (await askAI({ sys: buildSys(), signal: curCtl.signal, prompt: `هذه أسئلة الدرس:\n${qs.map(q => '- ' + q.q).join('\n')}\nألّف سؤالاً واحداً جديداً بالفكرة نفسها مع أرقام أو جمل مختلفة. أعد: {"q":"...","answer":"...","hint":"...","steps":["..."]}` })).data;
+      p = (await askAI({ sys: buildSys(), signal: curCtl.signal, onProg: progFor('practice', false), prompt: `هذه أسئلة الدرس:\n${qs.map(q => '- ' + q.q).join('\n')}\nألّف سؤالاً واحداً جديداً بالفكرة نفسها مع أرقام أو جمل مختلفة. أعد: {"q":"...","answer":"...","hint":"...","steps":["..."]}` })).data;
     } catch (e) { hideLoading(); if (e.name !== 'AbortError') toast('لم أستطع تأليف سؤال الآن'); return; }
     hideLoading();
   }
@@ -2053,9 +2176,11 @@ function renderSettings() {
     <p class="muted" style="font-size:15px">المفاتيح تُحفظ في جهازك فقط.</p>
     ${keyField('gemini', 'مفتاح Gemini (الأساسي والأدق)', 'مجاني بدون بطاقة من <a class="lnk" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a>')}
     <div class="field"><label for="mGem">نموذج Gemini</label><input id="mGem" list="gemList" value="${esc(S.models.gemini)}" dir="ltr"><datalist id="gemList"><option value="gemini-flash-latest"><option value="gemini-3.5-flash"><option value="gemini-flash-lite-latest"></datalist>
-      <button class="btn sm ghost" id="testGem">${I('search', 18)} تحقق من المفتاح</button><small class="muted" id="gemOut"></small></div>
+      </div>
     ${keyField('openrouter', 'مفتاح OpenRouter (احتياطي، اختياري)', 'من <a class="lnk" href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a>')}
     <div class="field"><label for="mOr">نموذج OpenRouter</label><input id="mOr" value="${esc(S.models.openrouter)}" dir="ltr"></div>
+    <button class="btn sm" id="testGem">${I('search', 18)} فحص الاتصال</button>
+    <div id="gemOut" class="diag"></div>
   </div>`}
 
   <div class="card set"><h3>${I('link')} الربط مع Gemini وChatGPT</h3>
@@ -2123,18 +2248,35 @@ function renderSettings() {
   $('#rsStars', v).onclick = () => { S.stars = 0; save(); updateStars(); toast('صُفّرت النجوم'); };
   $('#rsMist', v).onclick = () => { S.mistakes = []; save(); updateBadge(); toast('مُسح الدفتر'); };
   if ($('#testGem', v)) $('#testGem', v).onclick = async () => {
-    const out = $('#gemOut', v), key = $('#k-gemini', v).value.trim();
-    if (!key) { out.textContent = 'الصق المفتاح أولاً.'; return; }
-    S.keys.gemini = key; save(); out.textContent = 'جارٍ التحقق…';
-    try {
-      const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200', { headers: { 'x-goog-api-key': key } }).catch(netErr);
-      if (!res.ok) throw await httpErr(res);
-      const d = await res.json();
-      const names = (d.models || []).filter(m => (m.supportedGenerationMethods || []).includes('generateContent') && /flash/i.test(m.name)).map(m => m.name.replace('models/', ''));
-      $('#gemList', v).innerHTML = names.map(n => `<option value="${esc(n)}">`).join('');
-      out.innerHTML = `✓ المفتاح يعمل. النماذج المتاحة: <span dir="ltr">${esc(names.slice(0, 8).join('، '))}</span>`;
-    } catch (e) { out.textContent = '✗ ' + e.message; }
-    refreshEngineUI();
+    const out = $('#gemOut', v), btn = $('#testGem', v);
+    const gk = $('#k-gemini', v).value.trim(), ok = $('#k-openrouter', v).value.trim();
+    S.keys.gemini = gk; S.keys.openrouter = ok; save(); refreshEngineUI();
+    if (!gk && !ok) { out.innerHTML = `<div class="n">${I('warn', 18)}<span>الصق مفتاحاً أولاً.</span></div>`; return; }
+    btn.disabled = true; out.innerHTML = '';
+    const step = async (label, fn) => {
+      const row = document.createElement('div'); row.innerHTML = `<span class="ldots" style="display:inline-flex;gap:3px;transform:scale(.6)"><i></i><i></i><i></i></span><span>${label}…</span>`; out.appendChild(row);
+      const t0 = Date.now();
+      try { const extra = await fn(); row.className = 'y'; row.innerHTML = `${I('tick', 18)}<span>${label}: يعمل (${toAr(((Date.now() - t0) / 1000).toFixed(1))} ث)${extra ? ' ' + extra : ''}</span>`; return true; }
+      catch (e) { row.className = 'n'; row.innerHTML = `${I('warn', 18)}<span>${label}: ${esc(e.message)}</span>`; return false; }
+    };
+    const tiny = async () => { const c = document.createElement('canvas'); c.width = c.height = 160; const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, 160, 160); x.fillStyle = '#000'; x.font = '700 110px sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('7', 80, 86); return b64Of(await new Promise(r => c.toBlob(r, 'image/jpeg', .85))); };
+    if (gk) {
+      const keyOk = await step('مفتاح Gemini', async () => {
+        const tm = timed(null, 20000); let res;
+        try { res = await fetch(GEM_BASE + '/models?pageSize=200', { headers: { 'x-goog-api-key': gk }, signal: tm.signal }); } catch (e) { throw new Error(tm.timedOut() ? 'لم يصل رد من الخادم' : 'تعذّر الاتصال بالإنترنت أو بالخادم'); } finally { tm.done(); }
+        if (!res.ok) throw httpErrText(res.status, await res.text());
+        const names = ((await res.json()).models || []).filter(m => (m.supportedGenerationMethods || []).includes('generateContent') && /flash/i.test(m.name)).map(m => m.name.replace('models/', ''));
+        if (names.length) $('#gemList', v).innerHTML = names.map(n => `<option value="${esc(n)}">`).join('');
+      });
+      if (keyOk) {
+        const o = { sys: 'أجب باختصار شديد.', signal: null, json: false, onProg: () => {} };
+        await step(`النموذج ${S.models.gemini}`, () => gemTry(S.models.gemini, { ...o, prompt: 'اكتب كلمة: نعم', b64: null }).then(() => ''));
+        await step('قراءة الصور', async () => gemTry(S.models.gemini, { ...o, prompt: 'ما الرقم المكتوب في الصورة؟ أجب بالرقم فقط.', b64: await tiny() }).then(() => ''));
+        await step(`النموذج الاحتياطي ${GEM_LITE}`, () => gemTry(GEM_LITE, { ...o, prompt: 'اكتب كلمة: نعم', b64: null }).then(() => ''));
+      }
+    }
+    if (ok) await step('OpenRouter', () => runOpenAI(OR_URL, ok, S.models.openrouter, { sys: 'أجب باختصار شديد.', prompt: 'اكتب كلمة: نعم', json: false }).then(() => ''));
+    btn.disabled = false;
   };
 }
 

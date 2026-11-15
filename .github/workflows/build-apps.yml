@@ -105,7 +105,7 @@ jobs:
         run: |
           files=$(find dl -name '*.apk' -o -name '*.ipa' | tr '\n' ' ')
           if [ -z "$files" ]; then echo "لا توجد ملفات للنشر"; exit 0; fi
-          tag="v1.4-build${{ github.run_number }}"
+          tag="v1.5-build${{ github.run_number }}"
           gh release create "$tag" $files --target "${{ github.sha }}" --latest \
-            --title "المعلّم الذكي v1.4 (بناء ${{ github.run_number }})" \
+            --title "المعلّم الذكي v1.5 (بناء ${{ github.run_number }})" \
             --notes "APK: ثبّته مباشرة على أندرويد (اسمح بالتثبيت من مصادر غير معروفة). IPA: غير موقّع، وقّعه بتطبيق التوقيع ثم ثبّته."
